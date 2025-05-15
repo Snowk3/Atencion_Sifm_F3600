@@ -1,0 +1,953 @@
+/*==============================================================================
+   1. RESET Y ESTILOS BASE
+==============================================================================*/
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/*==============================================================================
+   2. LAYOUT Y NAVEGACIÓN
+==============================================================================*/
+
+/* Header y barra de navegación */
+header {
+    background-color: #003366;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.nav-button {
+    background-color: #ffffff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 0.9rem;
+    color: #003366;
+}
+
+.nav-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Contenedor principal */
+main {
+    padding: 20px;
+}
+
+/*==============================================================================
+   3. SISTEMA DE PESTAÑAS
+==============================================================================*/
+
+/* Contenedor de pestañas */
+.tabs-container {
+    width: 100%;
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    color: #333;
+    border-right: 1px solid #ccc;
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: #fff;
+    border-bottom: 3px solid #003366;
+    font-weight: bold;
+    color: #003366;
+}
+
+.tab-content {
+    display: none;
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/*==============================================================================
+   4. SECCIÓN DE DECISIÓN
+==============================================================================*/
+/* Contenedor para las secciones paralelas */
+.parallel-sections {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+/* Estilo para cada sección lateral */
+.decision-section {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    min-width: 300px;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .parallel-sections {
+        flex-direction: column;
+    }
+    
+    .decision-section {
+        width: 100%;
+    }
+}
+
+/* Contenedor y título */
+.title-container {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background-color: #fff;
+}
+
+.title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.decision-sections-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+}
+
+.decision-sections-container.collapsed {
+    max-height: 0 !important;
+}
+
+.decision-section {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.decision-section h3 {
+    color: #003366;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/*==============================================================================
+   5. CAMPOS Y FORMULARIOS
+==============================================================================*/
+
+/* Grupos de radio buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.radio-option input[type="radio"] {
+    margin: 0;
+}
+
+/* Campos de monto */
+.amount-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input-group label {
+    min-width: 180px;
+    font-weight: bold;
+    color: #333;
+}
+
+.amount-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 200px;
+}
+
+.amount-input:focus {
+    outline: none;
+    border-color: #003366;
+    box-shadow: 0 0 0 2px rgba(0,51,102,0.1);
+}
+
+.amount-input[readonly] {
+    background-color: #e9ecef;
+}
+
+/* Conversión UTM */
+.utm-info {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+}
+
+.utm-info p {
+    margin: 0;
+    color: #003366;
+    font-weight: bold;
+}
+
+.input-with-utm {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.utm-conversion {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #495057;
+}
+
+.utm-input {
+    width: 100px;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    font-size: 0.9rem;
+    color: #495057;
+    text-align: right;
+}
+
+/*==============================================================================
+   6. TABLAS Y LISTADOS
+==============================================================================*/
+
+/* Contenedor de tabla y estilos base */
+.table-container {
+    overflow-x: auto;
+    margin: 1rem 0;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.observations-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    font-size: 0.9rem;
+}
+
+.observations-table th,
+.observations-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.observations-table th {
+    background-color: #003366;
+    color: white;
+    font-weight: 600;
+}
+
+.observations-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.observations-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* Botones de ayuda y hojas de trabajo */
+.help-button,
+.worksheet-button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.help-button {
+    background-color: #17a2b8;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.worksheet-button {
+    background-color: #003366;
+    color: white;
+}
+
+.help-button:hover {
+    background-color: #138496;
+}
+
+.worksheet-button:hover {
+    background-color: #002447;
+}
+
+/*==============================================================================
+   7. BOTONES Y CONTROLES
+==============================================================================*/
+
+/* Botones de acción principales */
+.action-buttons-container {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.action-button {
+    background-color: #003366;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.action-button:hover {
+    background-color: #004c99;
+}
+
+/* Botones de acción secundarios */
+.action-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/*==============================================================================
+   8. MODAL Y POPUPS
+==============================================================================*/
+
+/* Modal FEP */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.modal-description {
+    margin: 1rem 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.mini-editor-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+.mini-editor-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.mini-text-editor {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Alertas popup */
+.alerta-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.alerta-contenido {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 300px;
+}
+
+.alerta-contenido p {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.alerta-contenido button {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.alerta-contenido button:hover {
+    background-color: #004380;
+}
+
+/*==============================================================================
+   9. EDITOR DE TEXTO
+==============================================================================*/
+
+/* Barra de herramientas */
+.editor-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+}
+
+.toolbar-button {
+    padding: 0.4rem 0.8rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    min-width: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.toolbar-button:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.toolbar-button.active {
+    background-color: #e9ecef;
+    border-color: #003366;
+}
+
+/* Área de edición */
+.editor-container {
+    position: relative;
+}
+
+.rich-text-editor {
+    min-height: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.rich-text-editor:focus {
+    outline: none;
+    border-color: #003366;
+    box-shadow: 0 0 0 2px rgba(0,51,102,0.1);
+}
+
+.rich-text-editor ul,
+.rich-text-editor ol {
+    padding-left: 2rem;
+    margin: 0.5rem 0;
+}
+
+.character-count {
+    position: absolute;
+    bottom: -1.5rem;
+    right: 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+/*==============================================================================
+   10. SECCIÓN FEP (FISCALIZACIÓN ESPECIAL PREVIA)
+==============================================================================*/
+
+
+/* Contenedor principal FEP */
+.fep-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.fep-info {
+    margin: 1.5rem 0;
+}
+
+.fep-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.fep-field {
+    flex: 1;
+}
+
+.fep-field label {
+    display: block;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5rem;
+}
+
+.fep-field span {
+    display: block;
+    padding: 0.5rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Subsecciones colapsables */
+.fep-subsection {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.subsection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.subsection-header:hover {
+    background-color: #e9ecef;
+}
+
+.subsection-header h4 {
+    margin: 0;
+    color: #003366;
+    font-size: 1.1rem;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    color: #003366;
+    font-size: 1.2rem;
+}
+
+.subsection-header.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.subsection-content {
+    max-height: 2000px;
+    transition: max-height 0.3s ease-out;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.subsection-content.collapsed {
+    max-height: 0;
+    padding: 0;
+    border-top: none;
+}
+
+/* Layout en paralelo para secciones FEP */
+.parallel-fep-sections {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.parallel-fep-sections .fep-subsection {
+    flex: 1;
+    min-width: 0; /* Evita desbordamiento en flex items */
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 1024px) {
+    .parallel-fep-sections {
+        flex-direction: column;
+    }
+    
+    .parallel-fep-sections .fep-subsection {
+        width: 100%;
+    }
+}
+
+/*==============================================================================
+   11. SECCIÓN DE DECISIÓN 15 DÍAS
+==============================================================================*/
+
+/* Contenedor y encabezados */
+.decision-15-dias-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.decision-15-dias-section h4 {
+    color: #003366;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #003366;
+}
+
+.decision-15-container {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Formularios y campos */
+.decision-options {
+    flex: 1;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.radio-group-15dias {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.montos-autorizados-15 {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.montos-autorizados-15 h5 {
+    color: #003366;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.montos-container-15 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.monto-group-15 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.monto-group-15 label {
+    min-width: 150px;
+    font-weight: bold;
+}
+
+.monto-utm-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.amount-input-15 {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 150px;
+}
+
+.utm-input-15 {
+    width: 100px;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    text-align: right;
+}
+
+.utm-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #495057;
+}
+
+.decision-15-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/*==============================================================================
+   12. SECCIÓN DE SEGUNDA REVISIÓN
+==============================================================================*/
+
+/* Contenedor y layout */
+.decision-segunda-container {
+    display: flex;
+    gap: 2rem;
+    margin: 1rem;
+}
+
+/* Botones y controles */
+.decision-segunda-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dee2e6;
+}
+
+/*==============================================================================
+   13. UTILIDADES Y HELPERS
+==============================================================================*/
+
+/* Márgenes y espaciado */
+.m-0 { margin: 0; }
+.p-0 { padding: 0; }
+
+/* Estados */
+.collapsed .arrow-icon {
+    transform: rotate(-90deg);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilos de transición */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Flexbox helpers */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+/* Grid helpers */
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Sombras */
+.shadow-sm {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.shadow-md {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Bordes */
+.rounded {
+    border-radius: 4px;
+}
+
+.rounded-lg {
+    border-radius: 8px;
+}
+
+/* Colores de texto */
+.text-primary {
+    color: #003366;
+}
+
+.text-gray {
+    color: #666;
+}
+
+/* Fondos */
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-gray-50 {
+    background-color: #f8f9fa;
+}
+
+/* Tamaños de texto */
+.text-sm {
+    font-size: 0.9rem;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.text-lg {
+    font-size: 1.2rem;
+}
+
+/* Pesos de fuente */
+.font-bold {
+    font-weight: bold;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+/* Interactividad */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
