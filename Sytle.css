@@ -486,6 +486,7 @@ main {
 #botonesContacto {
   margin-top: 8.5px;
   display: flex;
+  flex-direction: column;
   gap: 8.5px;
 }
 

@@ -39,15 +39,23 @@ function handleTabNavigation(event, tabId) {
     hideAllTabContents();
     deactivateAllTabs();
     showSelectedTab(tabId);
-    setActiveTab(event.currentTarget);
-
-    // Inicializar contenido cuando se navega a la pestaña FEP
+    setActiveTab(event.currentTarget);    // Inicializar contenido cuando se navega a la pestaña FEP
     if (tabId === 'tabFep') {
         const devolucionSolicitada = document.getElementById('devolucionSolicitada').value;
         document.getElementById('montoSolicitadoFep').textContent = devolucionSolicitada;
         document.getElementById('fechaFep').textContent = new Date().toLocaleDateString('es-CL');
         document.getElementById('periodoTributario').textContent = '202504';
         document.getElementById('folioSolicitud').textContent = generarFolioSolicitud();
+        
+        // Sincronizar el ID del expediente entre secciones
+        const mainIdExpediente = document.getElementById('idExpediente').textContent;
+        if (mainIdExpediente) {
+            // Si hay un ID existente en la sección principal, usarlo
+            actualizarIdExpediente(mainIdExpediente);
+        } else if (document.getElementById('idExpedienteFep').textContent) {
+            // Si hay un ID en la sección FEP pero no en la principal, usarlo
+            actualizarIdExpediente(document.getElementById('idExpedienteFep').textContent);
+        }
         
         // Asegurar que todas las secciones FEP sean visibles
         document.querySelectorAll('.subsection-content').forEach(section => {
@@ -225,7 +233,8 @@ function generarResolucion15Dias() {
 /** Abrir Expediente Electronico */
 
 function AbrirExpediente() {
-     document.getElementById('idExpediente').textContent = generarIdExpediente();
+    // Use the utility function to update all ID instances
+    actualizarIdExpediente();
 }
 
 /** Solicitar Antecedentes */
@@ -292,15 +301,21 @@ function toggleBotonesContacto() {
     const btnGuardar = document.getElementById('btnGuardar');
     const btnAnotacion42 = document.getElementById('btnAnotacion42');
     const btnDisponeFep = document.getElementById('btnDisponeFep');
+    const checkInfoRecibida = document.querySelector('label.checkbox-label');
+    const btnGenerarActa = document.getElementById('btnGenerarActa');
 
     // Ocultar todos los botones primero
     btnGuardar.style.display = 'none';
     btnAnotacion42.style.display = 'none';
     btnDisponeFep.style.display = 'none';
+    checkInfoRecibida.style.display = 'none';
+    btnGenerarActa.style.display = 'none';
 
     // Mostrar los botones correspondientes
     if (valor === 'contactado') {
         btnGuardar.style.display = 'inline-block';
+        checkInfoRecibida.style.display = 'block';
+        btnGenerarActa.style.display = 'inline-block';
     } else if (valor === 'noContactado') {
         btnAnotacion42.style.display = 'inline-block';
         btnDisponeFep.style.display = 'inline-block';
@@ -326,6 +341,11 @@ function generarAnotacion42() {
  * Ejecuta la acción de Disponer FEP
  */
 function ejecutarDisponeFep() {
+    // Asegurar que exista un ID de expediente
+    if (!document.getElementById('idExpediente').textContent) {
+        actualizarIdExpediente();
+    }
+    
     // Aquí puedes agregar la lógica específica para disponer FEP
     mostrarPopupContacto("FEP dispuesto exitosamente");
 }
@@ -391,8 +411,16 @@ function enviarSolicitudFep() {
     document.getElementById('fechaFep').textContent = fecha;
     document.getElementById('periodoTributario').textContent = '202504';
     document.getElementById('folioSolicitud').textContent = '12345';
-    document.getElementById('montoSolicitadoFep').textContent = document.getElementById('devolucionSolicitada').value;
-
+    document.getElementById('montoSolicitadoFep').textContent = document.getElementById('devolucionSolicitada').value;    // Asegurar que el ID de expediente esté sincronizado
+    const mainIdExpediente = document.getElementById('idExpediente').textContent;
+    if (mainIdExpediente) {
+        // Si ya existe un ID, usarlo para actualizar todos los elementos
+        actualizarIdExpediente(mainIdExpediente);
+    } else {
+        // Si no existe, generar uno nuevo
+        actualizarIdExpediente();
+    }
+    
     // Cerrar el popup y navegar a la pestaña FEP
     document.getElementById('fepPopup').style.display = 'none';
     handleTabNavigation({ currentTarget: document.getElementById('tabFep') }, 'tabFep');
@@ -722,6 +750,15 @@ document.addEventListener('DOMContentLoaded', function() {
         section.style.display = 'block';
         section.classList.remove('collapsed');
     });
+    
+    // Inicializar sincronización de IDs de expediente si existe algún valor
+    const mainIdExpediente = document.getElementById('idExpediente')?.textContent;
+    const fepIdExpediente = document.getElementById('idExpedienteFep')?.textContent;
+    
+    if (mainIdExpediente || fepIdExpediente) {
+        // Usar el ID existente que encontremos primero
+        actualizarIdExpediente(mainIdExpediente || fepIdExpediente);
+    }
 });
 
 /**
@@ -1038,4 +1075,30 @@ function formatoFecha(fecha) {
         month: '2-digit',
         year: 'numeric'
     });
+}
+
+/**
+ * Updates the expedition ID across all places in the interface
+ * @param {string} expedienteID - The ID to set (if not provided, a new one will be generated)
+ * @returns {string} The expedition ID that was set
+ */
+function actualizarIdExpediente(expedienteID = null) {
+    // If no ID provided, generate a new one
+    if (!expedienteID) {
+        expedienteID = generarIdExpediente();
+    }
+    
+    // Update the ID in the main section
+    const mainExpedienteElement = document.getElementById('idExpediente');
+    if (mainExpedienteElement) {
+        mainExpedienteElement.textContent = expedienteID;
+    }
+    
+    // Update the ID in the FEP section
+    const fepExpedienteElement = document.getElementById('idExpedienteFep');
+    if (fepExpedienteElement) {
+        fepExpedienteElement.textContent = expedienteID;
+    }
+    
+    return expedienteID;
 }

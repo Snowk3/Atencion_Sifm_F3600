@@ -183,10 +183,18 @@
                                             <option value="noContactado">No logra ser Contactado</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <!-- Botones dinámicos según selección (sin cambios) -->
+                                </div>                                <!-- Botones dinámicos según selección (sin cambios) -->
                                 <div id="botonesContacto">
+                                    <!-- Checkbox para confirmar información recibida -->
+                                    <label class="checkbox-label" style="display: none;">
+                                        <input type="checkbox" id="checkInfoRecibida" onchange="toggleActaRecepcion()">
+                                        Contribuyente ha enviado toda la información Requerida
+                                    </label>
+                                    <!-- Botón para generar acta -->
+                                    <button id="btnGenerarActa" class="action-button" onclick="generarActaRecepcion()"
+                                        style="display: none;" disabled>
+                                        Generar Acta Recepción (F3309)
+                                    </button>
                                     <!-- Botón para contactado -->
                                     <button id="btnGuardar" class="action-button" onclick="registrarEvento()"
                                         style="display: none;">
@@ -386,7 +394,7 @@
                                         onclick="generarResolucionFep()">Generar Resolución Inicio FEP</button>
                                     <button id="btnNotificarFep" class="action-button"
                                         onclick="notificarContribuyenteFep()" disabled>Notificar al
-                                        Contribuyente</button>
+                                        Contribuyente Inicio FEP</button>
                                 </div>
                             </div>
                         </section>
@@ -412,10 +420,9 @@
                                         <div class="fep-field">
                                             <label>Fecha Notificación al Contribuyente:</label>
                                             <span id="fechaNotificacionFep"></span>
-                                        </div>
-                                        <div class="fep-field">
+                                        </div>                                        <div class="fep-field">
                                             <label>ID Expediente Electrónico (E.E):</label>
-                                            <span id="idExpediente"></span>
+                                            <span id="idExpedienteFep"></span>
                                         </div>
                                     </div>
                                     <div class="fep-row checkbox-container">
@@ -689,6 +696,11 @@
                 </div>
             </div>
     </main>
+
+
+  <!------------------------------------------------------------- SECCION POP-UP ------------------------------------------------------>
+
+
 
     <!-- POP UP Solicita Antecedentes -->
     <div id="solicitaAntecedentesPopup" class="modal">
