@@ -398,7 +398,7 @@ main {
 /* Botones de ayuda y hojas de trabajo */
 .help-button,
 .worksheet-button {
-  padding: 0.34rem 0.68rem;
+  padding: 0.34rem 1.68rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
