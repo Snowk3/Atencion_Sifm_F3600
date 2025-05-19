@@ -4,80 +4,78 @@
 
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Estilos base */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
 }
-
-
 
 /*==============================================================================
    2. LAYOUT Y NAVEGACIÓN
 ==============================================================================*/
 
-
 /* Header y barra de navegación */
 header {
-    background-color: #003366;
-    padding: 0.25rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background-color: #003366;
+  padding: 0.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .nav-buttons {
-    display: flex;
-    gap: 0.425rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0.425rem;
+  display: flex;
+  gap: 0.425rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.425rem;
 }
 
 .nav-button {
-    background-color: #ffffff;
-    border: none;
-    padding: 0.51rem 1.02rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 0.765rem;
-    color: #003366;
+  background-color: #ffffff;
+  border: none;
+  padding: 0.51rem 1.02rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.765rem;
+  color: #003366;
 }
 
 .nav-button:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 /*TITULOS PRINCIPALES*/
-h1, .main-title {
-    font-size: 1.5rem; 
-    margin-bottom: 0 rem;
-    font-weight: bold;
-    color: #003366;
+h1,
+.main-title {
+  font-size: 1.5rem;
+  margin-bottom: 0 rem;
+  font-weight: bold;
+  color: #003366;
 }
 
-h2, .sub-title {
-    font-size: 1.2rem; 
-    margin-bottom: 0.85rem;
-    font-weight: bold;
-    color: #003366;
+h2,
+.sub-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.85rem;
+  font-weight: bold;
+  color: #003366;
 }
-p, .description {
-    font-size: 1 rem; 
-    margin-bottom: 0.85rem;
-    /*font-weight: bold;*/
-    color: #212224;
+p,
+.description {
+  font-size: 1 rem;
+  margin-bottom: 0.85rem;
+  /*font-weight: bold;*/
+  color: #212224;
 }
-
-
 
 /* Contenedor principal */
 main {
-    padding: 7.5px;
+  padding: 7.5px;
 }
 
 /*==============================================================================
@@ -86,45 +84,45 @@ main {
 
 /* Contenedor de pestañas */
 .tabs-container {
-    width: 100%;
-    padding: 10 px;
+  width: 100%;
+  padding: 10 px;
 }
 
 .tabs {
-    display: flex;
-    border-bottom: 1px solid #ccc;
+  display: flex;
+  border-bottom: 1px solid #ccc;
 }
 
 .tab-button {
-    background-color: transparent;
-    border: none;
-    padding: 0.85rem 1.275rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.85rem;
-    color: #333;
-    border-right: 1px solid #ccc;
+  background-color: transparent;
+  border: none;
+  padding: 0.85rem 1.275rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  color: #333;
+  border-right: 1px solid #ccc;
 }
 
 .tab-button:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 .tab-button.active {
-    background-color: #fff;
-    border-bottom: 3px solid #003366;
-    font-weight: bold;
-    color: #003366;
+  background-color: #fff;
+  border-bottom: 3px solid #003366;
+  font-weight: bold;
+  color: #003366;
 }
 
 .tab-content {
-    display: none;
-    padding: 1.7rem;
-    background-color: #fff;
+  display: none;
+  padding: 1.7rem;
+  background-color: #fff;
 }
 
 .tab-content.active {
-    display: block;
+  display: block;
 }
 
 /*==============================================================================
@@ -132,134 +130,134 @@ main {
 ==============================================================================*/
 /* Contenedor para las secciones paralelas */
 .parallel-sections {
-    display: flex;
-    gap: 1.7rem;
-    margin-bottom: 1.7rem;
-    width: 100%;
+  display: flex;
+  gap: 1.7rem;
+  margin-bottom: 1.7rem;
+  width: 100%;
 }
 
 /* Estilo para cada sección lateral */
 .decision-section {
-    flex: 1;
-    padding: 1.275rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    min-width: 255px;
+  flex: 1;
+  padding: 1.275rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 255px;
 }
 
 /* Responsive para pantallas pequeñas */
 @media (max-width: 768px) {
-    .parallel-sections {
-        flex-direction: column;
-    }
-    
-    .decision-section {
-        width: 100%;
-    }
+  .parallel-sections {
+    flex-direction: column;
+  }
+
+  .decision-section {
+    width: 100%;
+  }
 }
 
 /* Contenedor y título */
 .title-container {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 1.275rem;
-    margin-bottom: 1.7rem;
-    background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 1.275rem;
+  margin-bottom: 1.7rem;
+  background-color: #fff;
 }
 
 .title-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.275rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.275rem;
 }
 
 .decision-sections-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.275rem;
-    margin: 0.85rem 0;
-    transition: max-height 0.3s ease-out;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.275rem;
+  margin: 0.85rem 0;
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
 }
 
 .decision-sections-container.collapsed {
-    max-height: 0 !important;
+  max-height: 0 !important;
 }
 
 .decision-section {
-    flex: 1;
-    padding: 1.275rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex: 1;
+  padding: 1.275rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .decision-section h3 {
-    color: #003366;
-    margin-bottom: 1.275rem;
-    font-size: 1.02rem;
-    text-align: center;
+  color: #003366;
+  margin-bottom: 1.275rem;
+  font-size: 1.02rem;
+  text-align: center;
 }
 
 /* Primera Notificación */
 /* Estilos comunes para todas las secciones de decisión */
 .decision-section {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Estilos específicos para primera-notificacion */
 .primera-notificacion {
-    display: flex;
-    flex-direction: column;
-    gap: 12.75px;
+  display: flex;
+  flex-direction: column;
+  gap: 12.75px;
 }
 
 /* Estilos para los elementos dentro de primera-notificacion */
 .primera-notificacion h3 {
-    color: #333;
-    font-size: 1.02em;
-    margin-bottom: 12.75px;
-    padding-bottom: 8.5px;
-    border-bottom: 1px solid #dee2e6;
+  color: #333;
+  font-size: 1.02em;
+  margin-bottom: 12.75px;
+  padding-bottom: 8.5px;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .primera-notificacion h4 {
-    color: #495057;
-    font-size: 0.935em;
-    margin: 12.75px 0 8.5px 0;
+  color: #495057;
+  font-size: 0.935em;
+  margin: 12.75px 0 8.5px 0;
 }
 
 .primera-notificacion .action-button {
-    margin: 5px 0;
+  margin: 6px 0;
+      white-space: nowrap;
 }
 
 .primera-notificacion .Apertura-EE {
-    margin: 8.5px 0;
-    padding: 8.5px;
-    background-color: #fff;
-    border-radius: 4px;
-    border: 1px solid #e9ecef;
+  margin: 8.5px 0;
+  padding: 8.5px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
 }
 
 .primera-notificacion label {
-    font-weight: 500;
-    margin-right: 8.5px;
-    color: #495057;
+  font-weight: 500;
+  margin-right: 8.5px;
+  color: #495057;
 }
-
 
 /*ticket solicitud de antecedentes realizado*/
 .ticket-verde {
-    color: #28a745;
-    font-size: 1.2em;
-    vertical-align: middle;
+  color: #28a745;
+  font-size: 1.2em;
+  vertical-align: middle;
 }
 /*==============================================================================
    5. CAMPOS Y FORMULARIOS
@@ -267,94 +265,94 @@ main {
 
 /* Grupos de radio buttons */
 .radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .radio-option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .radio-option input[type="radio"] {
-    margin: 0;
+  margin: 0;
 }
 
 /* Campos de monto */
 .amount-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
 }
 
 .input-group {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .input-group label {
-    min-width: 153px;
-    font-weight: bold;
-    color: #333;
+  min-width: 153px;
+  font-weight: bold;
+  color: #333;
 }
 
 .amount-input {
-    padding: 0.425rem;
-    font-size: 0.85rem;
-    width: 170px;
+  padding: 0.425rem;
+  font-size: 0.85rem;
+  width: 170px;
 }
 
 .amount-input:focus {
-    outline: none;
-    border-color: #003366;
-    box-shadow: 0 0 0 2px rgba(0,51,102,0.1);
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.1);
 }
 
 .amount-input[readonly] {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 /* Conversión UTM */
 .utm-info {
-    background-color: #f8f9fa;
-    padding: 0.6375rem;
-    border-radius: 4px;
-    margin-bottom: 0.85rem;
-    border: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+  padding: 0.6375rem;
+  border-radius: 4px;
+  margin-bottom: 0.85rem;
+  border: 1px solid #dee2e6;
 }
 
 .utm-info p {
-    margin: 0;
-    color: #003366;
-    font-weight: bold;
+  margin: 0;
+  color: #003366;
+  font-weight: bold;
 }
 
 .input-with-utm {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
 }
 
 .utm-conversion {
-    display: flex;
-    align-items: center;
-    gap: 0.425rem;
-    color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 0.425rem;
+  color: #495057;
 }
 
 .utm-input {
-    width: 85px;
-    padding: 0.425rem;
-    font-size: 0.765rem;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    background-color: #e9ecef;
-    text-align: right;
+  width: 85px;
+  padding: 0.425rem;
+  font-size: 0.765rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #e9ecef;
+  text-align: right;
 }
 
 /*==============================================================================
@@ -363,76 +361,76 @@ main {
 
 /* Contenedor de tabla y estilos base */
 .table-container {
-    overflow-x: auto;
-    margin: 0.85rem 0;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  margin: 0.85rem 0;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .observations-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    font-size: 0.765rem;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-size: 0.765rem;
 }
 
 .observations-table th,
 .observations-table td {
-    padding: 0.7375rem;
-    text-align: left;
-    border-bottom: 1px solid #dee2e6;
+  padding: 0.7375rem;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
 }
 
 .observations-table th {
-    background-color: #003366;
-    color: white;
-    font-weight: 600;
+  background-color: #003366;
+  color: white;
+  font-weight: 600;
 }
 
 .observations-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 .observations-table tbody tr:hover {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
 /* Botones de ayuda y hojas de trabajo */
 .help-button,
 .worksheet-button {
-    padding: 0.34rem 0.68rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.765rem;
-    width: 25.5px;
-    height: 25.5px;
-    transition: background-color 0.3s;
+  padding: 0.34rem 0.68rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.765rem;
+  width: 25.5px;
+  height: 25.5px;
+  transition: background-color 0.3s;
 }
 
 .help-button {
-    background-color: #17a2b8;
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+  background-color: #17a2b8;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
 .worksheet-button {
-    background-color: #003366;
-    color: white;
+  background-color: #003366;
+  color: white;
 }
 
 .help-button:hover {
-    background-color: #138496;
+  background-color: #138496;
 }
 
 .worksheet-button:hover {
-    background-color: #002447;
+  background-color: #002447;
 }
 
 /*==============================================================================
@@ -441,84 +439,86 @@ main {
 
 /* Botones de acción principales */
 .action-buttons-container {
-    margin-top: 1.275rem;
-    padding: 1.275rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    width: 100%;
+  margin-top: 1.275rem;
+  padding: 1.275rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.85rem;
-    flex-wrap: nowrap;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .action-button {
-    background-color: #003366;
-    color: white;
-    padding: 0.6375rem 1.275rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
-    text-align: center;
-    flex: 1;
-    white-space: nowrap;
+  background-color: #003366;
+  color: white;
+  padding: 0.6375rem 1.275rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  flex: 1;
+  white-space: nowrap;
 }
 
 .action-button:hover {
-    background-color: #004c99;
+  background-color: #004c99;
 }
 
 /* Botones de acción secundarios */
 .action-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    transform: none;
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/*Botones logra contacto*/ 
+/*Botones logra contacto*/
 
 /* Botones dinámicos */
 #botonesContacto {
-    margin-top: 8.5px;
-    display: flex;
-    gap: 8.5px;
+  margin-top: 8.5px;
+  display: flex;
+  gap: 8.5px;
 }
 
 /* Popup */
 .popup-mensaje {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 .popup-content {
-    background: #fff;
-    padding: 20.4px 27.2px;
-    border-radius: 8px;
-    text-align: center;
+  background: #fff;
+  padding: 20.4px 27.2px;
+  border-radius: 8px;
+  text-align: center;
 }
 .popup-content button {
-    margin-top: 13.6px;
-    padding: 6.8px 17px;
-    background: #4a90e2;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  margin-top: 13.6px;
+  padding: 6.8px 17px;
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .popup-content button:hover {
-    background: #357abd;
+  background: #357abd;
 }
 
 /*==============================================================================
@@ -527,385 +527,459 @@ main {
 
 /* Modal FEP */
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 1.7rem;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 510px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 1.7rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 510px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .modal-description {
-    margin: 1rem 0;
-    line-height: 1.6;
-    color: #333;
+  margin: 1rem 0;
+  line-height: 1.6;
+  color: #333;
 }
 
 .mini-editor-toolbar {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 4px 4px 0 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
 }
 
 .mini-editor-container {
-    position: relative;
-    margin-bottom: 2rem;
+  position: relative;
+  margin-bottom: 2rem;
 }
 
 .mini-text-editor {
-    width: 100%;
-    min-height: 85px;
-    padding: 0.68rem;
-    border: 1px solid #ddd;
-    border-radius: 0 0 4px 4px;
-    font-size: 0.765rem;
-    line-height: 1.4;
+  width: 100%;
+  min-height: 85px;
+  padding: 0.68rem;
+  border: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  font-size: 0.765rem;
+  line-height: 1.4;
 }
 
 .modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.85rem;
-    margin-top: 1.275rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  margin-top: 1.275rem;
 }
 
 /* Alertas popup */
 .alerta-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .alerta-contenido {
-    background-color: white;
-    padding: 1.7rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    min-width: 255px;
+  background-color: white;
+  padding: 1.7rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  min-width: 255px;
 }
 
 .alerta-contenido p {
-    margin-bottom: 1.275rem;
-    font-size: 0.935rem;
-    color: #333;
+  margin-bottom: 1.275rem;
+  font-size: 0.935rem;
+  color: #333;
 }
 
 .alerta-contenido button {
-    padding: 0.51rem 1.02rem;
-    font-size: 0.85rem;
-    background-color: #003366;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 0.51rem 1.02rem;
+  font-size: 0.85rem;
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .alerta-contenido button:hover {
-    background-color: #004380;
+  background-color: #004380;
 }
 
 /* Estilos para el popup de Solicitud de Antecedentes */
 .antecedentes-list {
-    max-height: 340px;
-    margin: 17px 0;
-    padding: 8.5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  max-height: 340px;
+  margin: 17px 0;
+  padding: 8.5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .antecedente-item {
-    display: flex;
-    align-items: center;
-    padding: 6.8px;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 6.8px;
+  border-bottom: 1px solid #eee;
 }
 
 .antecedente-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .antecedente-item input[type="checkbox"] {
-    margin-right: 8.5px;
+  margin-right: 8.5px;
 }
 
 .antecedente-item label {
-    cursor: pointer;
-    flex: 1;
+  cursor: pointer;
+  flex: 1;
 }
 
 .antecedente-item:hover {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
-
 
 /*Logra ser contactado*/
 
 .select-container {
-    margin: 8.5px 0;
+  margin: 8.5px 0;
 }
 
 .contact-select {
-    width: 100%;
-    padding: 6.8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 11.9px;
-    background-color: #fff;
-    cursor: pointer;
+  width: 100%;
+  padding: 6.8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 11.9px;
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .contact-select:hover {
-    border-color: #888;
+  border-color: #888;
 }
 
 .contact-select:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
+.expediente-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 
+.expediente-container .Apertura-EE {
+  background-color: #f8f9fa;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  flex-grow: 1;
+}
 
+.expediente-container .action-button {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
+.notificacion-contacto-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.notificacion-contacto-row button,
+.notificacion-contacto-row .Logra-contacto {
+  flex: 1;
+
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  flex-grow: 1;
+}
+
+.notificacion-contacto-row .Logra-contacto select {
+  width: 100%;
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+  .notificacion-contacto-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Estilos para hacer que los elementos tengan el mismo ancho */
+.expediente-container,
+.notificacion-contacto-row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.expediente-container button,
+.notificacion-contacto-row button {
+  flex: 1;
+  width: 50%;
+  min-width: 200px;
+}
+
+.Apertura-EE,
+.Logra-contacto {
+  flex: 1;
+  width: 50%;
+}
+
+.Logra-contacto select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Para asegurarnos que ambas filas tienen el mismo ancho total */
+.primera-notificacion > div {
+  width: 100%;
+}
 
 /*==============================================================================
    9. EDITOR DE TEXTO
 ==============================================================================*/
 
 /*Estilo Principal Contenedor de comentarios */
-.comments-section, .editor-container, .comentarios-section {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+.comments-section,
+.editor-container,
+.comentarios-section {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Barra de herramientas */
 .editor-toolbar {
-    display: flex;
-    gap: 0.425rem;
-    padding: 0.425rem;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    border-radius: 4px 4px 0 0;
+  display: flex;
+  gap: 0.425rem;
+  padding: 0.425rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
 }
 
 .toolbar-button {
-    padding: 0.34rem 0.68rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    min-width: 2.125rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+  padding: 0.34rem 0.68rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  min-width: 2.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .toolbar-button:hover {
-    background-color: #e9ecef;
-    border-color: #ced4da;
+  background-color: #e9ecef;
+  border-color: #ced4da;
 }
 
 .toolbar-button.active {
-    background-color: #e9ecef;
-    border-color: #003366;
+  background-color: #e9ecef;
+  border-color: #003366;
 }
 
 /* Área de edición */
 .editor-container {
-    position: relative;
+  position: relative;
 }
 
 .rich-text-editor {
-    min-height: 170px;
-    max-height: 340px;
-    padding: 0.85rem;
-    font-size: 0.85rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0 0 4px 4px;
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
-    color: #333;
+  min-height: 170px;
+  max-height: 340px;
+  padding: 0.85rem;
+  font-size: 0.85rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #333;
 }
 
 .rich-text-editor:focus {
-    outline: none;
-    border-color: #003366;
-    box-shadow: 0 0 0 2px rgba(0,51,102,0.1);
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.1);
 }
 
 .rich-text-editor ul,
 .rich-text-editor ol {
-    padding-left: 1.7rem;
-    margin: 0.425rem 0;
+  padding-left: 1.7rem;
+  margin: 0.425rem 0;
 }
 
 .character-count {
-    position: absolute;
-    bottom: -1.275rem;
-    right: 0;
-    font-size: 0.68rem;
-    color: #666;
+  position: absolute;
+  bottom: -1.275rem;
+  right: 0;
+  font-size: 0.68rem;
+  color: #666;
 }
 
 /*==============================================================================
    10. SECCIÓN FEP (FISCALIZACIÓN ESPECIAL PREVIA)
 ==============================================================================*/
 
-
 /* Contenedor principal FEP */
 .fep-section {
-    margin-top: 1.7rem;
-    padding: 1.275rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-top: 1.7rem;
+  padding: 1.275rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .fep-info {
-    margin: 1.275rem 0;
+  margin: 1.275rem 0;
 }
 
 .fep-row {
-    display: flex;
-    gap: 1.7rem;
-    margin-bottom: 0.85rem;
+  display: flex;
+  gap: 1.7rem;
+  margin-bottom: 0.85rem;
 }
 
 .fep-field {
-    flex: 1;
+  flex: 1;
 }
 
 .fep-field label {
-    display: block;
-    font-weight: bold;
-    color: #003366;
-    margin-bottom: 0.425rem;
+  display: block;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 0.425rem;
 }
 
 .fep-field span {
-    display: block;
-    padding: 0.425rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  display: block;
+  padding: 0.425rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
-
 
 .Apertura-EE span {
-    display: block;
-    padding: 0.425rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+  display: block;
+  padding: 0.425rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
-
 
 /* Subsecciones colapsables */
 .fep-subsection {
-    margin-bottom: 0.85rem;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    overflow: hidden;
+  margin-bottom: 0.85rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .subsection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.85rem;
-    background-color: #f8f9fa;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .subsection-header:hover {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 .subsection-header h4 {
-    margin: 0;
-    color: #003366;
-    font-size: 1.1rem;
+  margin: 0;
+  color: #003366;
+  font-size: 1.1rem;
 }
 
 .toggle-icon {
-    transition: transform 0.3s ease;
-    color: #003366;
-    font-size: 1.02rem;
+  transition: transform 0.3s ease;
+  color: #003366;
+  font-size: 1.02rem;
 }
 
 .subsection-header.collapsed .toggle-icon {
-    transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 
 .subsection-content {
-    max-height: 1700px;
-    transition: max-height 0.3s ease-out;
-    background-color: #fff;
-    overflow: hidden;
+  max-height: 1700px;
+  transition: max-height 0.3s ease-out;
+  background-color: #fff;
+  overflow: hidden;
 }
 
 .subsection-content.collapsed {
-    max-height: 0;
-    padding: 0;
-    border-top: none;
+  max-height: 0;
+  padding: 0;
+  border-top: none;
 }
 
 /* Layout en paralelo para secciones FEP */
 .parallel-fep-sections {
-    display: flex;
-    gap: 1.7rem;
-    margin-bottom: 1.7rem;
+  display: flex;
+  gap: 1.7rem;
+  margin-bottom: 1.7rem;
 }
 
 .parallel-fep-sections .fep-subsection {
-    flex: 1;
-    min-width: 0; /* Evita desbordamiento en flex items */
+  flex: 1;
+  min-width: 0; /* Evita desbordamiento en flex items */
 }
 
 /* Responsive para pantallas pequeñas */
 @media (max-width: 1024px) {
-    .parallel-fep-sections {
-        flex-direction: column;
-    }
-    
-    .parallel-fep-sections .fep-subsection {
-        width: 100%;
-    }
+  .parallel-fep-sections {
+    flex-direction: column;
+  }
+
+  .parallel-fep-sections .fep-subsection {
+    width: 100%;
+  }
 }
 
 /*==============================================================================
@@ -914,105 +988,105 @@ main {
 
 /* Contenedor y encabezados */
 .decision-15-dias-section {
-    margin-top: 1.7rem;
-    padding: 1.275rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #dee2e6;
+  margin-top: 1.7rem;
+  padding: 1.275rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
 }
 
 .decision-15-dias-section h4 {
-    color: #003366;
-    margin-bottom: 1.275rem;
-    font-size: 1.02rem;
-    padding-bottom: 0.425rem;
-    border-bottom: 2px solid #003366;
+  color: #003366;
+  margin-bottom: 1.275rem;
+  font-size: 1.02rem;
+  padding-bottom: 0.425rem;
+  border-bottom: 2px solid #003366;
 }
 
 .decision-15-container {
-    display: flex;
-    gap: 1.7rem;
-    margin-bottom: 1.275rem;
+  display: flex;
+  gap: 1.7rem;
+  margin-bottom: 1.275rem;
 }
 
 /* Formularios y campos */
 .decision-options {
-    flex: 1;
-    padding: 0.85rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex: 1;
+  padding: 0.85rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .radio-group-15dias {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .montos-autorizados-15 {
-    flex: 1;
-    padding: 1.275rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex: 1;
+  padding: 1.275rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .montos-autorizados-15 h5 {
-    color: #003366;
-    margin-bottom: 0.85rem;
-    font-size: 0.935rem;
+  color: #003366;
+  margin-bottom: 0.85rem;
+  font-size: 0.935rem;
 }
 
 .montos-container-15 {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .monto-group-15 {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .monto-group-15 label {
-    min-width: 127.5px;
-    font-weight: bold;
+  min-width: 127.5px;
+  font-weight: bold;
 }
 
 .monto-utm-group {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 1;
 }
 
 .amount-input-15 {
-    padding: 0.425rem;
-    width: 127.5px;
+  padding: 0.425rem;
+  width: 127.5px;
 }
 
 .utm-input-15 {
-    width: 85px;
-    padding: 0.425rem;
-    font-size: 0.765rem;
+  width: 85px;
+  padding: 0.425rem;
+  font-size: 0.765rem;
 }
 
 .utm-value {
-    display: flex;
-    align-items: center;
-    gap: 0.425rem;
-    color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 0.425rem;
+  color: #495057;
 }
 
 .decision-15-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.85rem;
-    margin-top: 1.275rem;
-    padding-top: 1.275rem;
-    border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  margin-top: 1.275rem;
+  padding-top: 1.275rem;
+  border-top: 1px solid #dee2e6;
 }
 
 /*==============================================================================
@@ -1021,19 +1095,19 @@ main {
 
 /* Contenedor y layout */
 .decision-segunda-container {
-    display: flex;
-    gap: 1.7rem;
-    margin: 0.85rem;
+  display: flex;
+  gap: 1.7rem;
+  margin: 0.85rem;
 }
 
 /* Botones y controles */
 .decision-segunda-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 0.85rem;
-    margin: 1.275rem;
-    padding-top: 1.275rem;
-    border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 1.275rem;
+  padding-top: 1.275rem;
+  border-top: 1px solid #dee2e6;
 }
 
 /*==============================================================================
@@ -1041,117 +1115,121 @@ main {
 ==============================================================================*/
 
 /* Márgenes y espaciado */
-.m-0 { margin: 0; }
-.p-0 { padding: 0; }
+.m-0 {
+  margin: 0;
+}
+.p-0 {
+  padding: 0;
+}
 
 /* Estados */
 .collapsed .arrow-icon {
-    transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 /* Estilos de transición */
 .transition-all {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 /* Flexbox helpers */
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .flex-col {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .items-center {
-    align-items: center;
+  align-items: center;
 }
 
 .justify-between {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 /* Grid helpers */
 .grid {
-    display: grid;
+  display: grid;
 }
 
 .grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* Sombras */
 .shadow-sm {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .shadow-md {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Bordes */
 .rounded {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .rounded-lg {
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 /* Colores de texto */
 .text-primary {
-    color: #003366;
+  color: #003366;
 }
 
 .text-gray {
-    color: #666;
+  color: #666;
 }
 
 /* Fondos */
 .bg-white {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .bg-gray-50 {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 /* Tamaños de texto */
 .text-sm {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
 .text-base {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .text-lg {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 /* Pesos de fuente */
 .font-bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .font-medium {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 /* Interactividad */
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 html {
-    font-size: 85%;
+  font-size: 85%;
 }
