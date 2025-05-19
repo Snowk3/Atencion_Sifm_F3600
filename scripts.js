@@ -455,15 +455,62 @@ function notificarContribuyenteFep() {
     mostrarAlerta('Notificación FEP enviada al contribuyente', 'success');
     
     // Actualizar datos y mostrar sección de aviso vencimiento
-    const fechaActual = new Date().toLocaleDateString('es-CL');
-    document.getElementById('fechaNotificacionFep').textContent = fechaActual;
-    document.getElementById('numeroResolucionFep').textContent = generarNumeroResolucion();
-    document.getElementById('fechaGeneracionFep').textContent = document.getElementById('fechaFep').textContent;
-    document.getElementById('idExpediente').textContent = generarIdExpediente();
+  const fechaActual = new Date();
+    const diaActual = fechaActual.getDate().toString().padStart(2, '0');
+    const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+    const añoActual = fechaActual.getFullYear();
+    const fechaFormateada = `${diaActual}/${mesActual}/${añoActual}`;
+    
+    document.getElementById('fechaNotificacionFep').textContent = fechaFormateada;
+    
+       // Calcular y mostrar la fecha límite
+    calcularFechaLimite();
     
     // Mostrar la sección de aviso vencimiento
     document.getElementById('seccionAvisoVencimiento').style.display = 'block';
 }
+
+/**
+ * Calcula y muestra la fecha límite (fecha notificación FEP + 15 días)
+ */
+function calcularFechaLimite() {
+    // Obtener la fecha de notificación FEP
+    const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
+    if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+        return;
+    }
+    
+    // Parsear la fecha (formato dd/mm/yyyy)
+    const partesFecha = fechaNotificacionElement.textContent.split('/');
+    if (partesFecha.length !== 3) {
+        return;
+    }
+    
+    const dia = parseInt(partesFecha[0], 10);
+    const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+    const año = parseInt(partesFecha[2], 10);
+    
+    // Crear objeto Date con la fecha de notificación
+    const fechaNotificacion = new Date(año, mes, dia);
+    
+    // Sumar 15 días
+    const fechaLimite = new Date(fechaNotificacion);
+    fechaLimite.setDate(fechaLimite.getDate() + 15);
+    
+    // Formatear la fecha límite (dd/mm/yyyy)
+    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
+    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
+    const añoLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    
+    // Mostrar la fecha límite en el elemento correspondiente
+    const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
+    if (fechaLimiteElement) {
+        fechaLimiteElement.textContent = fechaLimiteFormateada;
+    }
+}
+
+
 
 /**
  * Genera un número de resolución FEP
@@ -517,6 +564,12 @@ function generarActaRecepcion() {
     // Habilitar los radio buttons y el campo de monto autorizado
     habilitarControlesDecision15();
 }
+
+
+
+
+
+
 
 /**
  * Habilita los controles de la sección de decisión 15 días
@@ -607,6 +660,16 @@ function enviarDecision15Dias() {
     
     mostrarAlerta(`Decisión enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
 }
+
+
+
+
+
+
+
+
+
+
 
 /******************************************************************************
  * 7. VALIDACIONES Y CONTROLES

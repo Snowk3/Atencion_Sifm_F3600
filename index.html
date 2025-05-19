@@ -183,7 +183,7 @@
                                             <option value="noContactado">No logra ser Contactado</option>
                                         </select>
                                     </div>
-                                </div>                                <!-- Botones dinámicos según selección (sin cambios) -->
+                                </div> <!-- Botones dinámicos según selección (sin cambios) -->
                                 <div id="botonesContacto">
                                     <!-- Checkbox para confirmar información recibida -->
                                     <label class="checkbox-label" style="display: none;">
@@ -420,7 +420,8 @@
                                         <div class="fep-field">
                                             <label>Fecha Notificación al Contribuyente:</label>
                                             <span id="fechaNotificacionFep"></span>
-                                        </div>                                        <div class="fep-field">
+                                        </div>
+                                        <div class="fep-field">
                                             <label>ID Expediente Electrónico (E.E):</label>
                                             <span id="idExpedienteFep"></span>
                                         </div>
@@ -437,8 +438,12 @@
                                 </div>
                                 <div class="fep-buttons">
                                     <button id="btnGenerarActa" class="action-button" onclick="generarActaRecepcion()"
-                                        disabled>
+                                        enable>
                                         Generar Acta Recepción (F3309)
+                                    </button>
+                                    <!-- Botón para contactado -->
+                                    <button id="btnGuardar" class="action-button" onclick="registrarEvento()">
+                                        Guardar
                                     </button>
                                 </div>
                             </div>
@@ -449,9 +454,11 @@
                     <div class="fep-subsection">
                         <div class="subsection-header">
                             <h4>Decisión 15 Días</h4>
-                            <p>Fecha Limite Primera Revisión:</p>
                         </div>
-
+                        <!-- fecha limite 15 dias -->
+                        <div class="fecha-max-15">
+                            <p>Fecha Maxima de Decisión 15 días: <span id="fechaLimite15Dias"></span></p>
+                        </div>
                         <div id="decision15Dias" class="subsection-content">
                             <div class="decision-15-container">
                                 <div class="decision-options">
@@ -698,7 +705,7 @@
     </main>
 
 
-  <!------------------------------------------------------------- SECCION POP-UP ------------------------------------------------------>
+    <!------------------------------------------------------------- SECCION POP-UP ------------------------------------------------------>
 
 
 
