@@ -195,6 +195,92 @@ function generarResolucion15Dias() {
  * 5. GESTIÓN DE NOTIFICACIONES
  ******************************************************************************/
 
+/**Primer Contacto */
+
+/** Abrir Expediente Electronico */
+
+function AbrirExpediente() {
+     document.getElementById('idExpediente').textContent = generarIdExpediente();
+}
+
+/** Solicitar Antecedentes */
+
+function mostrarPopupAntecedentes(popupId) {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+        popup.style.display = 'block';
+    }
+}
+
+// Function to close antecedentes popup
+function cerrarPopupAntecedentes() {
+    const popup = document.getElementById('solicitaAntecedentesPopup');
+    if (popup) {
+        popup.style.display = 'none';
+    }
+}
+
+// Function to handle sending antecedentes request
+function enviarSolicitudAntecedentes() {
+    // Get all checked antecedentes
+    const checkedAntecedentes = Array.from(document.querySelectorAll('.antecedentes-list input[type="checkbox"]:checked'))
+        .map(checkbox => checkbox.value);
+    
+    if (checkedAntecedentes.length === 0) {
+        alert('Por favor seleccione al menos un antecedente.');
+        return;
+    }
+    
+    // Here you would typically send the request to your backend
+    console.log('Antecedentes solicitados:', checkedAntecedentes);
+    
+    // Close the popup after sending
+    cerrarPopupAntecedentes();
+}
+
+/*Logra Contacto Confirmación*/ 
+function mostrarBotonesContacto() {
+    const valor = document.getElementById('contactoContribuyente').value;
+    const contenedor = document.getElementById('botonesContacto');
+    contenedor.innerHTML = '';
+
+    if (valor === 'contactado') {
+        const btn = document.createElement('button');
+        btn.className = 'action-button';
+        btn.textContent = 'Guardar';
+        btn.onclick = function() {
+            mostrarPopupContacto("Evento registrado en Consulta Estado");
+        };
+        contenedor.appendChild(btn);
+    } else if (valor === 'noContactado') {
+        const btn1 = document.createElement('button');
+        btn1.className = 'action-button';
+        btn1.textContent = 'Anotación 42';
+        btn1.onclick = function() {
+            // Aquí puedes agregar la lógica de Anotación 42
+            alert('Anotación 42 generada');
+        };
+        const btn2 = document.createElement('button');
+        btn2.className = 'action-button';
+        btn2.textContent = 'DisponeFep';
+        btn2.onclick = function() {
+            // Aquí puedes agregar la lógica de DisponeFep
+            alert('DisponeFep ejecutado');
+        };
+        contenedor.appendChild(btn1);
+        contenedor.appendChild(btn2);
+    }
+}
+
+function mostrarPopupContacto(mensaje) {
+    document.getElementById('popupMensaje').textContent = mensaje;
+    document.getElementById('popupContacto').style.display = 'flex';
+}
+
+function cerrarPopupContacto() {
+    document.getElementById('popupContacto').style.display = 'none';
+}
+
 /**
  * Notifica al contribuyente sobre la decisión de 15 días
  */

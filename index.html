@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atención F3600</title>
     <!-- Archivos externos de estilos y scripts -->
-    <link rel="stylesheet" href="Sytle_Des_F3600.css">
+    <link rel="stylesheet" href="Sytle.css">
     <script src="scripts.js"></script>
 </head>
 <body>
@@ -114,6 +114,35 @@
                     <!-- Contenedor de las secciones de decisión -->
                     <div id="decisionContent" class="decision-sections-container">                        <!-- Secciones en paralelo: Decisión y Montos -->
                         <div class="parallel-sections">
+
+
+<div class="Primera-notificación"  >
+      <h3>Primera Notificación    </h3>    
+       <!-- Botón para Abrir Expediente -->
+               <button id="Apertura-EE" class="action-button" onclick="AbrirExpediente('idExpediente')">Abrir Expdiente Electronico</button>  
+               <div class="Apertura-EE">
+                                            <label>ID Expediente Electrónico (E.E):</label>
+                                            <span id="idExpediente"></span>
+                                        </div>
+ <!-- Botón Solicitar Antecedentes -->                                        
+            <div>  <button id="Solicita-Antecedentes" class="action-button" onclick="mostrarPopupAntecedentes('solicitaAntecedentesPopup')">Solicitar Antecedentes</button>  
+                </div>
+      <!-- Botón Confirmar Contacto-->        
+
+<h4>¿Contribuyente logra ser contactado y requerido de antecedentes?</h4>
+<div class="Logra-contacto">
+    <select id="contactoContribuyente" name="contactoContribuyente" class="contact-select" onchange="mostrarBotonesContacto()">
+        <option value="">Seleccione una opción</option>
+        <option value="contactado">Si, toma conocimiento</option>
+        <option value="noContactado">No logra ser Contactado</option>
+    </select>
+    <div id="botonesContacto"></div>
+</div>
+                            
+                            
+                            
+                            
+                            </div>                
                             <!-- Sección de selección de tipo de decisión -->
                             <section class="decision-section">
                                 <h3>Desición Cruce 48 horas</h3>
@@ -210,13 +239,21 @@
                                 <!-- Botón para generar el documento de resolución -->
                                 <button id="btnGenerarResolucion" class="action-button" onclick="validarYProcesarDecision('resolucion')">Generar Resolución Desición 48 horas</button>
                                 <!-- Botón para enviar notificación al contribuyente -->
-                                <button id="btnNotificar" class="action-button" onclick="validarYProcesarDecision('notificar')">Notificar al Contribuyente</button>
+                                <button id="btnNotificar" class="action-button" onclick="validarYProcesarDecision('notificar')">Notificar Desición al Contribuyente</button>
                                 <!-- Botón para activar el proceso de Fiscalización Especial Previa -->
                                 <button id="btnDisponeFep" class="action-button" onclick="validarYProcesarDecision('disponerFep')">Dispone FEP</button>
                             </div>
                         </div>
                     </div>
                 </div>
+ <div class="title-container"> <h1>Devolución solicitadas fuera de plazo (artículo 126 del Código Tributario)</h1> 
+ </div>
+
+
+
+
+
+
             </div>
             <!-- Nueva pestaña FEP -->
             <div id="tabFep" class="tab-content">
@@ -523,6 +560,62 @@
             </div>
         </div>
     </main>
+
+    <!-- POP UP Solicita Antecedentes -->
+    <div id="solicitaAntecedentesPopup" class="modal">
+        <div class="modal-content">
+            <h3>Solicitud de Antecedentes</h3>
+            <p class="modal-description">
+                Seleccione los antecedentes que desea solicitar al contribuyente:
+            </p>
+            <div class="antecedentes-list">
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant1" value="1">
+                    <label for="ant1">Antecedente 1: Documentación de respaldo</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant2" value="2">
+                    <label for="ant2">Antecedente 2: Facturas de exportación</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant3" value="3">
+                    <label for="ant3">Antecedente 3: Documentos de embarque</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant4" value="4">
+                    <label for="ant4">Antecedente 4: Declaraciones de aduana</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant5" value="5">
+                    <label for="ant5">Antecedente 5: Certificados de origen</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant6" value="6">
+                    <label for="ant6">Antecedente 6: Registros contables</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant7" value="7">
+                    <label for="ant7">Antecedente 7: Contratos comerciales</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant8" value="8">
+                    <label for="ant8">Antecedente 8: Comprobantes de pago</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant9" value="9">
+                    <label for="ant9">Antecedente 9: Documentos de transporte</label>
+                </div>
+                <div class="antecedente-item">
+                    <input type="checkbox" id="ant10" value="10">
+                    <label for="ant10">Antecedente 10: Otros documentos relevantes</label>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="action-button" onclick="cerrarPopupAntecedentes()">Cancelar</button>
+                <button class="action-button" onclick="enviarSolicitudAntecedentes()">Enviar Solicitud</button>
+            </div>
+        </div>
+    </div>
 
     <!-- POP UP FEP -->
     <div id="fepPopup" class="modal">
