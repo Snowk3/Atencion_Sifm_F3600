@@ -10,6 +10,8 @@
  ******************************************************************************/
 
 const UTM_VALOR = 65182;
+const DEVOLUCION_SOLICITADA = 15000000;
+
 
 const FORMATO_MONEDA = new Intl.NumberFormat('es-CL', {
     style: 'decimal',
@@ -94,18 +96,6 @@ function setActiveTab(selectedTab) {
  ******************************************************************************/
 
 /**
- * Formatea un número con separadores de miles
- * @param {HTMLInputElement} input - El elemento input a formatear
- */
-function formatNumber(input) {
-    let valor = input.value.replace(/\D/g, '');
-    if (valor) {
-        input.value = FORMATO_MONEDA.format(parseInt(valor));
-    }
-    calcularMontos();
-}
-
-/**
  * Convierte un monto desde pesos chilenos a UTM
  * @param {number} valorPesos - Monto en pesos chilenos
  * @returns {number} Valor convertido a UTM
@@ -115,25 +105,60 @@ function convertirAUTM(valorPesos) {
 }
 
 /**
+ * Actualiza todos los campos UTM basados en sus correspondientes montos en pesos
+ */
+function actualizarCamposUTM() {
+    // Devolución solicitada
+    const devolucionSolicitada = obtenerValorNumerico('devolucionSolicitada');
+    if (devolucionSolicitada > 0) {
+        const utmSolicitada = convertirAUTM(devolucionSolicitada);
+        document.getElementById('devolucionSolicitadaUTM').value = FORMATO_UTM.format(utmSolicitada);
+    }
+
+    // Monto autorizado
+    const montoAutorizado = obtenerValorNumerico('montoAutorizado');
+    if (montoAutorizado >= 0) {
+        const utmAutorizada = convertirAUTM(montoAutorizado);
+        document.getElementById('montoAutorizadoUTM').value = FORMATO_UTM.format(utmAutorizada);
+        
+        // Monto rechazado (calculado como devolución solicitada - monto autorizado)
+        if (devolucionSolicitada >= montoAutorizado) {
+            const montoRechazado = devolucionSolicitada - montoAutorizado;
+            const utmRechazada = convertirAUTM(montoRechazado);
+            document.getElementById('montoRechazadoUTM').value = FORMATO_UTM.format(utmRechazada);
+            // Actualizar también el campo de monto rechazado en pesos si existe
+            const montoRechazadoElement = document.getElementById('montoRechazado');
+            if (montoRechazadoElement) {
+                montoRechazadoElement.value = FORMATO_MONEDA.format(montoRechazado);
+            }
+        }
+    }
+}
+
+/**
+ * Formatea un número con separadores de miles y actualiza UTM
+ * @param {HTMLInputElement} input - El elemento input a formatear
+ */
+function formatNumber(input) {
+    let valor = input.value.replace(/\D/g, '');
+    if (valor) {
+        input.value = FORMATO_MONEDA.format(parseInt(valor));
+    }
+    actualizarCamposUTM();
+}
+
+/**
  * Obtiene el valor numérico de un input eliminando formato de moneda
  * @param {string} inputId - ID del elemento input
  * @returns {number} Valor numérico del input
  */
 function obtenerValorNumerico(inputId) {
-    const valor = document.getElementById(inputId).value.replace(/\D/g, '');
+    const elemento = document.getElementById(inputId);
+    if (!elemento) return 0;
+    const valor = elemento.value.replace(/\D/g, '');
     return valor ? parseInt(valor) : 0;
 }
 
-/**
- * Actualiza el valor de UTM correspondiente a un monto
- * @param {string} montoInputId - ID del input del monto
- * @param {string} utmInputId - ID del input donde se mostrará la conversión a UTM
- */
-function actualizarUTM(montoInputId, utmInputId) {
-    const valorPesos = obtenerValorNumerico(montoInputId);
-    const valorUTM = convertirAUTM(valorPesos);
-    document.getElementById(utmInputId).value = FORMATO_UTM.format(valorUTM);
-}
 
 /**
  * Genera un ID único para resoluciones FEP
@@ -204,7 +229,7 @@ function AbrirExpediente() {
 }
 
 /** Solicitar Antecedentes */
-
+// Function mostrar antecedentes popup
 function mostrarPopupAntecedentes(popupId) {
     const popup = document.getElementById(popupId);
     if (popup) {
@@ -212,7 +237,7 @@ function mostrarPopupAntecedentes(popupId) {
     }
 }
 
-// Function to close antecedentes popup
+// Function cerrar antecedentes popup
 function cerrarPopupAntecedentes() {
     const popup = document.getElementById('solicitaAntecedentesPopup');
     if (popup) {
@@ -220,80 +245,106 @@ function cerrarPopupAntecedentes() {
     }
 }
 
-// Function to handle sending antecedentes request
+// Funcion para solicitar antecedentes
 function enviarSolicitudAntecedentes() {
-    // Get all checked antecedentes
+    // Obtener los antecedentes seleccionados
     const checkedAntecedentes = Array.from(document.querySelectorAll('.antecedentes-list input[type="checkbox"]:checked'))
         .map(checkbox => checkbox.value);
-    
+
     if (checkedAntecedentes.length === 0) {
         alert('Por favor seleccione al menos un antecedente.');
         return;
     }
-    
-    // Here you would typically send the request to your backend
+
+    // Aquí iría la lógica para enviar los antecedentes al backend
     console.log('Antecedentes solicitados:', checkedAntecedentes);
-    
-    // Close the popup after sending
-    cerrarPopupAntecedentes();
+
+    // Cerrar el popup de antecedentes si existe
+    cerrarPopupAntecedentes && cerrarPopupAntecedentes();
+
+    // Mostrar popup de evento registrado (reutilizando función existente)
+    mostrarPopupContacto("Evento registrado en consulta estado");
+
+    // Agregar ticket verde al botón de Solicitar Antecedentes
+    marcarBotonSolicitaAntecedentes();
 }
 
-/*Logra Contacto Confirmación*/ 
-function mostrarBotonesContacto() {
-    const valor = document.getElementById('contactoContribuyente').value;
-    const contenedor = document.getElementById('botonesContacto');
-    contenedor.innerHTML = '';
+// Nueva función para marcar el botón con ticket verde
+function marcarBotonSolicitaAntecedentes() {
+    const btn = document.getElementById('Solicita-Antecedentes');
+    if (btn && !btn.querySelector('.ticket-verde')) {
+        const icon = document.createElement('span');
+        icon.className = 'ticket-verde';
+        icon.innerHTML = '✔️'; // Puedes usar un SVG si prefieres
+        icon.style.marginLeft = '8px';
+        btn.appendChild(icon);
+    }
+}
+/*******************************************************************************
+ * GESTIÓN DE CONTACTO CON CONTRIBUYENTE
+ ******************************************************************************/
 
+/**
+ * Muestra u oculta los botones según la opción seleccionada
+ */
+function toggleBotonesContacto() {
+    const valor = document.getElementById('contactoContribuyente').value;
+    const btnGuardar = document.getElementById('btnGuardar');
+    const btnAnotacion42 = document.getElementById('btnAnotacion42');
+    const btnDisponeFep = document.getElementById('btnDisponeFep');
+
+    // Ocultar todos los botones primero
+    btnGuardar.style.display = 'none';
+    btnAnotacion42.style.display = 'none';
+    btnDisponeFep.style.display = 'none';
+
+    // Mostrar los botones correspondientes
     if (valor === 'contactado') {
-        const btn = document.createElement('button');
-        btn.className = 'action-button';
-        btn.textContent = 'Guardar';
-        btn.onclick = function() {
-            mostrarPopupContacto("Evento registrado en Consulta Estado");
-        };
-        contenedor.appendChild(btn);
+        btnGuardar.style.display = 'inline-block';
     } else if (valor === 'noContactado') {
-        const btn1 = document.createElement('button');
-        btn1.className = 'action-button';
-        btn1.textContent = 'Anotación 42';
-        btn1.onclick = function() {
-            // Aquí puedes agregar la lógica de Anotación 42
-            alert('Anotación 42 generada');
-        };
-        const btn2 = document.createElement('button');
-        btn2.className = 'action-button';
-        btn2.textContent = 'DisponeFep';
-        btn2.onclick = function() {
-            // Aquí puedes agregar la lógica de DisponeFep
-            alert('DisponeFep ejecutado');
-        };
-        contenedor.appendChild(btn1);
-        contenedor.appendChild(btn2);
+        btnAnotacion42.style.display = 'inline-block';
+        btnDisponeFep.style.display = 'inline-block';
     }
 }
 
+/**
+ * Registra el evento de contacto
+ */
+function registrarEvento() {
+    mostrarPopupContacto("Evento registrado en Consulta Estado");
+}
+
+/**
+ * Genera la anotación 42
+ */
+function generarAnotacion42() {
+    // Aquí puedes agregar la lógica específica para la anotación 42
+    mostrarPopupContacto("Anotación 42 generada exitosamente");
+}
+
+/**
+ * Ejecuta la acción de Disponer FEP
+ */
+function ejecutarDisponeFep() {
+    // Aquí puedes agregar la lógica específica para disponer FEP
+    mostrarPopupContacto("FEP dispuesto exitosamente");
+}
+
+/**
+ * Muestra el popup con un mensaje
+ * @param {string} mensaje - Mensaje a mostrar en el popup
+ */
 function mostrarPopupContacto(mensaje) {
     document.getElementById('popupMensaje').textContent = mensaje;
     document.getElementById('popupContacto').style.display = 'flex';
 }
 
+/**
+ * Cierra el popup de contacto
+ */
 function cerrarPopupContacto() {
     document.getElementById('popupContacto').style.display = 'none';
 }
-
-/**
- * Notifica al contribuyente sobre la decisión de 15 días
- */
-function notificarContribuyente15Dias() {
-    // Almacenar fecha de notificación
-    const fechaNotificacion = new Date();
-    document.getElementById('fechaNotificacionSegundaRevision').textContent = formatoFecha(fechaNotificacion);
-    
-    // Habilitar siguiente paso
-    document.getElementById('btnEnviarDecision15').disabled = false;
-    mostrarAlerta('Notificación enviada al contribuyente', 'success');
-}
-
 /******************************************************************************
  * 6. GESTIÓN DE FEP (FISCALIZACIÓN ESPECIAL PREVIA)
  ******************************************************************************/
@@ -598,6 +649,14 @@ function mostrarAlerta(mensaje, tipo = 'info') {
  ******************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar el monto de devolución solicitada
+    const devolucionInput = document.getElementById('devolucionSolicitada');
+    if (devolucionInput) {
+        devolucionInput.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
+        actualizarCamposUTM(); // Actualizar los campos UTM al inicializar
+    }
+
+
     // Muestra el valor de UTM actual
     document.getElementById('valorUTM').textContent = FORMATO_MONEDA.format(UTM_VALOR);
     

@@ -116,7 +116,7 @@
                         <div class="parallel-sections">
 
 
-<div class="Primera-notificación"  >
+<div class="decision-section primera-notificacion"  >
       <h3>Primera Notificación    </h3>    
        <!-- Botón para Abrir Expediente -->
                <button id="Apertura-EE" class="action-button" onclick="AbrirExpediente('idExpediente')">Abrir Expdiente Electronico</button>  
@@ -125,20 +125,40 @@
                                             <span id="idExpediente"></span>
                                         </div>
  <!-- Botón Solicitar Antecedentes -->                                        
-            <div>  <button id="Solicita-Antecedentes" class="action-button" onclick="mostrarPopupAntecedentes('solicitaAntecedentesPopup')">Solicitar Antecedentes</button>  
+            <div>  
+               <button id="Solicita-Antecedentes" class="action-button" onclick="mostrarPopupAntecedentes('solicitaAntecedentesPopup')">Solicitar Antecedentes</button> 
                 </div>
       <!-- Botón Confirmar Contacto-->        
 
 <h4>¿Contribuyente logra ser contactado y requerido de antecedentes?</h4>
 <div class="Logra-contacto">
-    <select id="contactoContribuyente" name="contactoContribuyente" class="contact-select" onchange="mostrarBotonesContacto()">
+    <select id="contactoContribuyente" name="contactoContribuyente" class="contact-select" onchange="toggleBotonesContacto()">
         <option value="">Seleccione una opción</option>
         <option value="contactado">Si, toma conocimiento</option>
         <option value="noContactado">No logra ser Contactado</option>
     </select>
-    <div id="botonesContacto"></div>
+    <div id="botonesContacto">
+        <!-- Botón para contactado -->
+        <button id="btnGuardar" class="action-button" onclick="registrarEvento()" style="display: none;">
+            Guardar
+        </button>
+        <!-- Botones para no contactado -->
+        <button id="btnAnotacion42" class="action-button" onclick="generarAnotacion42()" style="display: none;">
+            Anotación 42
+        </button>
+        <button id="btnDisponeFep" class="action-button" onclick="ejecutarDisponeFep()" style="display: none;">
+            DisponeFep
+        </button>
+    </div>
 </div>
-                            
+
+<!-- Popup para mensajes -->
+<div id="popupContacto" class="popup-mensaje" style="display: none;">
+    <div class="popup-content">
+        <p id="popupMensaje"></p>
+        <button onclick="cerrarPopupContacto()">Aceptar</button>
+    </div>
+</div>                   
                             
                             
                             
