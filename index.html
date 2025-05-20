@@ -4,18 +4,25 @@
     Fecha: Mayo 2025
 -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atención F3600</title>
     <!-- Enlaces a recursos externos -->
-    <link rel="stylesheet" href="Sytle.css">
-    <script src="scripts.js"></script>
+    <!-- Iconos de Font Awesome para el botón de modo oscuro -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="sytle_v2.css">
+    <script src="script_v2.js"></script>
 </head>
 
 <body>
+    <!-- Botón para cambiar tema claro/oscuro -->
+    <button class="theme-toggle" id="themeToggle" title="Cambiar modo claro/oscuro">
+        <i class="fas fa-moon dark-icon"></i>
+        <i class="fas fa-sun light-icon"></i>
+    </button>
     <!-- Barra de navegación superior -->
     <header>
         <!-- Menú principal de navegación -->
