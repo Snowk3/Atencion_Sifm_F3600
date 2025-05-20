@@ -229,7 +229,7 @@ main {
 
 /* Contenedor de pestañas */
 .tabs-container {
-  width: 70%;
+  width: 90%;
   margin: 0 auto;
   padding: 10 px;
 }
@@ -1458,4 +1458,209 @@ html {
 
 .alerta-info {
   border-left: 4px solid var(--color-info);
+}
+
+/*==============================================================================
+   ESTILOS PARA POPUP HOJA DE TRABAJO
+==============================================================================*/
+
+/* Contenedor principal del popup */
+.worksheet-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+/* Contenido del popup */
+.worksheet-content {
+    position: relative;
+    background-color: var(--color-background);
+    margin: 2% auto;
+    padding: 2rem;
+    width: 95%;
+    max-width: 1400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Contenedor para el header */
+.worksheet-header {
+    width: 100%;
+}
+
+/* Estilos para títulos */
+.worksheet-title {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.worksheet-subtitle {
+    color: var(--color-text);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Contenedor principal de las tablas */
+.worksheet-tables-container {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Sección de tabla principal (Códigos 3600) */
+.worksheet-section:nth-child(3) {
+    flex: 0 0 50%;
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
+}
+
+/* Contenedor para tablas secundarias y checklist */
+.worksheet-secondary-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
+}
+
+/* Secciones del worksheet */
+.worksheet-section {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--color-section-bg);
+    border-radius: 6px;
+    border: 1px solid var(--color-section-border);
+}
+
+.worksheet-section h3 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+/* Tablas */
+.worksheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+.worksheet-table th,
+.worksheet-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid var(--color-border);
+}
+
+.worksheet-table th {
+    background-color: var(--color-table-header);
+    color: var(--color-table-header-text);
+    position: sticky;
+    top: 0;
+}
+
+.worksheet-table tr:nth-child(even) {
+    background-color: var(--color-table-row-even);
+}
+
+.worksheet-table tr:hover {
+    background-color: var(--color-table-row-hover);
+}
+
+/* Sección inferior (comentarios y botones) */
+.worksheet-footer {
+    width: 100%;
+    margin-top: auto;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+}
+
+/* Área de comentarios */
+.worksheet-comentarios {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+    background-color: var(--color-input-bg);
+    color: var(--color-input-text);
+    margin-bottom: 1.5rem;
+}
+
+/* Contenedor de botones */
+.worksheet-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+/* Estilos de botones */
+.worksheet-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.justify-btn {
+    background-color: var(--color-info);
+    color: white;
+}
+
+.justify-btn:hover {
+    background-color: var(--color-help-button-hover);
+}
+
+.save-btn {
+    background-color: var(--color-success);
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: var(--color-success);
+    opacity: 0.9;
+}
+
+.exit-btn {
+    background-color: var(--color-error);
+    color: white;
+}
+
+.exit-btn:hover {
+    background-color: var(--color-error);
+    opacity: 0.9;
+}
+
+/* Checklist */
+.checklist-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
 }
