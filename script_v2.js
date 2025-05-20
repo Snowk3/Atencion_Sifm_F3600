@@ -858,30 +858,39 @@ function notificarContribuyenteFep() {
 }
 
 /**
- * Calcula y muestra la fecha límite (fecha notificación FEP + 15 días)
+ * Calcula y muestra la fecha límite (fecha generación acta + 15 días)
  */
 function calcularFechaLimite() {
-    // Obtener la fecha de notificación FEP
-    const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
-    if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
-        return;
+    // Obtener la fecha de generación del acta, si existe
+    const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActa');
+    let fechaBase;
+    
+    if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
+        // Usar la fecha del calendario si está disponible
+        fechaBase = new Date(fechaGeneracionActaElement.value);
+    } else {
+        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
+        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
+        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+            return;
+        }
+        
+        // Parsear la fecha (formato dd/mm/yyyy)
+        const partesFecha = fechaNotificacionElement.textContent.split('/');
+        if (partesFecha.length !== 3) {
+            return;
+        }
+        
+        const dia = parseInt(partesFecha[0], 10);
+        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+        const año = parseInt(partesFecha[2], 10);
+        
+        // Crear objeto Date con la fecha de notificación
+        fechaBase = new Date(año, mes, dia);
     }
-    
-    // Parsear la fecha (formato dd/mm/yyyy)
-    const partesFecha = fechaNotificacionElement.textContent.split('/');
-    if (partesFecha.length !== 3) {
-        return;
-    }
-    
-    const dia = parseInt(partesFecha[0], 10);
-    const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-    const año = parseInt(partesFecha[2], 10);
-    
-    // Crear objeto Date con la fecha de notificación
-    const fechaNotificacion = new Date(año, mes, dia);
     
     // Sumar 15 días
-    const fechaLimite = new Date(fechaNotificacion);
+    const fechaLimite = new Date(fechaBase);
     fechaLimite.setDate(fechaLimite.getDate() + 15);
     
     // Formatear la fecha límite (dd/mm/yyyy)
@@ -894,6 +903,9 @@ function calcularFechaLimite() {
     const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
     if (fechaLimiteElement) {
         fechaLimiteElement.textContent = fechaLimiteFormateada;
+        
+        // Aplicar clase de estilo
+        fechaLimiteElement.classList.add('fecha-maxima');
     }
 }
 
@@ -1008,6 +1020,16 @@ function generarActaRecepcion() {
         return;
     }
     
+    // Registrar la fecha actual en el campo fechaGeneracionActa
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toISOString().split('T')[0]; // Formato YYYY-MM-DD para input date
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
+    if (fechaGeneracionActa) {
+        fechaGeneracionActa.value = fechaFormateada;
+        // Calcular la fecha límite basada en esta fecha
+        calcularFechaLimite();
+    }
+    
     mostrarAlerta('Acta de Recepción F3309 generada exitosamente', 'success');
     
     // Mostrar y configurar la sección de decisión 15 días
@@ -1029,6 +1051,35 @@ function habilitarControlesDecision15() {
     const radios = document.getElementsByName('decision15Dias');
     radios.forEach(radio => radio.disabled = false);
     document.getElementById('montoAutorizado15').disabled = false;
+}
+
+/**
+ * Guarda la fecha de generación del acta y muestra confirmación
+ */
+function guardarFechaActa() {
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
+    
+    // Verificar que se haya ingresado una fecha
+    if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
+        mostrarAlerta('Debe ingresar una fecha de generación del acta', 'error');
+        return;
+    }
+    
+    // Formatear la fecha para mostrar
+    const fecha = new Date(fechaGeneracionActa.value);
+    const fechaFormateada = fecha.toLocaleDateString('es-CL');
+    
+    // Aquí se implementaría la lógica para guardar en el sistema de Consulta Estado
+    // Esta es una simulación del proceso de guardado
+    
+    // Actualizar la fecha límite basada en esta fecha
+    calcularFechaLimite();
+    
+    // Mostrar mensaje de confirmación
+    mostrarAlerta('Evento registrado en Consulta Estado', 'success');
+    
+    // Si es necesario, se puede agregar código adicional para habilitar otros elementos de la interfaz
+    // después de guardar correctamente
 }
 
 /******************************************************************************

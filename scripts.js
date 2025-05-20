@@ -470,6 +470,108 @@ function notificarContribuyenteFep() {
     document.getElementById('seccionAvisoVencimiento').style.display = 'block';
 }
 
+
+/**
+ * Genera el acta de recepción F3309 y registra la fecha actual
+ */
+function generarActaRecepcion() {
+    const checkbox = document.getElementById('checkInfoRecibida');
+    if (!checkbox.checked) {
+        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
+        return;
+    }
+    
+    // Registrar la fecha de generación del acta
+    const fechaActual = new Date();
+    const fechaFormateada = formatoFecha(fechaActual);
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
+    
+    if (fechaGeneracionActa) {
+        fechaGeneracionActa.value = fechaFormateada;
+        // Calcular la fecha límite basada en esta fecha
+        calcularFechaLimite();
+    }
+    
+    mostrarAlerta('Acta de Recepción F3309 generada exitosamente', 'success');
+    
+    // Mostrar y configurar la sección de decisión 15 días
+    document.getElementById('seccionDecision15Dias').style.display = 'block';
+    
+    // Copiar los montos iniciales
+    const montoSolicitado = document.getElementById('devolucionSolicitada').value;
+    document.getElementById('montoSolicitado15').value = montoSolicitado;
+    actualizarUTM('montoSolicitado15', 'montoSolicitadoUTM15');
+    
+    // Habilitar los radio buttons y el campo de monto autorizado
+    habilitarControlesDecision15();
+}
+
+/**
+ * Calcula y muestra la fecha límite (fecha generación acta + 15 días)
+ */
+function calcularFechaLimite() {
+    // Obtener la fecha de generación del acta
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
+    if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
+        // Si no hay fecha de generación, usar la fecha de notificación FEP
+        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
+        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+            return;
+        }
+        
+        // Parsear la fecha de notificación (formato dd/mm/yyyy)
+        const partesFecha = fechaNotificacionElement.textContent.split('/');
+        if (partesFecha.length !== 3) {
+            return;
+        }
+        
+        const dia = parseInt(partesFecha[0], 10);
+        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+        const año = parseInt(partesFecha[2], 10);
+        
+        // Crear objeto Date con la fecha de notificación
+        const fechaBase = new Date(año, mes, dia);
+        calcularYMostrarFechaLimite(fechaBase);
+    } else {
+        // Usar la fecha de generación del acta
+        const partesFecha = fechaGeneracionActa.value.split('/');
+        if (partesFecha.length !== 3) {
+            return;
+        }
+        
+        const dia = parseInt(partesFecha[0], 10);
+        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+        const año = parseInt(partesFecha[2], 10);
+        
+        // Crear objeto Date con la fecha de generación del acta
+        const fechaBase = new Date(año, mes, dia);
+        calcularYMostrarFechaLimite(fechaBase);
+    }
+}
+
+/**
+ * Función auxiliar para calcular y mostrar la fecha límite
+ * @param {Date} fechaBase - Fecha base para el cálculo
+ */
+function calcularYMostrarFechaLimite(fechaBase) {
+    // Sumar 15 días
+    const fechaLimite = new Date(fechaBase);
+    fechaLimite.setDate(fechaLimite.getDate() + 15);
+    
+    // Formatear la fecha límite (dd/mm/yyyy)
+    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
+    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
+    const añoLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    
+    // Mostrar la fecha límite en el elemento correspondiente
+    const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
+    if (fechaLimiteElement) {
+        fechaLimiteElement.textContent = fechaLimiteFormateada;
+    }
+}
+
+
 /**
  * Calcula y muestra la fecha límite (fecha notificación FEP + 15 días)
  */

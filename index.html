@@ -454,8 +454,7 @@
                                         <label>ID Expediente Electrónico (E.E):</label>
                                         <span id="idExpedienteFep"></span>
                                     </div>
-                                </div>
-                                <div class="fep-row checkbox-container">
+                                </div>                                <div class="fep-row checkbox-container">
                                     <div class="fep-field">
                                         <label class="checkbox-label">
                                             <input type="checkbox" id="checkInfoRecibida"
@@ -464,15 +463,19 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="fep-buttons">
+                                <div class="fep-row">
+                                    <div class="fep-field">
+                                        <label>Fecha Generación Acta:</label>
+                                        <input type="date" id="fechaGeneracionActa" class="date-input" onchange="calcularFechaLimite()">
+                                    </div>
+                                </div>
+                            </div>                            <div class="fep-buttons">
                                 <button id="btnGenerarActa" class="action-button" onclick="generarActaRecepcion()"
                                     enable>
                                     Generar Acta Recepción (F3309)
                                 </button>
-                                <!-- Botón para contactado -->
-                                <button id="btnGuardar" class="action-button" onclick="registrarEvento()">
-                                    Guardar
+                                <button id="btnGuardarFechaActa" class="action-button" onclick="guardarFechaActa()">
+                                    Guardar en Consulta Estado
                                 </button>
                             </div>
                         </div>
@@ -484,9 +487,8 @@
                     <div class="subsection-header">
                         <h4>Decisión 15 Días</h4>
                     </div>
-                    <!-- fecha limite 15 dias -->
-                    <div class="fecha-max-15">
-                        <p>Fecha Maxima de Decisión 15 días: <span id="fechaLimite15Dias"></span></p>
+                    <!-- fecha limite 15 dias -->                    <div class="fecha-max-15">
+                        <p>Fecha Maxima de Decisión 15 días: <span id="fechaLimite15Dias" class="fecha-maxima"></span></p>
                     </div>
                     <div id="decision15Dias" class="subsection-content">
                         <div class="decision-15-container">
