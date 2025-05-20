@@ -67,6 +67,7 @@
                     Justificadas</button>
                 <button class="tab-button" onclick="handleTabNavigation(event, 'tab3')">Decisión</button>
                 <button class="tab-button" onclick="handleTabNavigation(event, 'tabFep')">FEP</button>
+                 <button class="tab-button" onclick="handleTabNavigation(event, 'tabexpediente')">Expediente Electronico</button>
             </div>
 
             <!-- Contenido de la pestaña "Observaciones No Justificadas" -->
@@ -150,7 +151,7 @@
                 <div class="title-container">
                     <!-- Encabezado con título -->
                     <div class="title-header">
-                        <h2 class="main-title">Desición Solicitud de Devolución 48 Horas</h2>
+                        <h2 class="main-title">Desición Solicitud de Devolución 48 Horas (D.S. 348)</h2>
                     </div>
                     <!-- Contenedor de las secciones de decisión -->
                     <div id="decisionContent" class="decision-sections-container">
@@ -160,7 +161,7 @@
 
                             <!-- Sección de primera notificación: manejo de expediente y contacto -->
                             <div class="decision-section primera-notificacion">
-                                <h3>Primera Notificación</h3>
+                                <h3>Acciones para Desición</h3>
 
                                 <!-- Sección expediente y solicitar antecedentes en paralelo -->
                                 <div class="expediente-container">
@@ -228,7 +229,22 @@
                             </div>
                             <!-- Sección de selección de tipo de decisión -->
                             <section class="decision-section">
-                                <h3>Desición Cruce 48 horas</h3>
+                                <h3>Desición Cruce 48 horas </h3>
+                                <!--Datos de la solicitud (fecha, folio,monto)-->
+                                <div class="info-formulario">
+                                    <div class="info-item">
+                                        <label class="info-label">Fecha Solicitud:</label>
+                                        <span id="fechaSolicitud" class="info-value"></span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label class="info-label">Folio Formulario:</label>
+                                        <span id="folioFormulario" class="info-value"></span>
+                                    </div>
+                                    <div class="info-item">
+        <label class="info-label">Fecha Máx. Decisión 48hrs:</label>
+        <span id="fechaMaxDesc48" class="info-value fecha-maxima"></span>
+                                </div>
+  </div>
                                 <div class="radio-group">
                                     <div class="radio-option">
                                         <input type="radio" id="devolucionLugar" name="decisionCruce"
@@ -245,9 +261,7 @@
                                         <label for="devolucionNoLugar">Devolución no ha lugar</label>
                                     </div>
                                 </div>
-                            </section>
-                            <!-- Sección de ingreso de montos y conversión UTM -->
-                            <section class="decision-section">
+                                       <!-- Sección de ingreso de montos y conversión UTM --> 
                                 <h3>Ingreso de Monto a Devolver</h3>
                                 <!-- Información del valor UTM actual -->
                                 <div class="utm-info">
@@ -288,7 +302,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </section>
+                        
                         </div>
                         <!-- Sección de comentarios y justificación de rechazo -->
                         <section class="comments-section">

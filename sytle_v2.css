@@ -229,7 +229,8 @@ main {
 
 /* Contenedor de pestañas */
 .tabs-container {
-  width: 100%;
+  width: 70%;
+  margin: 0 auto;
   padding: 10 px;
 }
 
@@ -403,6 +404,47 @@ main {
   color: var(--color-success);
   font-size: 1.2em;
   vertical-align: middle;
+}
+
+/* Estilos para la información del formulario */
+.info-formulario {
+    display: flex;
+    gap: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label {
+    color: #003366;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.info-value {
+    color: #1a7c1e;
+    font-weight: bold;
+    background-color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    border: 1px solid #b6e2c1;
+    min-width: 100px;
+    display: inline-block;
+    text-align: center;
+}
+.fecha-maxima {
+    color: #dc3545 !important;
+    font-weight: bold;
+    background-color: #fff5f5 !important;
+    border-color: #dc3545 !important;
 }
 /*==============================================================================
    5. CAMPOS Y FORMULARIOS

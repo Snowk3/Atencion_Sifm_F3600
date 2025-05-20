@@ -13,6 +13,26 @@
 // Valores y constantes globales
 const UTM_VALOR = 65182;
 const DEVOLUCION_SOLICITADA = 15000000;
+const FECHA_SOLICITUD = new Date('2025-05-19');
+const folioformulario = 123456789
+/**
+ * Calcula la fecha máxima de decisión sumando 2 días a la fecha de solicitud
+ * @returns {Date} Fecha máxima para decisión 48 horas
+ */
+function calcularFechaMaxDesc48() {
+    const fechaMax = new Date(FECHA_SOLICITUD);
+    fechaMax.setDate(fechaMax.getDate() + 2);
+    return fechaMax;
+}
+/**
+ * Calcula la fecha máxima de decisión sumando 2 días a la fecha de solicitud
+ * @returns {Date} Fecha máxima para decisión 48 horas
+ */
+function calcularFechaMaxDesc48() {
+    const fechaMax = new Date(FECHA_SOLICITUD);
+    fechaMax.setDate(fechaMax.getDate() + 2);
+    return fechaMax;
+}
 
 // Formatos de moneda y números
 const FORMATO_MONEDA = new Intl.NumberFormat('es-CL', {
@@ -363,7 +383,141 @@ function validarYActualizarBotones() {
         boton.disabled = !todoValido;
     });
 }
+// =====================
+// Lógica de Decisión 48 Horas
+// =====================
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Elementos de decisión
+    const radioLugar = document.getElementById('devolucionLugar');
+    const radioParcial = document.getElementById('devolucionParcial');
+    const radioNoLugar = document.getElementById('devolucionNoLugar');
+    const montoSolicitada = document.getElementById('devolucionSolicitada');
+    const montoAutorizado = document.getElementById('montoAutorizado');
+    const montoRechazado = document.getElementById('montoRechazado');
+    const comentarios = document.getElementById('comentarios');
+    const btnIngresarDecision = document.getElementById('btnIngresarDecision');
+    const btnGenerarResolucion = document.getElementById('btnGenerarResolucion');
+    const btnNotificar = document.getElementById('btnNotificar');
+    const btnDisponeFep = document.getElementById('btnDisponeFep');
+
+    // Estado de botones
+    btnIngresarDecision.disabled = false;
+    btnGenerarResolucion.disabled = true;
+    btnNotificar.disabled = true;
+    btnDisponeFep.disabled = true;
+    btnDisponeFep.disabled = true; // Siempre deshabilitado al inicio
+
+    // Helper para limpiar y bloquear/desbloquear campos
+    function setMontoAutorizado(valor, readOnly = false) {
+        montoAutorizado.value = valor;
+        montoAutorizado.readOnly = readOnly;
+        montoAutorizado.dispatchEvent(new Event('change'));
+    }
+
+    function requireComentarios(requerido) {
+        if (requerido) {
+            comentarios.classList.add('required');
+        } else {
+            comentarios.classList.remove('required');
+        }
+    }
+
+    // Lógica de selección de decisión
+    function handleDecisionChange() {
+        if (radioLugar.checked) {
+            // 1. Devolución ha lugar: monto autorizado = monto solicitada, bloqueado
+            setMontoAutorizado(montoSolicitada.value, true);
+            requireComentarios(false);
+            btnDisponeFep.disabled = true;
+        } else if (radioParcial.checked) {
+            // 2. Parcial: monto autorizado editable (>0), comentarios requeridos
+            setMontoAutorizado('', false);
+            requireComentarios(true);
+            btnDisponeFep.disabled = true;
+        } else if (radioNoLugar.checked) {
+            // 3. No ha lugar: monto autorizado = 0, bloqueado, comentarios requeridos
+            setMontoAutorizado('0', true);
+            requireComentarios(true);
+            btnDisponeFep.disabled = false;
+        }
+             // --- Lógica adicional: montoRechazado ---
+        // Si montoAutorizado == devolucionSolicitada, montoRechazado = 0
+        const autorizado = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, '')) || 0;
+        const solicitada = parseFloat(montoSolicitada.value.replace(/[^\d.-]/g, '')) || 0;
+        if (autorizado === solicitada) {
+            montoRechazado.value = '0';
+        }
+    }
+
+    radioLugar.addEventListener('change', handleDecisionChange);
+    radioParcial.addEventListener('change', handleDecisionChange);
+    radioNoLugar.addEventListener('change', handleDecisionChange);
+
+       // También actualizar montoRechazado cuando cambian los montos
+    function handleMontosChange() {
+        const autorizado = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, '')) || 0;
+        const solicitada = parseFloat(montoSolicitada.value.replace(/[^\d.-]/g, '')) || 0;
+        if (autorizado === solicitada) {
+            montoRechazado.value = '0';
+        }}
+
+    // Validación antes de procesar decisión
+    function validarDecision() {
+        if (radioLugar.checked) {
+            // No requiere validación extra
+            return true;
+        } else if (radioParcial.checked) {
+            // Monto autorizado > 0 y comentarios no vacíos
+            const monto = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, ''));
+            const comentario = comentarios.innerText.trim();
+            if (!(monto > 0)) {
+                alert('Debe ingresar un monto autorizado mayor a 0.');
+                montoAutorizado.focus();
+                return false;
+            }
+            if (!comentario) {
+                alert('Debe ingresar comentarios para justificar la decisión parcial.');
+                comentarios.focus();
+                return false;
+            }
+            return true;
+        } else if (radioNoLugar.checked) {
+            // Comentarios no vacíos
+            const comentario = comentarios.innerText.trim();
+            if (!comentario) {
+                alert('Debe ingresar comentarios para justificar el rechazo.');
+                comentarios.focus();
+                return false;
+            }
+            return true;
+        }
+        alert('Debe seleccionar una opción de decisión.');
+        return false;
+    }
+
+    // Flujo de botones
+    btnIngresarDecision.addEventListener('click', function (e) {
+        if (!validarDecision()) {
+            e.preventDefault();
+            return;
+        }
+        btnGenerarResolucion.disabled = false;
+        btnIngresarDecision.disabled = true;
+    });
+
+    btnGenerarResolucion.addEventListener('click', function () {
+        btnNotificar.disabled = false;
+        btnGenerarResolucion.disabled = true;
+    });
+
+    // El botón Notificar no habilita ningún otro botón en este flujo
+
+    // El botón DisponeFep solo se habilita con "No ha lugar" (ya manejado en handleDecisionChange)
+
+    // Inicializar estado según selección actual
+    handleDecisionChange();
+});
 /**
  * Verifica si se puede habilitar el FEP según el monto autorizado
  * @returns {boolean} Retorna true si se permite habilitar FEP
@@ -867,6 +1021,27 @@ document.addEventListener('DOMContentLoaded', function() {
             formatNumber(event.target);
         });
     });
+
+     // Inicializar fecha de solicitud y folio
+    const fechaSolicitudElement = document.getElementById('fechaSolicitud');
+    if (fechaSolicitudElement) {
+        fechaSolicitudElement.textContent = formatoFecha(FECHA_SOLICITUD);
+    }
+
+    const folioElement = document.getElementById('folioFormulario');
+    if (folioElement) {
+        folioElement.textContent = folioformulario;
+    }
+// Inicializar fechas
+
+    const fechaMaxElement = document.getElementById('fechaMaxDesc48');
+    
+    if (fechaSolicitudElement) {
+        fechaSolicitudElement.textContent = formatoFecha(FECHA_SOLICITUD);
+    }
+    if (fechaMaxElement) {
+        fechaMaxElement.textContent = formatoFecha(calcularFechaMaxDesc48());
+    }
 
     // Configura listeners para decisiones
     document.getElementsByName('decisionCruce').forEach(radio => {
