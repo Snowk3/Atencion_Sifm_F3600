@@ -118,31 +118,14 @@ export function notificarContribuyenteFep() {
 export function calcularFechaLimite() {
     // Obtener la fecha de generación del acta, si existe
     const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActa');
-    let fechaBase;
     
-    if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
-        // Usar la fecha del calendario si está disponible
-        fechaBase = new Date(fechaGeneracionActaElement.value);
-    } else {
-        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
-        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
-        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
-            return;
-        }
-        
-        // Parsear la fecha (formato dd/mm/yyyy)
-        const partesFecha = fechaNotificacionElement.textContent.split('/');
-        if (partesFecha.length !== 3) {
-            return;
-        }
-        
-        const dia = parseInt(partesFecha[0], 10);
-        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-        const año = parseInt(partesFecha[2], 10);
-        
-        // Crear objeto Date con la fecha de notificación
-        fechaBase = new Date(año, mes, dia);
+    // Si no hay fecha en el calendario, no hacer nada
+    if (!fechaGeneracionActaElement || !fechaGeneracionActaElement.value) {
+        return;
     }
+    
+    // Usar la fecha del calendario como base
+    const fechaBase = new Date(fechaGeneracionActaElement.value);
     
     // Sumar 15 días
     const fechaLimite = new Date(fechaBase);
@@ -260,6 +243,15 @@ export function validarYActualizarBotonesDecision15() {
  * Controla la habilitación del botón de generar acta
  */
 export function toggleActaRecepcion() {
+    // Check if this is the checkbox in the primera-notificacion section
+    const checkboxNotificacion = document.getElementById('checkInfoRecibidaNotificacion');
+    if (checkboxNotificacion && event && event.target === checkboxNotificacion) {
+        const btnGenerar = document.getElementById('btnGenerarActa');
+        btnGenerar.disabled = !checkboxNotificacion.checked;
+        return;
+    }
+    
+    // Otherwise, handle the FEP section checkbox
     const checkbox = document.getElementById('checkInfoRecibida');
     const btnGenerar = document.getElementById('btnGenerarActa');
     btnGenerar.disabled = !checkbox.checked;
@@ -269,8 +261,14 @@ export function toggleActaRecepcion() {
  * Genera el acta de recepción F3309
  */
 export function generarActaRecepcion() {
-    const checkbox = document.getElementById('checkInfoRecibida');
-    if (!checkbox.checked) {
+    // Determine which checkbox to check based on context
+    const checkboxNotificacion = document.getElementById('checkInfoRecibidaNotificacion');
+    const checkboxFep = document.getElementById('checkInfoRecibida');
+    
+    const checkbox = event && event.target.closest('.primera-notificacion') ? 
+                     checkboxNotificacion : checkboxFep;
+                     
+    if (!checkbox || !checkbox.checked) {
         mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
         return;
     }

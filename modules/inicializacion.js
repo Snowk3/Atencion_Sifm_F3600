@@ -177,8 +177,7 @@ export function inicializarAplicacion() {
     // Inicializar sincronización de IDs de expediente si existe algún valor
     const mainIdExpediente = document.getElementById('idExpediente')?.textContent;
     const fepIdExpediente = document.getElementById('idExpedienteFep')?.textContent;
-    
-    if (mainIdExpediente || fepIdExpediente) {
+      if (mainIdExpediente || fepIdExpediente) {
         // Usar el ID existente que encontremos primero
         actualizarIdExpediente(mainIdExpediente || fepIdExpediente);
     }
@@ -187,6 +186,11 @@ export function inicializarAplicacion() {
     const checkInfoRecibida = document.getElementById('checkInfoRecibida');
     if (checkInfoRecibida) {
         checkInfoRecibida.addEventListener('change', toggleActaRecepcion);
+    }
+    
+    const checkInfoRecibidaNotificacion = document.getElementById('checkInfoRecibidaNotificacion');
+    if (checkInfoRecibidaNotificacion) {
+        checkInfoRecibidaNotificacion.addEventListener('change', toggleActaRecepcion);
     }
     
     const checkInfoRecibidaSegunda = document.getElementById('checkInfoRecibidaSegunda');

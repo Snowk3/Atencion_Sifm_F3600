@@ -31,7 +31,7 @@ export function toggleBotonesContacto() {
     const btnGuardar = document.getElementById('btnGuardar');
     const btnAnotacion42 = document.getElementById('btnAnotacion42');
     const btnDisponeFep = document.getElementById('btnDisponeFep');
-    const checkInfoRecibida = document.querySelector('label.checkbox-label');
+    const checkInfoRecibida = document.querySelector('.primera-notificacion label.checkbox-label');
     const btnGenerarActa = document.getElementById('btnGenerarActa');
 
     // Ocultar todos los botones primero
