@@ -867,7 +867,7 @@ function calcularFechaLimite() {
     
     if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
         // Usar la fecha del calendario si está disponible
-        fechaBase = new Date(fechaGeneracionActaElement.value);
+        fechaBase = new Date(fechaGeneracionActa.value);
     } else {
         // Si no hay fecha en el calendario, usar la fecha de notificación FEP
         const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
@@ -942,6 +942,25 @@ function generarResolucion15Dias() {
  * Notifica al contribuyente sobre la decisión de 15 días
  */
 function notificarContribuyente15Dias() {
+    // Verificar si el radio button plazoAdicional15 está seleccionado
+    const radioPlazoAdicional = document.getElementById('plazoAdicional15');
+    
+    if (radioPlazoAdicional && radioPlazoAdicional.checked) {
+        // Si está seleccionado, establecer la fecha actual en fechaNotificacionSegundaRevision
+        const fechaActual = new Date();
+        const fechaFormateada = formatoFecha(fechaActual);
+        
+        // Actualizar el elemento con la fecha actual
+        const fechaNotificacionElement = document.getElementById('fechaNotificacionSegundaRevision');
+        if (fechaNotificacionElement) {
+            fechaNotificacionElement.textContent = fechaFormateada;
+            
+            // Calcular la fecha límite para la segunda revisión (25 días después)
+            calcularFechaLimiteSegunda();
+        }
+    }
+    
+    // Continuar con el comportamiento normal de la función
     mostrarAlerta('Notificación enviada al contribuyente', 'success');
     document.getElementById('btnEnviarDecision15').disabled = false;
 }
@@ -1054,81 +1073,32 @@ function habilitarControlesDecision15() {
 }
 
 /**
- * Calcula y muestra la fecha límite para la sección FEP (fecha generación acta + 15 días)
+ * Maneja la lógica de selección de decisión para los radio buttons de decisión 15 días
  */
-function calcularFechaLimiteFep() {
-    // Obtener la fecha de generación del acta, si existe
-    const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActaFep');
-    let fechaBase;
+function handleDecision15Change() {
+    // Obtener los radio buttons
+    const radioDevolucionTotal = document.getElementById('devolucionTotal15');
+    const radioRetencionTotal = document.getElementById('retencionTotal15');
+    const radioPlazoAdicional = document.getElementById('plazoAdicional15');
+    const montoAutorizado = document.getElementById('montoAutorizado15');
     
-    if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
-        // Usar la fecha del calendario si está disponible
-        fechaBase = new Date(fechaGeneracionActaElement.value);
+    // Establecer el valor del monto autorizado según la selección
+    if (radioDevolucionTotal && radioDevolucionTotal.checked) {
+        // Para devolución total, el monto autorizado es igual al solicitado
+        montoAutorizado.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
+        montoAutorizado.readOnly = true; // Bloquear edición
+    } else if ((radioRetencionTotal && radioRetencionTotal.checked) || 
+               (radioPlazoAdicional && radioPlazoAdicional.checked)) {
+        // Para retención total o plazo adicional, el monto autorizado es 0
+        montoAutorizado.value = FORMATO_MONEDA.format(0);
+        montoAutorizado.readOnly = true; // Bloquear edición
     } else {
-        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
-        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
-        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
-            return;
-        }
-        
-        // Parsear la fecha (formato dd/mm/yyyy)
-        const partesFecha = fechaNotificacionElement.textContent.split('/');
-        if (partesFecha.length !== 3) {
-            return;
-        }
-        
-        const dia = parseInt(partesFecha[0], 10);
-        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-        const año = parseInt(partesFecha[2], 10);
-        
-        // Crear objeto Date con la fecha de notificación
-        fechaBase = new Date(año, mes, dia);
+        // Para las demás opciones, permitir edición
+        montoAutorizado.readOnly = false;
     }
     
-    // Sumar 15 días
-    const fechaLimite = new Date(fechaBase);
-    fechaLimite.setDate(fechaLimite.getDate() + 15);
-    
-    // Formatear la fecha límite (dd/mm/yyyy)
-    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
-    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
-    const añoLimite = fechaLimite.getFullYear();
-    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
-    
-    // Mostrar la fecha límite en el elemento correspondiente
-    const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
-    if (fechaLimiteElement) {
-        fechaLimiteElement.textContent = fechaLimiteFormateada;
-        
-        // Aplicar clase de estilo
-        fechaLimiteElement.classList.add('fecha-maxima');
-    }
-}
-
-/**
- * Guarda la fecha de generación del acta y muestra confirmación para la sección FEP
- */
-function guardarFechaActaFep() {
-    const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
-    
-    // Verificar que se haya ingresado una fecha
-    if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
-        mostrarAlerta('Debe ingresar una fecha de generación del acta', 'error');
-        return;
-    }
-    
-    // Formatear la fecha para mostrar
-    const fecha = new Date(fechaGeneracionActa.value);
-    const fechaFormateada = fecha.toLocaleDateString('es-CL');
-    
-    // Aquí se implementaría la lógica para guardar en el sistema de Consulta Estado
-    // Esta es una simulación del proceso de guardado
-    
-    // Actualizar la fecha límite basada en esta fecha
-    calcularFechaLimiteFep();
-    
-    // Mostrar mensaje de confirmación
-    mostrarAlerta('Evento registrado en Consulta Estado', 'success');
+    // Recalcular montos y UTMs
+    calcularMontos15();
 }
 
 /******************************************************************************
@@ -1286,10 +1256,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-     // Inicializar fecha de solicitud y folio
+    // Inicializar fecha de solicitud y folio
     const fechaSolicitudElement = document.getElementById('fechaSolicitud');
     if (fechaSolicitudElement) {
         fechaSolicitudElement.textContent = formatoFecha(FECHA_SOLICITUD);
+    }
+    
+    // Inicializar fecha límite de segunda revisión si ya existe una fecha de notificación
+    const fechaNotificacionSegundaElement = document.getElementById('fechaNotificacionSegundaRevision');
+    if (fechaNotificacionSegundaElement && fechaNotificacionSegundaElement.textContent && 
+        fechaNotificacionSegundaElement.textContent.trim() !== '') {
+        // Ya hay una fecha de notificación segunda revisión, calcular fecha límite
+        calcularFechaLimiteSegunda();
     }
 
     const folioElement = document.getElementById('folioFormulario');
@@ -1351,12 +1329,33 @@ document.addEventListener('DOMContentLoaded', function() {
             const text = e.clipboardData.getData('text/plain');
             document.execCommand('insertText', false, text);
         });
-    }
-
-    // Asegurar que todas las secciones FEP sean visibles inicialmente
+    }    // Asegurar que todas las secciones FEP sean visibles inicialmente
     document.querySelectorAll('.subsection-content').forEach(section => {
         section.style.display = 'block';
         section.classList.remove('collapsed');
+    });
+      // Inicializar el monto solicitado 15 días con el valor de DEVOLUCION_SOLICITADA
+    const montoSolicitado15 = document.getElementById('montoSolicitado15');
+    if (montoSolicitado15) {
+        montoSolicitado15.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
+        actualizarUTM('montoSolicitado15', 'montoSolicitadoUTM15');
+    }
+    
+    // Inicializar el monto solicitado Segunda Revisión con el valor de DEVOLUCION_SOLICITADA
+    const montoSolicitadoSegunda = document.getElementById('montoSolicitadoSegunda');
+    if (montoSolicitadoSegunda) {
+        montoSolicitadoSegunda.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
+        actualizarUTM('montoSolicitadoSegunda', 'montoSolicitadoUTMSegunda');
+    }
+    
+    // Configurar listeners para los radio buttons de decisión 15 días
+    document.getElementsByName('decision15Dias').forEach(radio => {
+        radio.addEventListener('change', handleDecision15Change);
+    });
+    
+    // Configurar listeners para los radio buttons de decisión segunda
+    document.getElementsByName('decisionSegunda').forEach(radio => {
+        radio.addEventListener('change', handleDecisionSegundaChange);
     });
     
     // Inicializar sincronización de IDs de expediente si existe algún valor
@@ -1467,8 +1466,7 @@ function generarActaRecepcionFep() {
         mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
         return;
     }
-    
-    // Registrar la fecha actual en el campo fechaGeneracionActaFep
+      // Registrar la fecha actual en el campo fechaGeneracionActaFep
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split('T')[0]; // Formato YYYY-MM-DD para input date
     const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
@@ -1483,9 +1481,8 @@ function generarActaRecepcionFep() {
     // Mostrar y configurar la sección de decisión 15 días
     document.getElementById('seccionDecision15Dias').style.display = 'block';
     
-    // Copiar los montos iniciales
-    const montoSolicitado = document.getElementById('devolucionSolicitada').value;
-    document.getElementById('montoSolicitado15').value = montoSolicitado;
+    // Establecer el monto solicitado usando la constante DEVOLUCION_SOLICITADA
+    document.getElementById('montoSolicitado15').value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
     actualizarUTM('montoSolicitado15', 'montoSolicitadoUTM15');
     
     // Habilitar los radio buttons y el campo de monto autorizado
@@ -1568,4 +1565,206 @@ function guardarFechaActaFep() {
     
     // Mostrar mensaje de confirmación
     mostrarAlerta('Evento registrado en Consulta Estado', 'success');
+}
+
+/**
+ * Abre el expediente electrónico para la sección FEP
+ */
+function AbrirExpedienteFep() {
+    // Check if an ID already exists in the FEP section
+    const idExpedienteFep = document.getElementById('idExpedienteFep');
+    if (idExpedienteFep && idExpedienteFep.textContent) {
+        // ID already exists, show message
+        mostrarAlerta('Expediente ya ha sido generado para la solicitud', 'info');
+    } else {
+        // No ID yet, generate one
+        actualizarIdExpediente();
+    }
+}
+
+/******************************************************************************
+ * 10. SECCIÓN SEGUNDA REVISION
+ * - Proceso de segunda revisión y validaciones
+ ******************************************************************************/
+
+/**
+ * Valida que se haya seleccionado una decisión en la segunda revisión
+ * @returns {boolean} true si hay una decisión seleccionada
+ */
+function validarDecisionSegunda() {
+    const radioButtons = document.getElementsByName('decisionSegunda');
+    return Array.from(radioButtons).some(radio => radio.checked);
+}
+
+/**
+ * Valida que se hayan ingresado los montos requeridos en la segunda revisión
+ * @returns {boolean} true si los montos están ingresados correctamente
+ */
+function validarMontosSegunda() {
+    const montoAutorizado = obtenerValorNumerico('montoAutorizadoSegunda');
+    return montoAutorizado >= 0;
+}
+
+/**
+ * Actualiza el estado de habilitación de los botones según las validaciones de la segunda revisión
+ */
+function validarYActualizarBotonesDecisionSegunda() {
+    const todoValido = validarDecisionSegunda() && validarMontosSegunda();
+    const botones = document.querySelectorAll('.accion-btn-segunda');
+    botones.forEach(boton => {
+        boton.disabled = !todoValido;
+    });
+}
+
+/**
+ * Formatea un número con separadores de miles para la sección Segunda Revisión
+ * @param {HTMLInputElement} input - El elemento input a formatear
+ */
+function formatNumberSegunda(input) {
+    let valor = input.value.replace(/\D/g, '');
+    if (valor) {
+        input.value = FORMATO_MONEDA.format(parseInt(valor));
+    }
+    calcularMontosSegunda();
+}
+
+/**
+ * Calcula los montos y conversiones UTM para la sección Segunda Revisión
+ */
+function calcularMontosSegunda() {
+    const montoSolicitado = obtenerValorNumerico('montoSolicitadoSegunda');
+    const montoAutorizado = obtenerValorNumerico('montoAutorizadoSegunda');
+    const montoRechazado = montoSolicitado - montoAutorizado;
+    
+    if (montoSolicitado > 0) {
+        document.getElementById('montoRechazadoSegunda').value = FORMATO_MONEDA.format(montoRechazado);
+    }
+    
+    actualizarUTM('montoSolicitadoSegunda', 'montoSolicitadoUTMSegunda');
+    actualizarUTM('montoAutorizadoSegunda', 'montoAutorizadoUTMSegunda');
+    actualizarUTM('montoRechazadoSegunda', 'montoRechazadoUTMSegunda');
+    
+    validarYActualizarBotonesDecisionSegunda();
+}
+
+/**
+ * Genera la resolución para la segunda revisión
+ */
+function generarResolucionSegunda() {
+    const decision = document.querySelector('input[name="decisionSegunda"]:checked');
+    if (!decision) {
+        mostrarAlerta('Debe seleccionar una decisión', 'error');
+        return;
+    }
+
+    const montoAutorizado = document.getElementById('montoAutorizadoSegunda').value;
+    if (montoAutorizado === '' && decision.value !== 'retencionTotal') {
+        mostrarAlerta('Debe ingresar un monto autorizado', 'error');
+        return;
+    }
+
+    // Generar y almacenar número de resolución
+    const numeroResolucion = generarIdResolucion();
+    // Almacenar fecha de generación
+    const fechaGeneracion = new Date();
+    
+    // Habilitar siguiente paso
+    document.getElementById('btnNotificarSegunda').disabled = false;
+    mostrarAlerta('Resolución Segunda Revisión generada correctamente', 'success');
+}
+
+/**
+ * Notifica al contribuyente sobre la decisión de la segunda revisión
+ */
+function notificarContribuyenteSegunda() {
+    // Si hay una fecha en fechaNotificacionSegundaRevision, calcular la fecha límite
+    const fechaNotificacionElement = document.getElementById('fechaNotificacionSegundaRevision');
+    if (fechaNotificacionElement && fechaNotificacionElement.textContent) {
+        calcularFechaLimiteSegunda();
+    }
+    
+    mostrarAlerta('Notificación de Segunda Revisión enviada al contribuyente', 'success');
+    document.getElementById('btnEnviarDecisionSegunda').disabled = false;
+}
+
+/**
+ * Envía la decisión final de la segunda revisión
+ */
+function enviarDecisionSegunda() {
+    const decision = document.querySelector('input[name="decisionSegunda"]:checked').value;
+    const montoAutorizado = document.getElementById('montoAutorizadoSegunda').value;
+    
+    mostrarAlerta(`Decisión de Segunda Revisión enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
+}
+
+/**
+ * Maneja la lógica de selección de decisión para los radio buttons de decisión segunda
+ */
+function handleDecisionSegundaChange() {
+    // Obtener los radio buttons
+    const radioDevolucionTotal = document.getElementById('devolucionTotalSegunda');
+    const radioRetencionTotal = document.getElementById('retencionTotalSegunda');
+    const radioPlazoAdicional = document.getElementById('plazoAdicionalSegunda');
+    const montoAutorizado = document.getElementById('montoAutorizadoSegunda');
+    
+    // Establecer el valor del monto autorizado según la selección
+    if (radioDevolucionTotal && radioDevolucionTotal.checked) {
+        // Para devolución total, el monto autorizado es igual al solicitado
+        montoAutorizado.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
+        montoAutorizado.readOnly = true; // Bloquear edición
+    } else if ((radioRetencionTotal && radioRetencionTotal.checked) || 
+               (radioPlazoAdicional && radioPlazoAdicional.checked)) {
+        // Para retención total o plazo adicional, el monto autorizado es 0
+        montoAutorizado.value = FORMATO_MONEDA.format(0);
+        montoAutorizado.readOnly = true; // Bloquear edición
+    } else {
+        // Para las demás opciones, permitir edición
+        montoAutorizado.readOnly = false;
+    }
+    
+    // Recalcular montos y UTMs
+    calcularMontosSegunda();
+}
+
+/**
+ * Calcula y muestra la fecha límite para la Segunda Revisión (fecha notificación + 25 días)
+ */
+function calcularFechaLimiteSegunda() {
+    // Obtener la fecha de notificación de la segunda revisión
+    const fechaNotificacionElement = document.getElementById('fechaNotificacionSegundaRevision');
+    if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+        return;
+    }
+    
+    // Parsear la fecha (formato dd/mm/yyyy)
+    const partesFecha = fechaNotificacionElement.textContent.split('/');
+    if (partesFecha.length !== 3) {
+        return;
+    }
+    
+    const dia = parseInt(partesFecha[0], 10);
+    const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+    const año = parseInt(partesFecha[2], 10);
+    
+    // Crear objeto Date con la fecha de notificación
+    const fechaBase = new Date(año, mes, dia);
+    
+    // Sumar 25 días
+    const fechaLimite = new Date(fechaBase);
+    fechaLimite.setDate(fechaLimite.getDate() + 25);
+    
+    // Formatear la fecha límite (dd/mm/yyyy)
+    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
+    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
+    const añoLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    
+    // Mostrar la fecha límite en el elemento correspondiente
+    const fechaLimiteElement = document.getElementById('fechaLimiteSegunda');
+    if (fechaLimiteElement) {
+        fechaLimiteElement.textContent = fechaLimiteFormateada;
+        
+        // Aplicar clase de estilo
+        fechaLimiteElement.classList.add('fecha-maxima');
+    }
 }

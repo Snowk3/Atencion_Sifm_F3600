@@ -416,9 +416,13 @@
                                         <label>Monto Solicitado:</label>
                                         <span id="montoSolicitadoFep"></span>
                                     </div>
-                                </div>
-                            </div>
+                                </div>                            </div>
                             <div class="fep-buttons">
+                                <div class="expediente-container">
+                                    <button id="Apertura-EE-Fep" class="action-button" onclick="AbrirExpedienteFep()">
+                                        Abrir Expediente Electrónico
+                                    </button>
+                                </div>
                                 <button id="btnGenerarResolucionFep" class="action-button"
                                     onclick="generarResolucionFep()">Generar Resolución Inicio FEP</button>
                                 <button id="btnNotificarFep" class="action-button" onclick="notificarContribuyenteFep()"
@@ -524,7 +528,7 @@
 
                             <aside class="montos-autorizados-15">
                                 <h5>Monto Autorizado de Devolución</h5>
-                                <div class="utm-info-15">
+                                <div class="utm-info">
                                     <p>Valor UTM actual: $<span id="valorUTM15">65.182</span></p>
                                 </div>
                                 <div class="montos-container-15">
@@ -614,8 +618,7 @@
                     </div>
                 </div>
 
-                <!-- Subsección: Aviso Segunda Revisión -->
-                <div class="subsection-header">
+                <!-- Subsección: Aviso Segunda Revisión -->                <div class="subsection-header">
                     <h4>Aviso Vencimiento Segunda Revisión (25 Días)</h4>
                     <p>Fecha Limite Segunda Revisión</p>
                 </div>
@@ -633,11 +636,15 @@
                                 <span id="fechaGeneracionFepSegunda"></span>
                             </div>
                         </div>
-                        <div class="fep-row">
-                            <div class="fep-field">
+                        <div class="fep-row">                            <div class="fep-field">
                                 <!-- Campo para almacenar la fecha de notificación de la segunda revisión -->
                                 <label>Fecha Notificación Segunda Revisión al Contribuyente:</label>
                                 <span id="fechaNotificacionSegundaRevision"></span>
+                            </div>
+                            <div class="fep-field">
+                                <!-- Campo para mostrar la fecha límite de la segunda revisión -->
+                                <label>Fecha Límite Segunda Revisión (25 días):</label>
+                                <span id="fechaLimiteSegunda" class="fecha-maxima"></span>
                             </div>
 
                         </div>
@@ -649,8 +656,7 @@
                             <h4>Decisión Segunda Revisión</h4>
                         </div>
                         <div id="decisionSegunda" class="subsection-content">
-                            <div class="decision-segunda-container">
-                                <div class="decision-options">
+                            <div class="decision-segunda-container">                                <div class="decision-options">
                                     <div class="radio-group-segunda">
                                         <div class="radio-option">
                                             <input type="radio" id="devolucionTotalSegunda" name="decisionSegunda"
@@ -663,25 +669,64 @@
                                             <label for="devolucionParcialSegunda">Devolución Parcial</label>
                                         </div>
                                         <div class="radio-option">
+                                            <input type="radio" id="devolucionParcialCitacionSegunda" name="decisionSegunda"
+                                                value="devolucionParcialcitacion">
+                                            <label for="devolucionParcialCitacionSegunda">Devolución Parcial con Citación</label>
+                                        </div>
+                                        <div class="radio-option">
                                             <input type="radio" id="retencionTotalSegunda" name="decisionSegunda"
                                                 value="retencionTotal">
                                             <label for="retencionTotalSegunda">Retención Total</label>
                                         </div>
+                                        <div class="radio-option">
+                                            <input type="radio" id="plazoAdicionalSegunda" name="decisionSegunda"
+                                                value="plazoAdicional">
+                                            <label for="plazoAdicionalSegunda">Plazo Adicional</label>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <aside class="montos-autorizados-segunda">
+                                </div><aside class="montos-autorizados-segunda">
                                     <h5>Monto Autorizado de Devolución</h5>
                                     <div class="utm-info-segunda">
                                         <p>Valor UTM actual: $<span id="valorUTMSegunda">65.182</span></p>
                                     </div>
                                     <div class="montos-container-segunda">
-                                        <!-- Similar structure to the 15 days section... -->
+                                        <div class="monto-group-segunda">
+                                            <label>Monto Solicitado:</label>
+                                            <div class="monto-utm-group">
+                                                <input type="text" id="montoSolicitadoSegunda" class="amount-input-segunda" readonly>
+                                                <div class="utm-value">
+                                                    <span>UTM: </span>
+                                                    <input type="text" id="montoSolicitadoUTMSegunda" class="utm-input-segunda"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="monto-group-segunda">
+                                            <label>Monto Autorizado:</label>
+                                            <div class="monto-utm-group">
+                                                <input type="text" id="montoAutorizadoSegunda" class="amount-input-segunda"
+                                                    onkeyup="formatNumberSegunda(this)" onchange="calcularMontosSegunda()">
+                                                <div class="utm-value">
+                                                    <span>UTM: </span>
+                                                    <input type="text" id="montoAutorizadoUTMSegunda" class="utm-input-segunda"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="monto-group-segunda">
+                                            <label>Monto Rechazado:</label>
+                                            <div class="monto-utm-group">
+                                                <input type="text" id="montoRechazadoSegunda" class="amount-input-segunda" readonly>
+                                                <div class="utm-value">
+                                                    <span>UTM: </span>
+                                                    <input type="text" id="montoRechazadoUTMSegunda" class="utm-input-segunda"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </aside>
-                            </div>
-
-                            <section class="comments-section">
+                            </div>                                <section class="comments-section">
                                 <h3>Comentarios Desición Segunda Revisión</h3>
                                 <!-- Descripción del propósito de los comentarios -->
                                 <p class="comments-description">Detallar claramente las causales por las cuales se
@@ -709,10 +754,10 @@
                                     </button>
                                 </div>
                                 <div class="editor-container">
-                                    <div id="comentarios" class="rich-text-editor" contenteditable="true"
+                                    <div id="comentariosSegunda" class="rich-text-editor" contenteditable="true"
                                         data-max-length="10000"></div>
                                     <div class="character-count">
-                                        <span id="charCount">0</span>/10000 caracteres
+                                        <span id="charCountSegunda">0</span>/10000 caracteres
                                     </div>
                                 </div>
 
