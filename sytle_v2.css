@@ -1078,8 +1078,10 @@ main {
 
 .fep-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.7rem;
   margin-bottom: 0.85rem;
+  align-items: center;
 }
 
 .fep-field {
@@ -1757,7 +1759,7 @@ html {
 
 /* Aplicar estilo de fecha-maxima a fechaLimiteSegunda */
 #fechaLimiteSegunda.fecha-maxima {
-    display: inline-block;
+    display: inline-block !important;
     margin-top: 4px;
     padding: 6px 8px;
     font-weight: bold;
@@ -1766,6 +1768,14 @@ html {
     border: 1px solid #dc3545;
     border-radius: 4px;
     min-width: 100px;
+    min-height: 18px;
+    animation: highlight-fecha 1s ease-in-out;
+}
+
+@keyframes highlight-fecha {
+    0% { background-color: #ffcccc; }
+    50% { background-color: #ff8888; }
+    100% { background-color: #fff5f5; }
 }
 
 .dark-theme #fechaLimite15Dias.fecha-maxima {
@@ -1776,4 +1786,66 @@ html {
 .dark-theme #fechaLimiteSegunda.fecha-maxima {
     background-color: #3a2222;
     color: #ff8080;
+}
+
+/* Estilos para alinear el botón Apertura-EE-Fep con los demás botones */
+.fep-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 1.275rem 0;
+  align-items: center;
+}
+
+.fep-buttons .action-button {
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+
+/* Estilos para alinear el checkbox y la fecha en la misma línea */
+.checkbox-date-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.7rem;
+  margin-bottom: 0.85rem;
+}
+
+.checkbox-field {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+}
+
+.date-field {
+  flex: 1;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+  .checkbox-date-container {
+    flex-direction: column;
+  }
+  
+  .checkbox-field, .date-field {
+    flex: 1 1 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Estilos para dark theme */
+.dark-theme .checkbox-label {
+  color: var(--color-text);
+}
+
+.dark-theme .checkbox-date-container input[type="checkbox"] {
+  accent-color: var(--color-primary);
 }

@@ -416,13 +416,10 @@
                                         <label>Monto Solicitado:</label>
                                         <span id="montoSolicitadoFep"></span>
                                     </div>
-                                </div>                            </div>
-                            <div class="fep-buttons">
-                                <div class="expediente-container">
-                                    <button id="Apertura-EE-Fep" class="action-button" onclick="AbrirExpedienteFep()">
-                                        Abrir Expediente Electrónico
-                                    </button>
-                                </div>
+                                </div>                            </div>                            <div class="fep-buttons">
+                                <button id="Apertura-EE-Fep" class="action-button" onclick="AbrirExpedienteFep()">
+                                    Abrir Expediente Electrónico
+                                </button>
                                 <button id="btnGenerarResolucionFep" class="action-button"
                                     onclick="generarResolucionFep()">Generar Resolución Inicio FEP</button>
                                 <button id="btnNotificarFep" class="action-button" onclick="notificarContribuyenteFep()"
@@ -458,17 +455,15 @@
                                         <label>ID Expediente Electrónico (E.E):</label>
                                         <span id="idExpedienteFep"></span>
                                     </div>
-                                </div>                                <div class="fep-row checkbox-container">
-                                    <div class="fep-field">
+                                </div>                                <div class="fep-row checkbox-date-container">
+                                    <div class="fep-field checkbox-field">
                                         <label class="checkbox-label">
                                             <input type="checkbox" id="checkInfoRecibidaFep"
                                                 onchange="toggleActaRecepcionFep()">
                                             Contribuyente ha enviado toda la información Requerida
                                         </label>
                                     </div>
-                                </div>
-                                <div class="fep-row">
-                                    <div class="fep-field">
+                                    <div class="fep-field date-field">
                                         <label>Fecha Generación Acta:</label>
                                         <input type="date" id="fechaGeneracionActaFep" class="date-input" onchange="calcularFechaLimiteFep()">
                                     </div>

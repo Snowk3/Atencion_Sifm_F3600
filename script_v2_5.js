@@ -1,13 +1,13 @@
 /******************************************************************************
- * SISTEMA DE DEVOLUCIÓN IVA EXPORTADOR
- * Módulo: Decisión F3600 (VERSIÓN MODULAR)
- * Descripción: Manejo de la lógica de decisiones para devolución de IVA exportador
- * Última actualización: 19/05/2025
+ * SISTEMA DE DEVOLUCIÃ“N IVA EXPORTADOR
+ * MÃ³dulo: DecisiÃ³n F3600 (VERSIÃ“N MODULAR)
+ * DescripciÃ³n: Manejo de la lÃ³gica de decisiones para devoluciÃ³n de IVA exportador
+ * Ãšltima actualizaciÃ³n: 19/05/2025
  ******************************************************************************/
 
 /******************************************************************************
  * 1. FUNCIONES BASE Y UTILITARIAS
- * - Constantes globales, formatos de moneda, conversiones, generación de IDs, etc.
+ * - Constantes globales, formatos de moneda, conversiones, generaciÃ³n de IDs, etc.
  ******************************************************************************/
 
 // Valores y constantes globales
@@ -16,7 +16,7 @@ const DEVOLUCION_SOLICITADA = 15000000;
 const FECHA_SOLICITUD = new Date('2025-05-21');
 const folioformulario = 123456789
 
-// Formatos de moneda y números
+// Formatos de moneda y nÃºmeros
 const FORMATO_MONEDA = new Intl.NumberFormat('es-CL', {
     style: 'decimal',
     minimumFractionDigits: 0,
@@ -39,7 +39,7 @@ function convertirAUTM(valorPesos) {
 }
 
 /**
- * Genera un ID único para resoluciones FEP
+ * Genera un ID Ãºnico para resoluciones FEP
  * @returns {string} ID con formato FEP-YYYYMMDD-XXXX
  */
 function generarIdResolucion() {
@@ -52,36 +52,36 @@ function generarIdResolucion() {
 }
 
 /**
- * Genera un número de resolución FEP
- * @returns {string} Número de resolución generado
+ * Genera un nÃºmero de resoluciÃ³n FEP
+ * @returns {string} NÃºmero de resoluciÃ³n generado
  */
 function generarNumeroResolucion() {
-    const año = new Date().getFullYear();
+    const aÃ±o = new Date().getFullYear();
     const numero = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return `${numero}-${año}`;
+    return `${numero}-${aÃ±o}`;
 }
 
 /**
- * Genera un ID de expediente electrónico
+ * Genera un ID de expediente electrÃ³nico
  * @returns {string} ID de expediente generado
  */
 function generarIdExpediente() {
-    const año = new Date().getFullYear();
+    const aÃ±o = new Date().getFullYear();
     const numero = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-    return `EE-${año}-${numero}`;
+    return `EE-${aÃ±o}-${numero}`;
 }
 
 /**
- * Genera un número de folio único para la solicitud FEP
+ * Genera un nÃºmero de folio Ãºnico para la solicitud FEP
  * @returns {string} Folio generado con formato YYYYMMDD-XXX
  */
 function generarFolioSolicitud() {
     const fecha = new Date();
-    const año = fecha.getFullYear();
+    const aÃ±o = fecha.getFullYear();
     const mes = String(fecha.getMonth() + 1).padStart(2, '0');
     const dia = String(fecha.getDate()).padStart(2, '0');
     const random = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
-    return `${año}${mes}${dia}-${random}`;
+    return `${aÃ±o}${mes}${dia}-${random}`;
 }
 
 /**
@@ -98,9 +98,9 @@ function formatoFecha(fecha) {
 }
 
 /**
- * Obtiene el valor numérico de un input eliminando formato de moneda
+ * Obtiene el valor numÃ©rico de un input eliminando formato de moneda
  * @param {string} inputId - ID del elemento input
- * @returns {number} Valor numérico del input
+ * @returns {number} Valor numÃ©rico del input
  */
 function obtenerValorNumerico(inputId) {
     const elemento = document.getElementById(inputId);
@@ -111,11 +111,11 @@ function obtenerValorNumerico(inputId) {
 
 /******************************************************************************
  * 2. FUNCIONES COMPARTIDAS / CORE
- * - Funcionalidad común utilizada en múltiples módulos
+ * - Funcionalidad comÃºn utilizada en mÃºltiples mÃ³dulos
  ******************************************************************************/
 
 /**
- * Formatea un número con separadores de miles y actualiza UTM
+ * Formatea un nÃºmero con separadores de miles y actualiza UTM
  * @param {HTMLInputElement} input - El elemento input a formatear
  */
 function formatNumber(input) {
@@ -130,7 +130,7 @@ function formatNumber(input) {
  * Actualiza todos los campos UTM basados en sus correspondientes montos en pesos
  */
 function actualizarCamposUTM() {
-    // Devolución solicitada
+    // DevoluciÃ³n solicitada
     const devolucionSolicitada = obtenerValorNumerico('devolucionSolicitada');
     if (devolucionSolicitada > 0) {
         const utmSolicitada = convertirAUTM(devolucionSolicitada);
@@ -143,12 +143,12 @@ function actualizarCamposUTM() {
         const utmAutorizada = convertirAUTM(montoAutorizado);
         document.getElementById('montoAutorizadoUTM').value = FORMATO_UTM.format(utmAutorizada);
         
-        // Monto rechazado (calculado como devolución solicitada - monto autorizado)
+        // Monto rechazado (calculado como devoluciÃ³n solicitada - monto autorizado)
         if (devolucionSolicitada >= montoAutorizado) {
             const montoRechazado = devolucionSolicitada - montoAutorizado;
             const utmRechazada = convertirAUTM(montoRechazado);
             document.getElementById('montoRechazadoUTM').value = FORMATO_UTM.format(utmRechazada);
-            // Actualizar también el campo de monto rechazado en pesos si existe
+            // Actualizar tambiÃ©n el campo de monto rechazado en pesos si existe
             const montoRechazadoElement = document.getElementById('montoRechazado');
             if (montoRechazadoElement) {
                 montoRechazadoElement.value = FORMATO_MONEDA.format(montoRechazado);
@@ -158,9 +158,9 @@ function actualizarCamposUTM() {
 }
 
 /**
- * Actualiza el valor UTM de un campo específico
+ * Actualiza el valor UTM de un campo especÃ­fico
  * @param {string} campoMonedaId - ID del campo con el monto en moneda
- * @param {string} campoUtmId - ID del campo donde se mostrará el valor en UTM
+ * @param {string} campoUtmId - ID del campo donde se mostrarÃ¡ el valor en UTM
  */
 function actualizarUTM(campoMonedaId, campoUtmId) {
     const valorMoneda = obtenerValorNumerico(campoMonedaId);
@@ -240,12 +240,12 @@ function configurarTooltips() {
 }
 
 /******************************************************************************
- * 3. GESTIÓN DE NAVEGACIÓN Y PESTAÑAS
- * - Funciones para la navegación entre pestañas y UI común
+ * 3. GESTIÃ“N DE NAVEGACIÃ“N Y PESTAÃ‘AS
+ * - Funciones para la navegaciÃ³n entre pestaÃ±as y UI comÃºn
  ******************************************************************************/
 
 /**
- * Maneja la navegación entre pestaanas
+ * Maneja la navegaciÃ³n entre pestaanas
  * @param {Event} event - El evento del click
  * @param {string} tabId - El ID del contenido de la pestaana a mostrar
  */
@@ -255,7 +255,7 @@ function handleTabNavigation(event, tabId) {
     showSelectedTab(tabId);
     setActiveTab(event.currentTarget);
     
-    // Inicializar contenido cuando se navega a la pestaña FEP
+    // Inicializar contenido cuando se navega a la pestaÃ±a FEP
     if (tabId === 'tabFep') {
         const devolucionSolicitada = document.getElementById('devolucionSolicitada').value;
         document.getElementById('montoSolicitadoFep').textContent = devolucionSolicitada;
@@ -266,10 +266,10 @@ function handleTabNavigation(event, tabId) {
         // Sincronizar el ID del expediente entre secciones
         const mainIdExpediente = document.getElementById('idExpediente').textContent;
         if (mainIdExpediente) {
-            // Si hay un ID existente en la sección principal, usarlo
+            // Si hay un ID existente en la secciÃ³n principal, usarlo
             actualizarIdExpediente(mainIdExpediente);
         } else if (document.getElementById('idExpedienteFep').textContent) {
-            // Si hay un ID en la sección FEP pero no en la principal, usarlo
+            // Si hay un ID en la secciÃ³n FEP pero no en la principal, usarlo
             actualizarIdExpediente(document.getElementById('idExpedienteFep').textContent);
         }
         
@@ -282,7 +282,7 @@ function handleTabNavigation(event, tabId) {
 }
 
 /**
- * Oculta todos los contenidos de las pestañas
+ * Oculta todos los contenidos de las pestaÃ±as
  */
 function hideAllTabContents() {
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -291,7 +291,7 @@ function hideAllTabContents() {
 }
 
 /**
- * Desactiva todas las pestañas
+ * Desactiva todas las pestaÃ±as
  */
 function deactivateAllTabs() {
     document.querySelectorAll('.tab-button').forEach(button => {
@@ -300,7 +300,7 @@ function deactivateAllTabs() {
 }
 
 /**
- * Muestra el contenido de la pestaña seleccionada
+ * Muestra el contenido de la pestaÃ±a seleccionada
  * @param {string} tabId - El ID del contenido a mostrar
  */
 function showSelectedTab(tabId) {
@@ -308,28 +308,28 @@ function showSelectedTab(tabId) {
 }
 
 /**
- * Marca la pestaña seleccionada como activa
- * @param {HTMLElement} selectedTab - El elemento de la pestaña seleccionada
+ * Marca la pestaÃ±a seleccionada como activa
+ * @param {HTMLElement} selectedTab - El elemento de la pestaÃ±a seleccionada
  */
 function setActiveTab(selectedTab) {
     selectedTab.classList.add('active');
 }
 
 /******************************************************************************
- * 4. SECCIÓN OBSERVACIONES NO JUSTIFICADAS
- * - Gestión de la pestaña de observaciones no justificadas
+ * 4. SECCIÃ“N OBSERVACIONES NO JUSTIFICADAS
+ * - GestiÃ³n de la pestaÃ±a de observaciones no justificadas
  ******************************************************************************/
 
 /**
- * Abre la hoja de trabajo para una observación específica
- * @param {string} obsId - ID de la observación
+ * Abre la hoja de trabajo para una observaciÃ³n especÃ­fica
+ * @param {string} obsId - ID de la observaciÃ³n
  */
 function abrirHojaTrabajo(obsId) {
     // Mostrar el popup
     const popup = document.getElementById('worksheetPopup');
     popup.style.display = 'block';
 
-    // Actualizar el número de observación en el título
+    // Actualizar el nÃºmero de observaciÃ³n en el tÃ­tulo
     document.getElementById('obsNumber').textContent = obsId;
 
     // Cargar datos de ejemplo (reemplazar con datos reales de tu sistema)
@@ -341,13 +341,13 @@ function abrirHojaTrabajo(obsId) {
 
 /**
  * Carga los datos en las tablas y checklist de la hoja de trabajo
- * @param {string} obsId - ID de la observación
+ * @param {string} obsId - ID de la observaciÃ³n
  */
 function cargarDatosHojaTrabajo(obsId) {
     // Ejemplo de datos (reemplazar con datos reales)
     const codigos3600 = [
-        { codigo: '001', nombre: 'Código Ejemplo 1', valor: '1000000' },
-        { codigo: '002', nombre: 'Código Ejemplo 2', valor: '2000000' }
+        { codigo: '001', nombre: 'CÃ³digo Ejemplo 1', valor: '1000000' },
+        { codigo: '002', nombre: 'CÃ³digo Ejemplo 2', valor: '2000000' }
     ];
 
     const vectoresPropios = [
@@ -366,10 +366,10 @@ function cargarDatosHojaTrabajo(obsId) {
     ];
 
     const revisiones = [
-        'Verificación de documentación respaldatoria',
-        'Validación de montos declarados',
-        'Comprobación de fechas',
-        'Revisión de requisitos formales'
+        'VerificaciÃ³n de documentaciÃ³n respaldatoria',
+        'ValidaciÃ³n de montos declarados',
+        'ComprobaciÃ³n de fechas',
+        'RevisiÃ³n de requisitos formales'
     ];
 
     // Llenar las tablas
@@ -425,18 +425,18 @@ function crearChecklist(revisiones) {
  * Configura los eventos de los botones de la hoja de trabajo
  */
 function configurarBotonesHojaTrabajo() {
-    // Botón de Justificación de Jefe
+    // BotÃ³n de JustificaciÃ³n de Jefe
     document.getElementById('btnJustificacionJefe').onclick = function() {
-        // Implementar lógica para justificación de jefe
-        alert('Solicitando justificación del jefe de grupo...');
+        // Implementar lÃ³gica para justificaciÃ³n de jefe
+        alert('Solicitando justificaciÃ³n del jefe de grupo...');
     };
 
-    // Botón de Grabar
+    // BotÃ³n de Grabar
     document.getElementById('btnGrabar').onclick = function() {
         guardarHojaTrabajo();
     };
 
-    // Botón de Salir
+    // BotÃ³n de Salir
     document.getElementById('btnSalir').onclick = function() {
         cerrarHojaTrabajo();
     };
@@ -460,16 +460,16 @@ function guardarHojaTrabajo() {
         return;
     }
 
-    // Aquí implementar la lógica para guardar los datos
+    // AquÃ­ implementar la lÃ³gica para guardar los datos
     console.log('Guardando hoja de trabajo...', { comentarios, revisiones });
     mostrarAlerta('Hoja de trabajo guardada exitosamente', 'success');
     cerrarHojaTrabajo();
 }
 
 /**
- * Valida que todas las revisiones estén marcadas
+ * Valida que todas las revisiones estÃ©n marcadas
  * @param {Array} revisiones - Array de objetos con las revisiones
- * @returns {boolean} - true si todas las revisiones están marcadas
+ * @returns {boolean} - true si todas las revisiones estÃ¡n marcadas
  */
 function validarRevisiones(revisiones) {
     return revisiones.every(revision => revision.checked);
@@ -488,20 +488,20 @@ function cerrarHojaTrabajo() {
 }
 
 /******************************************************************************
- * 5. SECCIÓN OBSERVACIONES JUSTIFICADAS
- * - Gestión de la pestaña de observaciones justificadas
+ * 5. SECCIÃ“N OBSERVACIONES JUSTIFICADAS
+ * - GestiÃ³n de la pestaÃ±a de observaciones justificadas
  ******************************************************************************/
 
-// Aquí se agregarán las funciones específicas para la gestión de observaciones justificadas
+// AquÃ­ se agregarÃ¡n las funciones especÃ­ficas para la gestiÃ³n de observaciones justificadas
 // a medida que se implementen en el sistema
 
 /******************************************************************************
- * 6. SECCIÓN DECISIÓN
- * - Proceso de toma de decisión y validaciones
+ * 6. SECCIÃ“N DECISIÃ“N
+ * - Proceso de toma de decisiÃ³n y validaciones
  ******************************************************************************/
 /**
- * Calcula la fecha máxima de decisión sumando 2 días a la fecha de solicitud
- * @returns {Date} Fecha máxima para decisión 48 horas
+ * Calcula la fecha mÃ¡xima de decisiÃ³n sumando 2 dÃ­as a la fecha de solicitud
+ * @returns {Date} Fecha mÃ¡xima para decisiÃ³n 48 horas
  */
 function calcularFechaMaxDesc48() {
     const fechaMax = new Date(FECHA_SOLICITUD);
@@ -509,8 +509,8 @@ function calcularFechaMaxDesc48() {
     return fechaMax;
 }
 /**
- * Valida que se haya seleccionado una decisión
- * @returns {boolean} true si hay una decisión seleccionada
+ * Valida que se haya seleccionado una decisiÃ³n
+ * @returns {boolean} true si hay una decisiÃ³n seleccionada
  */
 function validarDecision() {
     const radioButtons = document.getElementsByName('decisionCruce');
@@ -519,7 +519,7 @@ function validarDecision() {
 
 /**
  * Valida que se hayan ingresado los montos requeridos
- * @returns {boolean} true si los montos están ingresados correctamente
+ * @returns {boolean} true si los montos estÃ¡n ingresados correctamente
  */
 function validarMontos() {
     const devolucionSolicitada = obtenerValorNumerico('devolucionSolicitada');
@@ -528,7 +528,7 @@ function validarMontos() {
 }
 
 /**
- * Actualiza el estado de habilitación de los botones según las validaciones
+ * Actualiza el estado de habilitaciÃ³n de los botones segÃºn las validaciones
  */
 function validarYActualizarBotones() {
     const todoValido = validarDecision() && validarMontos();
@@ -538,11 +538,11 @@ function validarYActualizarBotones() {
     });
 }
 // =====================
-// Lógica de Decisión 48 Horas
+// LÃ³gica de DecisiÃ³n 48 Horas
 // =====================
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Elementos de decisión
+    // Elementos de decisiÃ³n
     const radioLugar = document.getElementById('devolucionLugar');
     const radioParcial = document.getElementById('devolucionParcial');
     const radioNoLugar = document.getElementById('devolucionNoLugar');
@@ -577,10 +577,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Lógica de selección de decisión
+    // LÃ³gica de selecciÃ³n de decisiÃ³n
     function handleDecisionChange() {
         if (radioLugar.checked) {
-            // 1. Devolución ha lugar: monto autorizado = monto solicitada, bloqueado
+            // 1. DevoluciÃ³n ha lugar: monto autorizado = monto solicitada, bloqueado
             setMontoAutorizado(montoSolicitada.value, true);
             requireComentarios(false);
             btnDisponeFep.disabled = true;
@@ -595,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function () {
             requireComentarios(true);
             btnDisponeFep.disabled = false;
         }
-             // --- Lógica adicional: montoRechazado ---
+             // --- LÃ³gica adicional: montoRechazado ---
         // Si montoAutorizado == devolucionSolicitada, montoRechazado = 0
         const autorizado = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, '')) || 0;
         const solicitada = parseFloat(montoSolicitada.value.replace(/[^\d.-]/g, '')) || 0;
@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function () {
     radioParcial.addEventListener('change', handleDecisionChange);
     radioNoLugar.addEventListener('change', handleDecisionChange);
 
-       // También actualizar montoRechazado cuando cambian los montos
+       // TambiÃ©n actualizar montoRechazado cuando cambian los montos
     function handleMontosChange() {
         const autorizado = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, '')) || 0;
         const solicitada = parseFloat(montoSolicitada.value.replace(/[^\d.-]/g, '')) || 0;
@@ -616,13 +616,13 @@ document.addEventListener('DOMContentLoaded', function () {
             montoRechazado.value = '0';
         }}
 
-    // Validación antes de procesar decisión
+    // ValidaciÃ³n antes de procesar decisiÃ³n
     function validarDecision() {
         if (radioLugar.checked) {
-            // No requiere validación extra
+            // No requiere validaciÃ³n extra
             return true;
         } else if (radioParcial.checked) {
-            // Monto autorizado > 0 y comentarios no vacíos
+            // Monto autorizado > 0 y comentarios no vacÃ­os
             const monto = parseFloat(montoAutorizado.value.replace(/[^\d.-]/g, ''));
             const comentario = comentarios.innerText.trim();
             if (!(monto > 0)) {
@@ -631,13 +631,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return false;
             }
             if (!comentario) {
-                alert('Debe ingresar comentarios para justificar la decisión parcial.');
+                alert('Debe ingresar comentarios para justificar la decisiÃ³n parcial.');
                 comentarios.focus();
                 return false;
             }
             return true;
         } else if (radioNoLugar.checked) {
-            // Comentarios no vacíos
+            // Comentarios no vacÃ­os
             const comentario = comentarios.innerText.trim();
             if (!comentario) {
                 alert('Debe ingresar comentarios para justificar el rechazo.');
@@ -646,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             return true;
         }
-        alert('Debe seleccionar una opción de decisión.');
+        alert('Debe seleccionar una opciÃ³n de decisiÃ³n.');
         return false;
     }
 
@@ -665,15 +665,15 @@ document.addEventListener('DOMContentLoaded', function () {
         btnGenerarResolucion.disabled = true;
     });
 
-    // El botón Notificar no habilita ningún otro botón en este flujo
+    // El botÃ³n Notificar no habilita ningÃºn otro botÃ³n en este flujo
 
-    // El botón DisponeFep solo se habilita con "No ha lugar" (ya manejado en handleDecisionChange)
+    // El botÃ³n DisponeFep solo se habilita con "No ha lugar" (ya manejado en handleDecisionChange)
 
-    // Inicializar estado según selección actual
+    // Inicializar estado segÃºn selecciÃ³n actual
     handleDecisionChange();
 });
 /**
- * Verifica si se puede habilitar el FEP según el monto autorizado
+ * Verifica si se puede habilitar el FEP segÃºn el monto autorizado
  * @returns {boolean} Retorna true si se permite habilitar FEP
  */
 function puedeHabilitarFEP() {
@@ -682,17 +682,17 @@ function puedeHabilitarFEP() {
 }
 
 /**
- * Valida la decisión y procesa la acción correspondiente
- * @param {string} accion - La acción a realizar ('ingresar', 'resolucion', 'notificar', 'disponerFep')
+ * Valida la decisiÃ³n y procesa la acciÃ³n correspondiente
+ * @param {string} accion - La acciÃ³n a realizar ('ingresar', 'resolucion', 'notificar', 'disponerFep')
  */
 function validarYProcesarDecision(accion) {
     if (!validarDecision()) {
-        mostrarAlerta('Debe seleccionar una decisión', 'error');
+        mostrarAlerta('Debe seleccionar una decisiÃ³n', 'error');
         return;
     }
 
     if (!validarMontos()) {
-        mostrarAlerta('Los montos ingresados no son válidos', 'error');
+        mostrarAlerta('Los montos ingresados no son vÃ¡lidos', 'error');
         return;
     }
 
@@ -701,22 +701,22 @@ function validarYProcesarDecision(accion) {
 
     switch (accion) {
         case 'ingresar':
-            // Procesar el ingreso de la decisión
-            mostrarAlerta(`Decisión ingresada: ${decision} - Monto: ${montoAutorizado}`, 'success');
+            // Procesar el ingreso de la decisiÃ³n
+            mostrarAlerta(`DecisiÃ³n ingresada: ${decision} - Monto: ${montoAutorizado}`, 'success');
             document.getElementById('btnGenerarResolucion').disabled = false;
             break;
 
         case 'resolucion':
             if (generarResolucion()) {
                 document.getElementById('btnNotificar').disabled = false;
-                mostrarAlerta('Resolución generada exitosamente', 'success');
+                mostrarAlerta('ResoluciÃ³n generada exitosamente', 'success');
             }
             break;
 
         case 'notificar':
             // Notificar al contribuyente
             document.getElementById('btnDisponeFep').disabled = false;
-            mostrarAlerta('Notificación enviada al contribuyente', 'success');
+            mostrarAlerta('NotificaciÃ³n enviada al contribuyente', 'success');
             break;
 
         case 'disponerFep':
@@ -730,17 +730,17 @@ function validarYProcesarDecision(accion) {
 }
 
 /**
- * Genera la resolución correspondiente
- * @returns {boolean} true si la resolución se genera correctamente
+ * Genera la resoluciÃ³n correspondiente
+ * @returns {boolean} true si la resoluciÃ³n se genera correctamente
  */
 function generarResolucion() {
-    // TODO: Implementar generación de resolución
-    mostrarAlerta('Resolución generada correctamente', 'success');
+    // TODO: Implementar generaciÃ³n de resoluciÃ³n
+    mostrarAlerta('ResoluciÃ³n generada correctamente', 'success');
     return true;
 }
 
 /******************************************************************************
- * 7. SECCIÓN FEP (FISCALIZACIÓN ESPECIAL PREVIA)
+ * 7. SECCIÃ“N FEP (FISCALIZACIÃ“N ESPECIAL PREVIA)
  * - Manejo completo del flujo FEP
  ******************************************************************************/
 
@@ -770,7 +770,7 @@ function formatFepText(command) {
 }
 
 /**
- * Envía la solicitud FEP y navega a la pestaña FEP
+ * EnvÃ­a la solicitud FEP y navega a la pestaÃ±a FEP
  */
 function enviarSolicitudFep() {
     const comentarios = document.getElementById('fepComentarios').innerText;
@@ -782,13 +782,13 @@ function enviarSolicitudFep() {
     // Obtener fecha actual
     const fecha = new Date().toLocaleDateString('es-CL');
     
-    // Actualizar campos en la sección FEP
+    // Actualizar campos en la secciÃ³n FEP
     document.getElementById('fechaFep').textContent = fecha;
     document.getElementById('periodoTributario').textContent = '202504';
     document.getElementById('folioSolicitud').textContent = generarFolioSolicitud();
     document.getElementById('montoSolicitadoFep').textContent = document.getElementById('devolucionSolicitada').value;
     
-    // Asegurar que el ID de expediente esté sincronizado
+    // Asegurar que el ID de expediente estÃ© sincronizado
     const mainIdExpediente = document.getElementById('idExpediente').textContent;
     if (mainIdExpediente) {
         // Si ya existe un ID, usarlo para actualizar todos los elementos
@@ -798,16 +798,16 @@ function enviarSolicitudFep() {
         actualizarIdExpediente();
     }
     
-    // Cerrar el popup y navegar a la pestaña FEP
+    // Cerrar el popup y navegar a la pestaÃ±a FEP
     document.getElementById('fepPopup').style.display = 'none';
     handleTabNavigation({ currentTarget: document.getElementById('tabFep') }, 'tabFep');
     
-    // Mostrar mensaje de éxito
+    // Mostrar mensaje de Ã©xito
     mostrarAlerta('Solicitud FEP enviada correctamente', 'success');
 }
 
 /**
- * Controla la habilitación del botón de generar acta
+ * Controla la habilitaciÃ³n del botÃ³n de generar acta
  */
 function toggleActaRecepcion() {
     const checkbox = document.getElementById('checkInfoRecibida');
@@ -816,12 +816,12 @@ function toggleActaRecepcion() {
 }
 
 /**
- * Genera el acta de recepción F3309
+ * Genera el acta de recepciÃ³n F3309
  */
 function generarActaRecepcion() {
     const checkbox = document.getElementById('checkInfoRecibida');
     if (!checkbox.checked) {
-        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
+        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la informaciÃ³n requerida', 'error');
         return;
     }
     
@@ -831,13 +831,13 @@ function generarActaRecepcion() {
     const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
     if (fechaGeneracionActa) {
         fechaGeneracionActa.value = fechaFormateada;
-        // Calcular la fecha límite basada en esta fecha
+        // Calcular la fecha lÃ­mite basada en esta fecha
         calcularFechaLimite();
     }
     
-    mostrarAlerta('Acta de Recepción F3309 generada exitosamente', 'success');
+    mostrarAlerta('Acta de RecepciÃ³n F3309 generada exitosamente', 'success');
     
-    // Mostrar y configurar la sección de decisión 15 días
+    // Mostrar y configurar la secciÃ³n de decisiÃ³n 15 dÃ­as
     document.getElementById('seccionDecision15Dias').style.display = 'block';
     
     // Copiar los montos iniciales
@@ -850,59 +850,59 @@ function generarActaRecepcion() {
 }
 
 /**
- * Genera la resolución FEP
+ * Genera la resoluciÃ³n FEP
  */
 function generarResolucionFep() {
-    // Generar y almacenar número de resolución
+    // Generar y almacenar nÃºmero de resoluciÃ³n
     const numeroResolucion = generarNumeroResolucion();
     document.getElementById('numeroResolucionFep').textContent = numeroResolucion;
 
-    // Almacenar fecha de generación
+    // Almacenar fecha de generaciÃ³n
     const fechaGeneracion = formatoFecha(new Date());
     document.getElementById('fechaGeneracionFep').textContent = fechaGeneracion;
 
-    // Habilitar botón de notificación
+    // Habilitar botÃ³n de notificaciÃ³n
     document.getElementById('btnNotificarFep').disabled = false;
     
-    mostrarAlerta('Resolución FEP generada correctamente', 'success');
+    mostrarAlerta('ResoluciÃ³n FEP generada correctamente', 'success');
 }
 
 /**
- * Notifica al contribuyente sobre la resolución FEP
+ * Notifica al contribuyente sobre la resoluciÃ³n FEP
  */
 function notificarContribuyenteFep() {
-    // Mostrar alerta de éxito
-    mostrarAlerta('Notificación FEP enviada al contribuyente', 'success');
+    // Mostrar alerta de Ã©xito
+    mostrarAlerta('NotificaciÃ³n FEP enviada al contribuyente', 'success');
     
-    // Actualizar datos y mostrar sección de aviso vencimiento
+    // Actualizar datos y mostrar secciÃ³n de aviso vencimiento
     const fechaActual = new Date();
     const diaActual = fechaActual.getDate().toString().padStart(2, '0');
     const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-    const añoActual = fechaActual.getFullYear();
-    const fechaFormateada = `${diaActual}/${mesActual}/${añoActual}`;
+    const aÃ±oActual = fechaActual.getFullYear();
+    const fechaFormateada = `${diaActual}/${mesActual}/${aÃ±oActual}`;
     
     document.getElementById('fechaNotificacionFep').textContent = fechaFormateada;
     
-    // Calcular y mostrar la fecha límite
+    // Calcular y mostrar la fecha lÃ­mite
     calcularFechaLimite();
     
-    // Mostrar la sección de aviso vencimiento
+    // Mostrar la secciÃ³n de aviso vencimiento
     document.getElementById('seccionAvisoVencimiento').style.display = 'block';
 }
 
 /**
- * Calcula y muestra la fecha límite (fecha generación acta + 15 días)
+ * Calcula y muestra la fecha lÃ­mite (fecha generaciÃ³n acta + 15 dÃ­as)
  */
 function calcularFechaLimite() {
-    // Obtener la fecha de generación del acta, si existe
+    // Obtener la fecha de generaciÃ³n del acta, si existe
     const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActa');
     let fechaBase;
     
     if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
-        // Usar la fecha del calendario si está disponible
+        // Usar la fecha del calendario si estÃ¡ disponible
         fechaBase = new Date(fechaGeneracionActa.value);
     } else {
-        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
+        // Si no hay fecha en el calendario, usar la fecha de notificaciÃ³n FEP
         const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
         if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
             return;
@@ -916,23 +916,23 @@ function calcularFechaLimite() {
         
         const dia = parseInt(partesFecha[0], 10);
         const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-        const año = parseInt(partesFecha[2], 10);
+        const aÃ±o = parseInt(partesFecha[2], 10);
         
-        // Crear objeto Date con la fecha de notificación
-        fechaBase = new Date(año, mes, dia);
+        // Crear objeto Date con la fecha de notificaciÃ³n
+        fechaBase = new Date(aÃ±o, mes, dia);
     }
     
-    // Sumar 15 días
+    // Sumar 15 dÃ­as
     const fechaLimite = new Date(fechaBase);
     fechaLimite.setDate(fechaLimite.getDate() + 15);
     
-    // Formatear la fecha límite (dd/mm/yyyy)
+    // Formatear la fecha lÃ­mite (dd/mm/yyyy)
     const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
     const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
-    const añoLimite = fechaLimite.getFullYear();
-    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    const aÃ±oLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${aÃ±oLimite}`;
     
-    // Mostrar la fecha límite en el elemento correspondiente
+    // Mostrar la fecha lÃ­mite en el elemento correspondiente
     const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
     if (fechaLimiteElement) {
         fechaLimiteElement.textContent = fechaLimiteFormateada;
@@ -943,12 +943,12 @@ function calcularFechaLimite() {
 }
 
 /**
- * Genera la resolución para la primera revisión FEP (15 días)
+ * Genera la resoluciÃ³n para la primera revisiÃ³n FEP (15 dÃ­as)
  */
 function generarResolucion15Dias() {
     const decision = document.querySelector('input[name="decision15Dias"]:checked');
     if (!decision) {
-        mostrarAlerta('Debe seleccionar una decisión', 'error');
+        mostrarAlerta('Debe seleccionar una decisiÃ³n', 'error');
         return;
     }
 
@@ -958,28 +958,28 @@ function generarResolucion15Dias() {
         return;
     }
 
-    // Generar y almacenar número de resolución
+    // Generar y almacenar nÃºmero de resoluciÃ³n
     const numeroResolucion = generarIdResolucion();
     document.getElementById('numeroResolucionFepSegunda').textContent = numeroResolucion;
     
-    // Almacenar fecha de generación
+    // Almacenar fecha de generaciÃ³n
     const fechaGeneracion = new Date();
     document.getElementById('fechaGeneracionFepSegunda').textContent = formatoFecha(fechaGeneracion);
     
     // Habilitar siguiente paso
     document.getElementById('btnNotificar15').disabled = false;
-    mostrarAlerta('Resolución generada correctamente', 'success');
+    mostrarAlerta('ResoluciÃ³n generada correctamente', 'success');
 }
 
 /**
- * Notifica al contribuyente sobre la decisión de 15 días
+ * Notifica al contribuyente sobre la decisiÃ³n de 15 dÃ­as
  */
 function notificarContribuyente15Dias() {
-    // Verificar si el radio button plazoAdicional15 está seleccionado
+    // Verificar si el radio button plazoAdicional15 estÃ¡ seleccionado
     const radioPlazoAdicional = document.getElementById('plazoAdicional15');
     
     if (radioPlazoAdicional && radioPlazoAdicional.checked) {
-        // Si está seleccionado, establecer la fecha actual en fechaNotificacionSegundaRevision
+        // Si estÃ¡ seleccionado, establecer la fecha actual en fechaNotificacionSegundaRevision
         const fechaActual = new Date();
         const fechaFormateada = formatoFecha(fechaActual);
         
@@ -992,23 +992,23 @@ function notificarContribuyente15Dias() {
         }
     }
     
-    // Continuar con el comportamiento normal de la función
-    mostrarAlerta('Notificación enviada al contribuyente', 'success');
+    // Continuar con el comportamiento normal de la funciÃ³n
+    mostrarAlerta('NotificaciÃ³n enviada al contribuyente', 'success');
     document.getElementById('btnEnviarDecision15').disabled = false;
 }
 
 /**
- * Envía la decisión final de 15 días
+ * EnvÃ­a la decisiÃ³n final de 15 dÃ­as
  */
 function enviarDecision15Dias() {
     const decision = document.querySelector('input[name="decision15Dias"]:checked').value;
     const montoAutorizado = document.getElementById('montoAutorizado15').value;
     
-    mostrarAlerta(`Decisión enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
+    mostrarAlerta(`DecisiÃ³n enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
 }
 
 /**
- * Formatea un número con separadores de miles para la sección 15 días
+ * Formatea un nÃºmero con separadores de miles para la secciÃ³n 15 dÃ­as
  * @param {HTMLInputElement} input - El elemento input a formatear
  */
 function formatNumber15(input) {
@@ -1020,7 +1020,7 @@ function formatNumber15(input) {
 }
 
 /**
- * Calcula los montos y conversiones UTM para la sección 15 días
+ * Calcula los montos y conversiones UTM para la secciÃ³n 15 dÃ­as
  */
 function calcularMontos15() {
     const montoSolicitado = obtenerValorNumerico('montoSolicitado15');
@@ -1039,7 +1039,7 @@ function calcularMontos15() {
 }
 
 /**
- * Valida y actualiza el estado de los botones de la sección 15 días
+ * Valida y actualiza el estado de los botones de la secciÃ³n 15 dÃ­as
  */
 function validarYActualizarBotonesDecision15() {
     const decisionSeleccionada = Array.from(document.getElementsByName('decision15Dias')).some(radio => radio.checked);
@@ -1054,7 +1054,7 @@ function validarYActualizarBotonesDecision15() {
 
 
 /**
- * Habilita los controles de la sección de decisión 15 días
+ * Habilita los controles de la secciÃ³n de decisiÃ³n 15 dÃ­as
  */
 function habilitarControlesDecision15() {
     const radios = document.getElementsByName('decision15Dias');
@@ -1063,7 +1063,7 @@ function habilitarControlesDecision15() {
 }
 
 /**
- * Maneja la lógica de selección de decisión para los radio buttons de decisión 15 días
+ * Maneja la lÃ³gica de selecciÃ³n de decisiÃ³n para los radio buttons de decisiÃ³n 15 dÃ­as
  */
 function handleDecision15Change() {
     // Obtener los radio buttons
@@ -1072,18 +1072,18 @@ function handleDecision15Change() {
     const radioPlazoAdicional = document.getElementById('plazoAdicional15');
     const montoAutorizado = document.getElementById('montoAutorizado15');
     
-    // Establecer el valor del monto autorizado según la selección
+    // Establecer el valor del monto autorizado segÃºn la selecciÃ³n
     if (radioDevolucionTotal && radioDevolucionTotal.checked) {
-        // Para devolución total, el monto autorizado es igual al solicitado
+        // Para devoluciÃ³n total, el monto autorizado es igual al solicitado
         montoAutorizado.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
-        montoAutorizado.readOnly = true; // Bloquear edición
+        montoAutorizado.readOnly = true; // Bloquear ediciÃ³n
     } else if ((radioRetencionTotal && radioRetencionTotal.checked) || 
                (radioPlazoAdicional && radioPlazoAdicional.checked)) {
-        // Para retención total o plazo adicional, el monto autorizado es 0
+        // Para retenciÃ³n total o plazo adicional, el monto autorizado es 0
         montoAutorizado.value = FORMATO_MONEDA.format(0);
-        montoAutorizado.readOnly = true; // Bloquear edición
+        montoAutorizado.readOnly = true; // Bloquear ediciÃ³n
     } else {
-        // Para las demás opciones, permitir edición
+        // Para las demÃ¡s opciones, permitir ediciÃ³n
         montoAutorizado.readOnly = false;
     }
     
@@ -1092,12 +1092,12 @@ function handleDecision15Change() {
 }
 
 /******************************************************************************
- * 8. MÓDULO DE CONTACTO CON CONTRIBUYENTE
- * - Gestión de contactos y comunicaciones
+ * 8. MÃ“DULO DE CONTACTO CON CONTRIBUYENTE
+ * - GestiÃ³n de contactos y comunicaciones
  ******************************************************************************/
 
 /**
- * Muestra u oculta los botones según la opción seleccionada
+ * Muestra u oculta los botones segÃºn la opciÃ³n seleccionada
  */
 function toggleBotonesContacto() {
     const valor = document.getElementById('contactoContribuyente').value;
@@ -1133,15 +1133,15 @@ function registrarEvento() {
 }
 
 /**
- * Genera la anotación 42
+ * Genera la anotaciÃ³n 42
  */
 function generarAnotacion42() {
-    // Aquí puedes agregar la lógica específica para la anotación 42
-    mostrarPopupContacto("Anotación 42 generada exitosamente");
+    // AquÃ­ puedes agregar la lÃ³gica especÃ­fica para la anotaciÃ³n 42
+    mostrarPopupContacto("AnotaciÃ³n 42 generada exitosamente");
 }
 
 /**
- * Ejecuta la acción de Disponer FEP
+ * Ejecuta la acciÃ³n de Disponer FEP
  */
 function ejecutarDisponeFep() {
     // Asegurar que exista un ID de expediente
@@ -1149,12 +1149,12 @@ function ejecutarDisponeFep() {
         actualizarIdExpediente();
     }
     
-    // Aquí puedes agregar la lógica específica para disponer FEP
+    // AquÃ­ puedes agregar la lÃ³gica especÃ­fica para disponer FEP
     mostrarPopupContacto("FEP dispuesto exitosamente");
 }
 
 /**
- * Abre el expediente electrónico
+ * Abre el expediente electrÃ³nico
  */
 function AbrirExpediente() {
     // Use the utility function to update all ID instances
@@ -1195,40 +1195,40 @@ function enviarSolicitudAntecedentes() {
         return;
     }
 
-    // Aquí iría la lógica para enviar los antecedentes al backend
+    // AquÃ­ irÃ­a la lÃ³gica para enviar los antecedentes al backend
     console.log('Antecedentes solicitados:', checkedAntecedentes);
 
     // Cerrar el popup de antecedentes si existe
     cerrarPopupAntecedentes && cerrarPopupAntecedentes();
 
-    // Mostrar popup de evento registrado (reutilizando función existente)
+    // Mostrar popup de evento registrado (reutilizando funciÃ³n existente)
     mostrarPopupContacto("Evento registrado en consulta estado");
 
-    // Agregar ticket verde al botón de Solicitar Antecedentes
+    // Agregar ticket verde al botÃ³n de Solicitar Antecedentes
     marcarBotonSolicitaAntecedentes();
 }
 
 /**
- * Marca el botón de solicitar antecedentes con un tick verde
+ * Marca el botÃ³n de solicitar antecedentes con un tick verde
  */
 function marcarBotonSolicitaAntecedentes() {
     const btn = document.getElementById('Solicita-Antecedentes');
     if (btn && !btn.querySelector('.ticket-verde')) {
         const icon = document.createElement('span');
         icon.className = 'ticket-verde';
-        icon.innerHTML = '✔️'; // Puedes usar un SVG si prefieres
+        icon.innerHTML = 'âœ”ï¸'; // Puedes usar un SVG si prefieres
         icon.style.marginLeft = '8px';
         btn.appendChild(icon);
     }
 }
 
 /******************************************************************************
- * 9. INICIALIZACIÓN Y EVENTOS
- * - Configuración inicial y listeners de eventos
+ * 9. INICIALIZACIÃ“N Y EVENTOS
+ * - ConfiguraciÃ³n inicial y listeners de eventos
  ******************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar el monto de devolución solicitada
+    // Inicializar el monto de devoluciÃ³n solicitada
     const devolucionInput = document.getElementById('devolucionSolicitada');
     if (devolucionInput) {
         devolucionInput.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
@@ -1316,31 +1316,31 @@ document.addEventListener('DOMContentLoaded', function() {
         section.style.display = 'block';
         section.classList.remove('collapsed');
     });
-      // Inicializar el monto solicitado 15 días con el valor de DEVOLUCION_SOLICITADA
+      // Inicializar el monto solicitado 15 dÃ­as con el valor de DEVOLUCION_SOLICITADA
     const montoSolicitado15 = document.getElementById('montoSolicitado15');
     if (montoSolicitado15) {
         montoSolicitado15.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
         actualizarUTM('montoSolicitado15', 'montoSolicitadoUTM15');
     }
     
-    // Inicializar el monto solicitado Segunda Revisión con el valor de DEVOLUCION_SOLICITADA
+    // Inicializar el monto solicitado Segunda RevisiÃ³n con el valor de DEVOLUCION_SOLICITADA
     const montoSolicitadoSegunda = document.getElementById('montoSolicitadoSegunda');
     if (montoSolicitadoSegunda) {
         montoSolicitadoSegunda.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
         actualizarUTM('montoSolicitadoSegunda', 'montoSolicitadoUTMSegunda');
     }
     
-    // Configurar listeners para los radio buttons de decisión 15 días
+    // Configurar listeners para los radio buttons de decisiÃ³n 15 dÃ­as
     document.getElementsByName('decision15Dias').forEach(radio => {
         radio.addEventListener('change', handleDecision15Change);
     });
     
-    // Configurar listeners para los radio buttons de decisión segunda
+    // Configurar listeners para los radio buttons de decisiÃ³n segunda
     document.getElementsByName('decisionSegunda').forEach(radio => {
         radio.addEventListener('change', handleDecisionSegundaChange);
     });
     
-    // Inicializar sincronización de IDs de expediente si existe algún valor
+    // Inicializar sincronizaciÃ³n de IDs de expediente si existe algÃºn valor
     const mainIdExpediente = document.getElementById('idExpediente')?.textContent;
     const fepIdExpediente = document.getElementById('idExpedienteFep')?.textContent;
     
@@ -1348,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Usar el ID existente que encontremos primero
         actualizarIdExpediente(mainIdExpediente || fepIdExpediente);
     }
-      // Manejar cambios en los checkboxes para información recibida
+      // Manejar cambios en los checkboxes para informaciÃ³n recibida
     document.getElementById('checkInfoRecibida')?.addEventListener('change', toggleActaRecepcion);
     document.getElementById('checkInfoRecibidaFep')?.addEventListener('change', toggleActaRecepcionFep);
     document.getElementById('checkInfoRecibidaSegunda')?.addEventListener('change', toggleDecisionSegunda);
@@ -1356,12 +1356,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el tema
     initTheme();
     
-    // Agregar listener al botón de cambio de tema
+    // Agregar listener al botÃ³n de cambio de tema
     document.getElementById('themeToggle').addEventListener('click', toggleDarkMode);
 });
 
 /**
- * Habilita/deshabilita los controles de la segunda revisión
+ * Habilita/deshabilita los controles de la segunda revisiÃ³n
  */
 function toggleDecisionSegunda() {
     const checkbox = document.getElementById('checkInfoRecibidaSegunda');
@@ -1374,7 +1374,7 @@ function toggleDecisionSegunda() {
 }
 
 /**
- * Habilita los controles de la segunda decisión
+ * Habilita los controles de la segunda decisiÃ³n
  */
 function habilitarControlesSegundaDecision() {
     const radios = document.getElementsByName('decisionSegunda');
@@ -1383,7 +1383,7 @@ function habilitarControlesSegundaDecision() {
 }
 
 /**
- * Deshabilita los controles de la segunda decisión
+ * Deshabilita los controles de la segunda decisiÃ³n
  */
 function deshabilitarControlesSegundaDecision() {
     const radios = document.getElementsByName('decisionSegunda');
@@ -1424,14 +1424,14 @@ function initTheme() {
     }
 }
 
-// Función faltante para el contador de caracteres - requerida por el código
+// FunciÃ³n faltante para el contador de caracteres - requerida por el cÃ³digo
 function updateCharCount() {
     const text = document.getElementById('comentarios').value;
     document.getElementById('charCount').textContent = text.length;
 }
 
 /**
- * Controla la habilitación del botón de generar acta para la sección FEP
+ * Controla la habilitaciÃ³n del botÃ³n de generar acta para la secciÃ³n FEP
  */
 function toggleActaRecepcionFep() {
     const checkbox = document.getElementById('checkInfoRecibidaFep');
@@ -1440,12 +1440,12 @@ function toggleActaRecepcionFep() {
 }
 
 /**
- * Genera el acta de recepción F3309 para la sección FEP
+ * Genera el acta de recepciÃ³n F3309 para la secciÃ³n FEP
  */
 function generarActaRecepcionFep() {
     const checkbox = document.getElementById('checkInfoRecibidaFep');
     if (!checkbox.checked) {
-        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
+        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la informaciÃ³n requerida', 'error');
         return;
     }
       // Registrar la fecha actual en el campo fechaGeneracionActaFep
@@ -1454,13 +1454,13 @@ function generarActaRecepcionFep() {
     const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
     if (fechaGeneracionActa) {
         fechaGeneracionActa.value = fechaFormateada;
-        // Calcular la fecha límite basada en esta fecha
+        // Calcular la fecha lÃ­mite basada en esta fecha
         calcularFechaLimiteFep();
     }
     
-    mostrarAlerta('Acta de Recepción F3309 generada exitosamente', 'success');
+    mostrarAlerta('Acta de RecepciÃ³n F3309 generada exitosamente', 'success');
     
-    // Mostrar y configurar la sección de decisión 15 días
+    // Mostrar y configurar la secciÃ³n de decisiÃ³n 15 dÃ­as
     document.getElementById('seccionDecision15Dias').style.display = 'block';
     
     // Establecer el monto solicitado usando la constante DEVOLUCION_SOLICITADA
@@ -1472,18 +1472,18 @@ function generarActaRecepcionFep() {
 }
 
 /**
- * Calcula y muestra la fecha límite para la sección FEP (fecha generación acta + 15 días)
+ * Calcula y muestra la fecha lÃ­mite para la secciÃ³n FEP (fecha generaciÃ³n acta + 15 dÃ­as)
  */
 function calcularFechaLimiteFep() {
-    // Obtener la fecha de generación del acta, si existe
+    // Obtener la fecha de generaciÃ³n del acta, si existe
     const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActaFep');
     let fechaBase;
     
     if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
-        // Usar la fecha del calendario si está disponible
+        // Usar la fecha del calendario si estÃ¡ disponible
         fechaBase = new Date(fechaGeneracionActaElement.value);
     } else {
-        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
+        // Si no hay fecha en el calendario, usar la fecha de notificaciÃ³n FEP
         const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
         if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
             return;
@@ -1497,23 +1497,23 @@ function calcularFechaLimiteFep() {
         
         const dia = parseInt(partesFecha[0], 10);
         const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-        const año = parseInt(partesFecha[2], 10);
+        const aÃ±o = parseInt(partesFecha[2], 10);
         
-        // Crear objeto Date con la fecha de notificación
-        fechaBase = new Date(año, mes, dia);
+        // Crear objeto Date con la fecha de notificaciÃ³n
+        fechaBase = new Date(aÃ±o, mes, dia);
     }
     
-    // Sumar 15 días
+    // Sumar 15 dÃ­as
     const fechaLimite = new Date(fechaBase);
     fechaLimite.setDate(fechaLimite.getDate() + 15);
     
-    // Formatear la fecha límite (dd/mm/yyyy)
+    // Formatear la fecha lÃ­mite (dd/mm/yyyy)
     const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
     const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
-    const añoLimite = fechaLimite.getFullYear();
-    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    const aÃ±oLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${aÃ±oLimite}`;
     
-    // Mostrar la fecha límite en el elemento correspondiente
+    // Mostrar la fecha lÃ­mite en el elemento correspondiente
     const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
     if (fechaLimiteElement) {
         fechaLimiteElement.textContent = fechaLimiteFormateada;
@@ -1524,22 +1524,22 @@ function calcularFechaLimiteFep() {
 }
 
 
-  // Inicializar fechaLimiteSegunda si ya hay una fecha de notificación
+  // Inicializar fechaLimiteSegunda si ya hay una fecha de notificaciÃ³n
     const fechaNotificacionSegunda = document.getElementById('fechaNotificacionSegundaRevision');
     if (fechaNotificacionSegunda && fechaNotificacionSegunda.textContent) {
-        // Si ya hay una fecha de notificación, calcular la fecha límite
+        // Si ya hay una fecha de notificaciÃ³n, calcular la fecha lÃ­mite
         setTimeout(() => calcularFechaLimiteSegunda(), 500);
     }
 
 /**
- * Guarda la fecha de generación del acta y muestra confirmación para la sección FEP
+ * Guarda la fecha de generaciÃ³n del acta y muestra confirmaciÃ³n para la secciÃ³n FEP
  */
 function guardarFechaActaFep() {
     const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
     
     // Verificar que se haya ingresado una fecha
     if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
-        mostrarAlerta('Debe ingresar una fecha de generación del acta', 'error');
+        mostrarAlerta('Debe ingresar una fecha de generaciÃ³n del acta', 'error');
         return;
     }
     
@@ -1547,18 +1547,18 @@ function guardarFechaActaFep() {
     const fecha = new Date(fechaGeneracionActa.value);
     const fechaFormateada = fecha.toLocaleDateString('es-CL');
     
-    // Aquí se implementaría la lógica para guardar en el sistema de Consulta Estado
-    // Esta es una simulación del proceso de guardado
+    // AquÃ­ se implementarÃ­a la lÃ³gica para guardar en el sistema de Consulta Estado
+    // Esta es una simulaciÃ³n del proceso de guardado
     
-    // Actualizar la fecha límite basada en esta fecha
+    // Actualizar la fecha lÃ­mite basada en esta fecha
     calcularFechaLimiteFep();
     
-    // Mostrar mensaje de confirmación
+    // Mostrar mensaje de confirmaciÃ³n
     mostrarAlerta('Evento registrado en Consulta Estado', 'success');
 }
 
 /**
- * Abre el expediente electrónico para la sección FEP
+ * Abre el expediente electrÃ³nico para la secciÃ³n FEP
  */
 function AbrirExpedienteFep() {
     // Check if an ID already exists in the FEP section
@@ -1573,13 +1573,13 @@ function AbrirExpedienteFep() {
 }
 
 /******************************************************************************
- * 10. SECCIÓN SEGUNDA REVISION
- * - Proceso de segunda revisión y validaciones
+ * 10. SECCIÃ“N SEGUNDA REVISION
+ * - Proceso de segunda revisiÃ³n y validaciones
  ******************************************************************************/
 
 /**
- * Valida que se haya seleccionado una decisión en la segunda revisión
- * @returns {boolean} true si hay una decisión seleccionada
+ * Valida que se haya seleccionado una decisiÃ³n en la segunda revisiÃ³n
+ * @returns {boolean} true si hay una decisiÃ³n seleccionada
  */
 function validarDecisionSegunda() {
     const radioButtons = document.getElementsByName('decisionSegunda');
@@ -1587,8 +1587,8 @@ function validarDecisionSegunda() {
 }
 
 /**
- * Valida que se hayan ingresado los montos requeridos en la segunda revisión
- * @returns {boolean} true si los montos están ingresados correctamente
+ * Valida que se hayan ingresado los montos requeridos en la segunda revisiÃ³n
+ * @returns {boolean} true si los montos estÃ¡n ingresados correctamente
  */
 function validarMontosSegunda() {
     const montoAutorizado = obtenerValorNumerico('montoAutorizadoSegunda');
@@ -1596,7 +1596,7 @@ function validarMontosSegunda() {
 }
 
 /**
- * Actualiza el estado de habilitación de los botones según las validaciones de la segunda revisión
+ * Actualiza el estado de habilitaciÃ³n de los botones segÃºn las validaciones de la segunda revisiÃ³n
  */
 function validarYActualizarBotonesDecisionSegunda() {
     const todoValido = validarDecisionSegunda() && validarMontosSegunda();
@@ -1607,7 +1607,7 @@ function validarYActualizarBotonesDecisionSegunda() {
 }
 
 /**
- * Formatea un número con separadores de miles para la sección Segunda Revisión
+ * Formatea un nÃºmero con separadores de miles para la secciÃ³n Segunda RevisiÃ³n
  * @param {HTMLInputElement} input - El elemento input a formatear
  */
 function formatNumberSegunda(input) {
@@ -1619,7 +1619,7 @@ function formatNumberSegunda(input) {
 }
 
 /**
- * Calcula los montos y conversiones UTM para la sección Segunda Revisión
+ * Calcula los montos y conversiones UTM para la secciÃ³n Segunda RevisiÃ³n
  */
 function calcularMontosSegunda() {
     const montoSolicitado = obtenerValorNumerico('montoSolicitadoSegunda');
@@ -1638,12 +1638,12 @@ function calcularMontosSegunda() {
 }
 
 /**
- * Genera la resolución para la segunda revisión
+ * Genera la resoluciÃ³n para la segunda revisiÃ³n
  */
 function generarResolucionSegunda() {
     const decision = document.querySelector('input[name="decisionSegunda"]:checked');
     if (!decision) {
-        mostrarAlerta('Debe seleccionar una decisión', 'error');
+        mostrarAlerta('Debe seleccionar una decisiÃ³n', 'error');
         return;
     }
 
@@ -1653,21 +1653,21 @@ function generarResolucionSegunda() {
         return;
     }
 
-    // Generar y almacenar número de resolución
+    // Generar y almacenar nÃºmero de resoluciÃ³n
     const numeroResolucion = generarIdResolucion();
-    // Almacenar fecha de generación
+    // Almacenar fecha de generaciÃ³n
     const fechaGeneracion = new Date();
     
     // Habilitar siguiente paso
     document.getElementById('btnNotificarSegunda').disabled = false;
-    mostrarAlerta('Resolución Segunda Revisión generada correctamente', 'success');
+    mostrarAlerta('ResoluciÃ³n Segunda RevisiÃ³n generada correctamente', 'success');
 }
 
 /**
- * Notifica al contribuyente sobre la decisión de la segunda revisión
+ * Notifica al contribuyente sobre la decisiÃ³n de la segunda revisiÃ³n
  */
 function notificarContribuyenteSegunda() {
-    // Establecer la fecha actual como fecha de notificación
+    // Establecer la fecha actual como fecha de notificaciÃ³n
     const fechaActual = new Date();
     const fechaFormateada = formatoFecha(fechaActual);
     
@@ -1677,25 +1677,25 @@ function notificarContribuyenteSegunda() {
         fechaNotificacionElement.textContent = fechaFormateada;
         fechaNotificacionElement.style.display = 'inline-block'; // Asegurar visibilidad
         
-        // Calcular inmediatamente la fecha límite
+        // Calcular inmediatamente la fecha lÃ­mite
         setTimeout(() => calcularFechaLimiteSegunda(), 100);
     }
     
-    mostrarAlerta('Notificación de Segunda Revisión enviada al contribuyente', 'success');
+    mostrarAlerta('NotificaciÃ³n de Segunda RevisiÃ³n enviada al contribuyente', 'success');
     document.getElementById('btnEnviarDecisionSegunda').disabled = false;
 }
 /**
- * Envía la decisión final de la segunda revisión
+ * EnvÃ­a la decisiÃ³n final de la segunda revisiÃ³n
  */
 function enviarDecisionSegunda() {
     const decision = document.querySelector('input[name="decisionSegunda"]:checked').value;
     const montoAutorizado = document.getElementById('montoAutorizadoSegunda').value;
     
-    mostrarAlerta(`Decisión de Segunda Revisión enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
+    mostrarAlerta(`DecisiÃ³n de Segunda RevisiÃ³n enviada exitosamente: ${decision} - Monto: ${montoAutorizado}`, 'success');
 }
 
 /**
- * Maneja la lógica de selección de decisión para los radio buttons de decisión segunda
+ * Maneja la lÃ³gica de selecciÃ³n de decisiÃ³n para los radio buttons de decisiÃ³n segunda
  */
 function handleDecisionSegundaChange() {
     // Obtener los radio buttons
@@ -1704,18 +1704,18 @@ function handleDecisionSegundaChange() {
     const radioPlazoAdicional = document.getElementById('plazoAdicionalSegunda');
     const montoAutorizado = document.getElementById('montoAutorizadoSegunda');
     
-    // Establecer el valor del monto autorizado según la selección
+    // Establecer el valor del monto autorizado segÃºn la selecciÃ³n
     if (radioDevolucionTotal && radioDevolucionTotal.checked) {
-        // Para devolución total, el monto autorizado es igual al solicitado
+        // Para devoluciÃ³n total, el monto autorizado es igual al solicitado
         montoAutorizado.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
-        montoAutorizado.readOnly = true; // Bloquear edición
+        montoAutorizado.readOnly = true; // Bloquear ediciÃ³n
     } else if ((radioRetencionTotal && radioRetencionTotal.checked) || 
                (radioPlazoAdicional && radioPlazoAdicional.checked)) {
-        // Para retención total o plazo adicional, el monto autorizado es 0
+        // Para retenciÃ³n total o plazo adicional, el monto autorizado es 0
         montoAutorizado.value = FORMATO_MONEDA.format(0);
-        montoAutorizado.readOnly = true; // Bloquear edición
+        montoAutorizado.readOnly = true; // Bloquear ediciÃ³n
     } else {
-        // Para las demás opciones, permitir edición
+        // Para las demÃ¡s opciones, permitir ediciÃ³n
         montoAutorizado.readOnly = false;
     }
     
@@ -1724,12 +1724,12 @@ function handleDecisionSegundaChange() {
 }
 
 /**
- * Calcula y muestra la fecha límite para la Segunda Revisión (fecha notificación + 25 días)
+ * Calcula y muestra la fecha lÃ­mite para la Segunda RevisiÃ³n (fecha notificaciÃ³n + 25 dÃ­as)
  */
 function calcularFechaLimiteSegunda() {
-    console.log("Iniciando cálculo de fecha límite segunda revisión");
+    console.log("Iniciando cÃ¡lculo de fecha lÃ­mite segunda revisiÃ³n");
     
-    // Obtener la fecha de notificación de la segunda revisión
+    // Obtener la fecha de notificaciÃ³n de la segunda revisiÃ³n
     const fechaNotificacionElement = document.getElementById('fechaNotificacionSegundaRevision');
     if (!fechaNotificacionElement) {
         console.error("Elemento fechaNotificacionSegundaRevision no encontrado");
@@ -1739,16 +1739,16 @@ function calcularFechaLimiteSegunda() {
     if (!fechaNotificacionElement.textContent || fechaNotificacionElement.textContent.trim() === '') {
         console.error("Elemento fechaNotificacionSegundaRevision no tiene contenido:", fechaNotificacionElement.textContent);
         
-        // Si no hay fecha, establecer la fecha actual como fecha de notificación
+        // Si no hay fecha, establecer la fecha actual como fecha de notificaciÃ³n
         const fechaActual = new Date();
         const diaActual = fechaActual.getDate().toString().padStart(2, '0');
         const mesActual = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
-        const añoActual = fechaActual.getFullYear();
-        fechaNotificacionElement.textContent = `${diaActual}/${mesActual}/${añoActual}`;
-        console.log("Se estableció la fecha actual como fecha de notificación:", fechaNotificacionElement.textContent);
+        const aÃ±oActual = fechaActual.getFullYear();
+        fechaNotificacionElement.textContent = `${diaActual}/${mesActual}/${aÃ±oActual}`;
+        console.log("Se estableciÃ³ la fecha actual como fecha de notificaciÃ³n:", fechaNotificacionElement.textContent);
     }
     
-    console.log("Fecha de notificación encontrada:", fechaNotificacionElement.textContent);
+    console.log("Fecha de notificaciÃ³n encontrada:", fechaNotificacionElement.textContent);
     
     // Parsear la fecha (formato dd/mm/yyyy)
     const partesFecha = fechaNotificacionElement.textContent.split('/');
@@ -1759,28 +1759,28 @@ function calcularFechaLimiteSegunda() {
     
     const dia = parseInt(partesFecha[0], 10);
     const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
-    const año = parseInt(partesFecha[2], 10);
+    const aÃ±o = parseInt(partesFecha[2], 10);
     
-    console.log("Fecha parseada:", dia, mes + 1, año);
+    console.log("Fecha parseada:", dia, mes + 1, aÃ±o);
     
-    // Crear objeto Date con la fecha de notificación
-    const fechaBase = new Date(año, mes, dia);
+    // Crear objeto Date con la fecha de notificaciÃ³n
+    const fechaBase = new Date(aÃ±o, mes, dia);
     
-    // Sumar 25 días
+    // Sumar 25 dÃ­as
     const fechaLimite = new Date(fechaBase);
     fechaLimite.setDate(fechaLimite.getDate() + 25);
     
-    console.log("Fecha límite calculada:", fechaLimite);
+    console.log("Fecha lÃ­mite calculada:", fechaLimite);
     
-    // Formatear la fecha límite (dd/mm/yyyy)
+    // Formatear la fecha lÃ­mite (dd/mm/yyyy)
     const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
     const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
-    const añoLimite = fechaLimite.getFullYear();
-    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    const aÃ±oLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${aÃ±oLimite}`;
     
-    console.log("Fecha límite formateada:", fechaLimiteFormateada);
+    console.log("Fecha lÃ­mite formateada:", fechaLimiteFormateada);
     
-    // Mostrar la fecha límite en el elemento correspondiente
+    // Mostrar la fecha lÃ­mite en el elemento correspondiente
     const fechaLimiteElement = document.getElementById('fechaLimiteSegunda');
     if (!fechaLimiteElement) {
         console.error("Elemento fechaLimiteSegunda no encontrado");
@@ -1798,7 +1798,7 @@ function calcularFechaLimiteSegunda() {
         });
         
         if (!encontrado) {
-            console.error("Elemento fechaLimiteSegunda no pudo ser encontrado por ningún método");
+            console.error("Elemento fechaLimiteSegunda no pudo ser encontrado por ningÃºn mÃ©todo");
             return;
         }
     } else {
@@ -1811,14 +1811,14 @@ function calcularFechaLimiteSegunda() {
         // Asegurar visibilidad
         fechaLimiteElement.style.display = 'inline-block';
         
-        console.log("Fecha límite establecida correctamente en el elemento:", fechaLimiteElement);
+        console.log("Fecha lÃ­mite establecida correctamente en el elemento:", fechaLimiteElement);
     }
     
     // Verificar que el elemento tenga el contenido esperado
     setTimeout(() => {
         const verificacion = document.getElementById('fechaLimiteSegunda');
         if (verificacion) {
-            console.log("Verificación: El elemento fechaLimiteSegunda tiene el contenido:", verificacion.textContent);
+            console.log("VerificaciÃ³n: El elemento fechaLimiteSegunda tiene el contenido:", verificacion.textContent);
         }
     }, 100);
     
