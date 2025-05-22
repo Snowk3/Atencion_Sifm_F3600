@@ -1054,10 +1054,62 @@ function habilitarControlesDecision15() {
 }
 
 /**
- * Guarda la fecha de generación del acta y muestra confirmación
+ * Calcula y muestra la fecha límite para la sección FEP (fecha generación acta + 15 días)
  */
-function guardarFechaActa() {
-    const fechaGeneracionActa = document.getElementById('fechaGeneracionActa');
+function calcularFechaLimiteFep() {
+    // Obtener la fecha de generación del acta, si existe
+    const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActaFep');
+    let fechaBase;
+    
+    if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
+        // Usar la fecha del calendario si está disponible
+        fechaBase = new Date(fechaGeneracionActaElement.value);
+    } else {
+        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
+        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
+        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+            return;
+        }
+        
+        // Parsear la fecha (formato dd/mm/yyyy)
+        const partesFecha = fechaNotificacionElement.textContent.split('/');
+        if (partesFecha.length !== 3) {
+            return;
+        }
+        
+        const dia = parseInt(partesFecha[0], 10);
+        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+        const año = parseInt(partesFecha[2], 10);
+        
+        // Crear objeto Date con la fecha de notificación
+        fechaBase = new Date(año, mes, dia);
+    }
+    
+    // Sumar 15 días
+    const fechaLimite = new Date(fechaBase);
+    fechaLimite.setDate(fechaLimite.getDate() + 15);
+    
+    // Formatear la fecha límite (dd/mm/yyyy)
+    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
+    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
+    const añoLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    
+    // Mostrar la fecha límite en el elemento correspondiente
+    const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
+    if (fechaLimiteElement) {
+        fechaLimiteElement.textContent = fechaLimiteFormateada;
+        
+        // Aplicar clase de estilo
+        fechaLimiteElement.classList.add('fecha-maxima');
+    }
+}
+
+/**
+ * Guarda la fecha de generación del acta y muestra confirmación para la sección FEP
+ */
+function guardarFechaActaFep() {
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
     
     // Verificar que se haya ingresado una fecha
     if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
@@ -1073,13 +1125,10 @@ function guardarFechaActa() {
     // Esta es una simulación del proceso de guardado
     
     // Actualizar la fecha límite basada en esta fecha
-    calcularFechaLimite();
+    calcularFechaLimiteFep();
     
     // Mostrar mensaje de confirmación
     mostrarAlerta('Evento registrado en Consulta Estado', 'success');
-    
-    // Si es necesario, se puede agregar código adicional para habilitar otros elementos de la interfaz
-    // después de guardar correctamente
 }
 
 /******************************************************************************
@@ -1318,9 +1367,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Usar el ID existente que encontremos primero
         actualizarIdExpediente(mainIdExpediente || fepIdExpediente);
     }
-    
-    // Manejar cambios en los checkboxes para información recibida
+      // Manejar cambios en los checkboxes para información recibida
     document.getElementById('checkInfoRecibida')?.addEventListener('change', toggleActaRecepcion);
+    document.getElementById('checkInfoRecibidaFep')?.addEventListener('change', toggleActaRecepcionFep);
     document.getElementById('checkInfoRecibidaSegunda')?.addEventListener('change', toggleDecisionSegunda);
     
     // Inicializar el tema
@@ -1398,4 +1447,125 @@ function initTheme() {
 function updateCharCount() {
     const text = document.getElementById('comentarios').value;
     document.getElementById('charCount').textContent = text.length;
+}
+
+/**
+ * Controla la habilitación del botón de generar acta para la sección FEP
+ */
+function toggleActaRecepcionFep() {
+    const checkbox = document.getElementById('checkInfoRecibidaFep');
+    const btnGenerar = document.getElementById('btnGenerarActaFep');
+    btnGenerar.disabled = !checkbox.checked;
+}
+
+/**
+ * Genera el acta de recepción F3309 para la sección FEP
+ */
+function generarActaRecepcionFep() {
+    const checkbox = document.getElementById('checkInfoRecibidaFep');
+    if (!checkbox.checked) {
+        mostrarAlerta('Debe confirmar que el contribuyente ha enviado la información requerida', 'error');
+        return;
+    }
+    
+    // Registrar la fecha actual en el campo fechaGeneracionActaFep
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toISOString().split('T')[0]; // Formato YYYY-MM-DD para input date
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
+    if (fechaGeneracionActa) {
+        fechaGeneracionActa.value = fechaFormateada;
+        // Calcular la fecha límite basada en esta fecha
+        calcularFechaLimiteFep();
+    }
+    
+    mostrarAlerta('Acta de Recepción F3309 generada exitosamente', 'success');
+    
+    // Mostrar y configurar la sección de decisión 15 días
+    document.getElementById('seccionDecision15Dias').style.display = 'block';
+    
+    // Copiar los montos iniciales
+    const montoSolicitado = document.getElementById('devolucionSolicitada').value;
+    document.getElementById('montoSolicitado15').value = montoSolicitado;
+    actualizarUTM('montoSolicitado15', 'montoSolicitadoUTM15');
+    
+    // Habilitar los radio buttons y el campo de monto autorizado
+    habilitarControlesDecision15();
+}
+
+/**
+ * Calcula y muestra la fecha límite para la sección FEP (fecha generación acta + 15 días)
+ */
+function calcularFechaLimiteFep() {
+    // Obtener la fecha de generación del acta, si existe
+    const fechaGeneracionActaElement = document.getElementById('fechaGeneracionActaFep');
+    let fechaBase;
+    
+    if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
+        // Usar la fecha del calendario si está disponible
+        fechaBase = new Date(fechaGeneracionActaElement.value);
+    } else {
+        // Si no hay fecha en el calendario, usar la fecha de notificación FEP
+        const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
+        if (!fechaNotificacionElement || !fechaNotificacionElement.textContent) {
+            return;
+        }
+        
+        // Parsear la fecha (formato dd/mm/yyyy)
+        const partesFecha = fechaNotificacionElement.textContent.split('/');
+        if (partesFecha.length !== 3) {
+            return;
+        }
+        
+        const dia = parseInt(partesFecha[0], 10);
+        const mes = parseInt(partesFecha[1], 10) - 1; // En JavaScript los meses van de 0-11
+        const año = parseInt(partesFecha[2], 10);
+        
+        // Crear objeto Date con la fecha de notificación
+        fechaBase = new Date(año, mes, dia);
+    }
+    
+    // Sumar 15 días
+    const fechaLimite = new Date(fechaBase);
+    fechaLimite.setDate(fechaLimite.getDate() + 15);
+    
+    // Formatear la fecha límite (dd/mm/yyyy)
+    const diaLimite = fechaLimite.getDate().toString().padStart(2, '0');
+    const mesLimite = (fechaLimite.getMonth() + 1).toString().padStart(2, '0');
+    const añoLimite = fechaLimite.getFullYear();
+    const fechaLimiteFormateada = `${diaLimite}/${mesLimite}/${añoLimite}`;
+    
+    // Mostrar la fecha límite en el elemento correspondiente
+    const fechaLimiteElement = document.getElementById('fechaLimite15Dias');
+    if (fechaLimiteElement) {
+        fechaLimiteElement.textContent = fechaLimiteFormateada;
+        
+        // Aplicar clase de estilo
+        fechaLimiteElement.classList.add('fecha-maxima');
+    }
+}
+
+/**
+ * Guarda la fecha de generación del acta y muestra confirmación para la sección FEP
+ */
+function guardarFechaActaFep() {
+    const fechaGeneracionActa = document.getElementById('fechaGeneracionActaFep');
+    
+    // Verificar que se haya ingresado una fecha
+    if (!fechaGeneracionActa || !fechaGeneracionActa.value) {
+        mostrarAlerta('Debe ingresar una fecha de generación del acta', 'error');
+        return;
+    }
+    
+    // Formatear la fecha para mostrar
+    const fecha = new Date(fechaGeneracionActa.value);
+    const fechaFormateada = fecha.toLocaleDateString('es-CL');
+    
+    // Aquí se implementaría la lógica para guardar en el sistema de Consulta Estado
+    // Esta es una simulación del proceso de guardado
+    
+    // Actualizar la fecha límite basada en esta fecha
+    calcularFechaLimiteFep();
+    
+    // Mostrar mensaje de confirmación
+    mostrarAlerta('Evento registrado en Consulta Estado', 'success');
 }

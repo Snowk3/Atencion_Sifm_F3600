@@ -457,8 +457,8 @@
                                 </div>                                <div class="fep-row checkbox-container">
                                     <div class="fep-field">
                                         <label class="checkbox-label">
-                                            <input type="checkbox" id="checkInfoRecibida"
-                                                onchange="toggleActaRecepcion()">
+                                            <input type="checkbox" id="checkInfoRecibidaFep"
+                                                onchange="toggleActaRecepcionFep()">
                                             Contribuyente ha enviado toda la información Requerida
                                         </label>
                                     </div>
@@ -466,15 +466,15 @@
                                 <div class="fep-row">
                                     <div class="fep-field">
                                         <label>Fecha Generación Acta:</label>
-                                        <input type="date" id="fechaGeneracionActa" class="date-input" onchange="calcularFechaLimite()">
+                                        <input type="date" id="fechaGeneracionActaFep" class="date-input" onchange="calcularFechaLimiteFep()">
                                     </div>
                                 </div>
                             </div>                            <div class="fep-buttons">
-                                <button id="btnGenerarActa" class="action-button" onclick="generarActaRecepcion()"
+                                <button id="btnGenerarActaFep" class="action-button" onclick="generarActaRecepcionFep()"
                                     enable>
                                     Generar Acta Recepción (F3309)
                                 </button>
-                                <button id="btnGuardarFechaActa" class="action-button" onclick="guardarFechaActa()">
+                                <button id="btnGuardarFechaActaFep" class="action-button" onclick="guardarFechaActaFep()">
                                     Guardar en Consulta Estado
                                 </button>
                             </div>
