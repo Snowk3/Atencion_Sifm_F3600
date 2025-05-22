@@ -686,6 +686,12 @@ function puedeHabilitarFEP() {
  * @param {string} accion - La acción a realizar ('ingresar', 'resolucion', 'notificar', 'disponerFep')
  */
 function validarYProcesarDecision(accion) {
+    // If the action is disponerFep, no validation is needed
+    if (accion === 'disponerFep') {
+        mostrarPopupFep();
+        return;
+    }
+
     if (!validarDecision()) {
         mostrarAlerta('Debe seleccionar una decisión', 'error');
         return;
@@ -717,14 +723,6 @@ function validarYProcesarDecision(accion) {
             // Notificar al contribuyente
             document.getElementById('btnDisponeFep').disabled = false;
             mostrarAlerta('Notificación enviada al contribuyente', 'success');
-            break;
-
-        case 'disponerFep':
-            if (puedeHabilitarFEP()) {
-                mostrarPopupFep();
-            } else {
-                mostrarAlerta('No se puede habilitar FEP con el monto autorizado actual', 'error');
-            }
             break;
     }
 }
@@ -1180,6 +1178,18 @@ function cerrarPopupAntecedentes() {
     if (popup) {
         popup.style.display = 'none';
     }
+    
+    // Resetear el contenido del editor de comentarios
+    const comentarios = document.getElementById('antecedentesComentarios');
+    if (comentarios) {
+        comentarios.innerHTML = '';
+    }
+    
+    // Resetear el contador de caracteres
+    const charCount = document.getElementById('antecedentesCharCount');
+    if (charCount) {
+        charCount.textContent = '0';
+    }
 }
 
 /**
@@ -1194,9 +1204,13 @@ function enviarSolicitudAntecedentes() {
         alert('Por favor seleccione al menos un antecedente.');
         return;
     }
+    
+    // Obtener los comentarios adicionales
+    const comentarios = document.getElementById('antecedentesComentarios')?.innerText || '';
 
-    // Aquí iría la lógica para enviar los antecedentes al backend
+    // Aquí iría la lógica para enviar los antecedentes y comentarios al backend
     console.log('Antecedentes solicitados:', checkedAntecedentes);
+    console.log('Comentarios adicionales:', comentarios);
 
     // Cerrar el popup de antecedentes si existe
     cerrarPopupAntecedentes && cerrarPopupAntecedentes();
@@ -1481,7 +1495,7 @@ function calcularFechaLimiteFep() {
     
     if (fechaGeneracionActaElement && fechaGeneracionActaElement.value) {
         // Usar la fecha del calendario si está disponible
-        fechaBase = new Date(fechaGeneracionActaElement.value);
+        fechaBase = new Date(fechaGeneracionActaFep.value);
     } else {
         // Si no hay fecha en el calendario, usar la fecha de notificación FEP
         const fechaNotificacionElement = document.getElementById('fechaNotificacionFep');
@@ -1701,7 +1715,6 @@ function handleDecisionSegundaChange() {
     // Obtener los radio buttons
     const radioDevolucionTotal = document.getElementById('devolucionTotalSegunda');
     const radioRetencionTotal = document.getElementById('retencionTotalSegunda');
-    const radioPlazoAdicional = document.getElementById('plazoAdicionalSegunda');
     const montoAutorizado = document.getElementById('montoAutorizadoSegunda');
     
     // Establecer el valor del monto autorizado según la selección
@@ -1709,9 +1722,8 @@ function handleDecisionSegundaChange() {
         // Para devolución total, el monto autorizado es igual al solicitado
         montoAutorizado.value = FORMATO_MONEDA.format(DEVOLUCION_SOLICITADA);
         montoAutorizado.readOnly = true; // Bloquear edición
-    } else if ((radioRetencionTotal && radioRetencionTotal.checked) || 
-               (radioPlazoAdicional && radioPlazoAdicional.checked)) {
-        // Para retención total o plazo adicional, el monto autorizado es 0
+    } else if (radioRetencionTotal && radioRetencionTotal.checked) {
+        // Para retención total, el monto autorizado es 0
         montoAutorizado.value = FORMATO_MONEDA.format(0);
         montoAutorizado.readOnly = true; // Bloquear edición
     } else {
@@ -1823,4 +1835,60 @@ function calcularFechaLimiteSegunda() {
     }, 100);
     
     return fechaLimiteFormateada;
+}
+
+/**
+ * Aplica formato al texto en el editor de comentarios de antecedentes
+ * @param {string} command - El comando de formato a aplicar
+ */
+function formatAntecedentesText(command) {
+    document.execCommand(command, false, null);
+}
+
+// Inicializar el contador de caracteres para el editor de comentarios de antecedentes
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar el editor de comentarios de antecedentes
+    const antecedentesEditor = document.getElementById('antecedentesComentarios');
+    if (antecedentesEditor) {
+        antecedentesEditor.addEventListener('input', function() {
+            const text = antecedentesEditor.innerText || '';
+            const maxLength = parseInt(antecedentesEditor.dataset.maxLength || 200, 10);
+            const charCount = text.length;
+            
+            // Actualizar el contador de caracteres
+            document.getElementById('antecedentesCharCount').textContent = charCount;
+            
+            // Limitar el número de caracteres
+            if (charCount > maxLength) {
+                // Si se excede el límite, truncar el texto
+                const selection = window.getSelection();
+                const range = selection.getRangeAt(0);
+                
+                antecedentesEditor.innerText = text.substring(0, maxLength);
+                
+                // Restaurar la posición del cursor
+                range.setStart(antecedentesEditor.firstChild, maxLength);
+                range.setEnd(antecedentesEditor.firstChild, maxLength);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        });
+    }
+});
+
+/**
+ * Genera una Anotación 41 para el contribuyente
+ */
+function generarAnotacion41() {
+    const comentarios = document.getElementById('fepComentarios').innerText;
+    if (comentarios.trim().length === 0) {
+        mostrarAlerta('Debe ingresar comentarios para generar la Anotación 41', 'error');
+        return;
+    }
+    
+    // Aquí iría la lógica para generar la Anotación 41
+    console.log('Generando Anotación 41 con comentarios:', comentarios);
+    
+    // Mostrar mensaje de éxito
+    mostrarAlerta('Anotación 41 generada exitosamente', 'success');
 }
