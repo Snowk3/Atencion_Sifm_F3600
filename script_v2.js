@@ -880,12 +880,11 @@ function notificarContribuyenteFep() {
     const fechaFormateada = `${diaActual}/${mesActual}/${añoActual}`;
     
     document.getElementById('fechaNotificacionFep').textContent = fechaFormateada;
-    
-    // Calcular y mostrar la fecha límite
+      // Calcular y mostrar la fecha límite
     calcularFechaLimite();
     
-    // Mostrar la sección de aviso vencimiento
-    document.getElementById('seccionAvisoVencimiento').style.display = 'block';
+    // Mostrar la sección de aviso vencimiento primera revisión
+    document.getElementById('avisoPrimeraRevision').style.display = 'block';
 }
 
 /**

@@ -433,7 +433,7 @@
                         <div class="subsection-header">
                             <h4>Aviso Vencimiento Primera Revisión (15 Días)</h4>
                         </div>
-                        <div id="avisoVencimiento" class="subsection-content">
+                        <div id="avisoPrimeraRevision" class="subsection-content">
                             <div class="fep-info">
                                 <div class="fep-row">
                                     <div class="fep-field">
@@ -613,170 +613,11 @@
                                     onclick="notificarContribuyente15Dias()" disabled>Notificar al
                                     Contribuyente</button>
                                 <button id="btnEnviarDecision15" class="action-button" onclick="enviarDecision15Dias()"
-                                    disabled>Enviar Decisión</button>
-                            </div>
+                                    disabled>Enviar Decisión</button>                            </div>
                     </div>
                 </div>
 
-                <!-- Subsección: Aviso Segunda Revisión -->
-                <div class="subsection-header">
-                    <h4>Aviso Vencimiento Segunda Revisión (25 Días)</h4>
-                    <p>Fecha Limite Segunda Revisión</p>
-                </div>
-                <div id="avisoVencimiento" class="subsection-content">
-                    <div class="fep-info">
-                        <div class="fep-row">
-                            <div class="fep-field">
-                                <!-- Campo para almacenar el número de resolución FEP Segunda Decisión -->
-                                <label>Número de Resolución FEP Segunda Desición:</label>
-                                <span id="numeroResolucionFepSegunda"></span>
-                            </div>
-                            <div class="fep-field">
-                                <!-- Campo para almacenar la fecha de generación de la segunda resolución -->
-                                <label>Fecha de Generación Segunda Revisión Resolución FEP:</label>
-                                <span id="fechaGeneracionFepSegunda"></span>
-                            </div>
-                        </div>
-                        <div class="fep-row">
-                            <div class="fep-field">
-                                <!-- Campo para almacenar la fecha de notificación de la segunda revisión -->
-                                <label>Fecha Notificación Segunda Revisión al Contribuyente:</label>
-                                <span id="fechaNotificacionSegundaRevision"></span>
-                            </div>
-                            <div class="fep-field">
-                                <!-- Campo para mostrar la fecha límite de la segunda revisión -->
-                                <label>Fecha Límite Segunda Revisión (25 días):</label>
-                                <span id="fechaLimiteSegunda" class="fecha-maxima"></span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Subsección: Decisión Segunda Revisión -->
-                    <div class="fep-subsection">
-                        <div class="subsection-header">
-                            <h4>Decisión Segunda Revisión</h4>
-                        </div>
-                        <div id="decisionSegunda" class="subsection-content">
-                            <div class="decision-segunda-container">
-                                <div class="decision-options">
-                                    <div class="radio-group-segunda">
-                                        <div class="radio-option">
-                                            <input type="radio" id="devolucionTotalSegunda" name="decisionSegunda"
-                                                value="devolucionTotal">
-                                            <label for="devolucionTotalSegunda">Devolución Total</label>
-                                        </div>
-                                        <div class="radio-option">
-                                            <input type="radio" id="devolucionParcialSegunda" name="decisionSegunda"
-                                                value="devolucionParcial">
-                                            <label for="devolucionParcialSegunda">Devolución Parcial</label>
-                                        </div>
-                                        <div class="radio-option">
-                                            <input type="radio" id="devolucionParcialCitacionSegunda"
-                                                name="decisionSegunda" value="devolucionParcialcitacion">
-                                            <label for="devolucionParcialCitacionSegunda">Devolución Parcial con
-                                                Citación</label>
-                                        </div>                                        <div class="radio-option">
-                                            <input type="radio" id="retencionTotalSegunda" name="decisionSegunda"
-                                                value="retencionTotal">
-                                            <label for="retencionTotalSegunda">Denegatoria(no ha lugar)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <aside class="montos-autorizados-segunda">
-                                    <h5>Monto Autorizado de Devolución</h5>
-                                    <div class="utm-info-segunda">
-                                        <p>Valor UTM actual: $<span id="valorUTMSegunda">65.182</span></p>
-                                    </div>
-                                    <div class="montos-container-segunda">
-                                        <div class="monto-group-segunda">
-                                            <label>Monto Solicitado:</label>
-                                            <div class="monto-utm-group">
-                                                <input type="text" id="montoSolicitadoSegunda"
-                                                    class="amount-input-segunda" readonly>
-                                                <div class="utm-value">
-                                                    <span>UTM: </span>
-                                                    <input type="text" id="montoSolicitadoUTMSegunda"
-                                                        class="utm-input-segunda" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="monto-group-segunda">
-                                            <label>Monto Autorizado:</label>
-                                            <div class="monto-utm-group">
-                                                <input type="text" id="montoAutorizadoSegunda"
-                                                    class="amount-input-segunda" onkeyup="formatNumberSegunda(this)"
-                                                    onchange="calcularMontosSegunda()">
-                                                <div class="utm-value">
-                                                    <span>UTM: </span>
-                                                    <input type="text" id="montoAutorizadoUTMSegunda"
-                                                        class="utm-input-segunda" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="monto-group-segunda">
-                                            <label>Monto Rechazado:</label>
-                                            <div class="monto-utm-group">
-                                                <input type="text" id="montoRechazadoSegunda"
-                                                    class="amount-input-segunda" readonly>
-                                                <div class="utm-value">
-                                                    <span>UTM: </span>
-                                                    <input type="text" id="montoRechazadoUTMSegunda"
-                                                        class="utm-input-segunda" readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </aside>
-                            </div>
-                            <section class="comments-section">
-                                <h3>Comentarios Desición Segunda Revisión</h3>
-                                <!-- Descripción del propósito de los comentarios -->
-                                <p class="comments-description">Detallar claramente las causales por las cuales se
-                                    rechaza el monto solicitado o una parte de él.</p>
-                                <div class="editor-toolbar">
-                                    <button type="button" class="toolbar-button" onclick="formatText('bold')"
-                                        title="Negrita">
-                                        <strong>B</strong>
-                                    </button>
-                                    <button type="button" class="toolbar-button" onclick="formatText('italic')"
-                                        title="Cursiva">
-                                        <em>I</em>
-                                    </button>
-                                    <button type="button" class="toolbar-button" onclick="formatText('underline')"
-                                        title="Subrayado">
-                                        <u>U</u>
-                                    </button>
-                                    <button type="button" class="toolbar-button" onclick="insertList('unordered')"
-                                        title="Lista con viñetas">
-                                        •
-                                    </button>
-                                    <button type="button" class="toolbar-button" onclick="insertList('ordered')"
-                                        title="Lista numerada">
-                                        1.
-                                    </button>
-                                </div>
-                                <div class="editor-container">
-                                    <div id="comentariosSegunda" class="rich-text-editor" contenteditable="true"
-                                        data-max-length="10000"></div>
-                                    <div class="character-count">
-                                        <span id="charCountSegunda">0</span>/10000 caracteres
-                                    </div>
-                                </div>
-
-                                <div class="decision-segunda-buttons">
-                                    <button id="btnGenerarResolucionSegunda" class="action-button"
-                                        onclick="generarResolucionSegunda()">Generar Resolución Segunda
-                                        Revisión</button>
-                                    <button id="btnNotificarSegunda" class="action-button"
-                                        onclick="notificarContribuyenteSegunda()" disabled>Notificar al
-                                        Contribuyente</button>
-                                    <button id="btnEnviarDecisionSegunda" class="action-button"
-                                        onclick="enviarDecisionSegunda()" disabled>Enviar Decisión</button>
-                                </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- [REMOVED: Aviso Vencimiento Segunda Revisión (25 Días) section] -->
             </div>
         </div>
     </main>
